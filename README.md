@@ -9,7 +9,6 @@
 
 - Yeo Kai Shun
 
-petabus (bustalk v2) is a project aimed to track bus using minimalist tools (android phones) via a webserver (python). This project aims to bring realtime bus tracking to the market.
 
 ### Directory struct
 #-main_dir
