@@ -1,0 +1,45 @@
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+	<div class="menu_section">
+
+	<ul class="nav side-menu">
+		<br/>
+		<h3>{{ PAGE_MAIN_TITLE }}</h3>
+		<br/>
+		<li><a><i class="fa fa-home"></i>Home<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="{{ url_for('home.home', username=current_user.username) }}">Welcome</a></li>
+		</ul>
+		</li>
+
+		<li><a><i class="fa fa-user"></i>Admin<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<!Administrator's Column>
+
+		</ul>
+		</li>
+
+		<li><a><i class="fa fa-bar-chart-o"></i>Data View<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<!Insert database urls here>
+
+		</ul>
+		</li>
+
+		<li><a><i class="fa fa-th-list"></i>Overview<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<!Insert resource urls here>
+
+		</ul>
+		</li>
+
+		<li><a><i class="fa fa-table"></i>Debugging<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<!Debug navbars> <!TODO LOGGING FILE DISPLAY>
+			
+		</ul>
+		</li>
+
+		<li><a href="{{ url_for('auth.logout', username=current_user.username) }}">Logout</a></li>
+	</ul>
+	</div>
+</div>

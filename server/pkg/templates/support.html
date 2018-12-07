@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- Meta, title, CSS, favicons, etc. -->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{ PAGE_MAIN_TITLE }}</title> <!TODO - Editable content here>
+	<!-- Bootstrap -->
+	<link href="{{url_for('static',filename='vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link href="{{url_for('static',filename='vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
+	<!-- NProgress -->
+	<link href="{{url_for('static',filename='vendors/nprogress/nprogress.css')}}" rel="stylesheet">
+	<!-- Custom Theme Style -->
+	<link href="{{url_for('static',filename='gentelella/css/custom.min.css')}}" rel="stylesheet">
+</head>
+
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+		<div class="col-md-3 left_col">
+			<div class="left_col scroll-view">
+
+			<div class="clearfix"></div>
+			<!-- sidebar menu -->
+			{% include 'includes/_sidebar.html' %}
+			<!-- /sidebar menu -->
+
+			<!-- /menu footer buttons -->
+			{% include 'includes/_menufooter.html' %}
+			<!-- /menu footer buttons -->
+			</div>
+		</div>
+
+		<!-- top navigation -->
+		{% include 'includes/_topnavi.html' %}
+		<!-- /top navigation -->
+
+		<!-- page content -->
+		<div class="right_col" role="main">
+			<div class="">
+			{% include 'includes/_messages.html' %}
+			{% block body %}
+			{% endblock %}
+			</div>
+		</div>
+		<!-- /page content -->
+
+		<!-- footer content -->
+		<footer>
+			<div class="pull-right">
+			Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+			</div>
+			<div class="clearfix"></div>
+		</footer>
+		<!-- /footer content -->
+		</div>
+	</div>
+
+	{% block script %}
+	{% endblock %}
+</body>
+</html>
