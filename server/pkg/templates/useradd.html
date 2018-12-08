@@ -5,7 +5,7 @@
 
 {% block head %}
 <!-- iCheck -->
-<link href="{{url_for('.static', filename='vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
+<link href="{{url_for('static', filename='vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -51,7 +51,7 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="x_content">
-			<form class="form-group" method="POST" action="{{url_for('useradd', username=current_user.username)}}">
+			<form class="form-group" method="POST" action="{{url_for('admintools.useradd', username=current_user.username)}}">
 					{{ form.hidden_tag() }}
 					<dl>
 					{% for field in form %}
@@ -77,16 +77,16 @@
 {% block script %}
 		<!_________________________________________Persistent_________________________________________>
 		<!-- jQuery -->
-		<script src="{{url_for('.static',filename='vendors/jquery/dist/jquery.min.js')}}"></script>
+		<script src="{{url_for('static',filename='vendors/jquery/dist/jquery.min.js')}}"></script>
 		<!-- Bootstrap -->
-		<script src="{{url_for('.static',filename='vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+		<script src="{{url_for('static',filename='vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 		<!-- FastClick -->
-		<script src="{{url_for('.static',filename='vendors/fastclick/lib/fastclick.js')}}"></script>
+		<script src="{{url_for('static',filename='vendors/fastclick/lib/fastclick.js')}}"></script>
 		<!-- NProgress -->
-		<script src="{{url_for('.static',filename='vendors/nprogress/nprogress.js')}}"></script>
+		<script src="{{url_for('static',filename='vendors/nprogress/nprogress.js')}}"></script>
 		<!-- Custom js -->
-		<script src="{{url_for('.static',filename='gentelella/js/custom.min.js')}}"></script>
+		<script src="{{url_for('static',filename='gentelella/js/custom.min.js')}}"></script>
 		<!-- icheck js -->
-		<script src="{{url_for('.static', filename='vendors/iCheck/icheck.min.js')}}"></script>
+		<script src="{{url_for('static', filename='vendors/iCheck/icheck.min.js')}}"></script>
 		<!_________________________________________/Persistent_________________________________________>
 {% endblock %}

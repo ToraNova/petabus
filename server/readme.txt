@@ -31,6 +31,8 @@ TODO:	todo
 
 update0		8/12/18---1:22pm
 [+	ported old pyflask server to setup petabus
+[	>ported useradd/userlist/usermod
+[	>ported home
 [+	initialized git repo
 [+	added new pkg architectures
 [	>source.py to provide the flask object
