@@ -20,6 +20,7 @@ import pkg.models as md
 import pkg.forms as fm
 import pkg.assertw as a
 import pkg.fsqlite as sq #extra for any db commits
+from pkg.servlog import srvlog
 
 bp = Blueprint('admintools', __name__, url_prefix='/admintools')
 
@@ -39,11 +40,7 @@ def useradd(username):
             target_add = md.System_User(useradd_form.username.data,hpass,True if int(useradd_form.adminPriv.data) else False)#create user obj
             sq.db_session.add(target_add)#adds user object onto database.
             sq.db_session.commit()
-            # logger["user"].info( #TODO:implement logging
-            #     in_form.username.data+
-            #     " registered as new user under, admin="+
-            #     str(in_form.adminPriv.data)
-            # )
+            srvlog["sys"].info(useradd_form.username.data+" registered as new user, admin="+str(useradd_form.adminPriv.data)) #logging
             return render_template("message.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
                 username=current_user.username,
                 display_title="Success",
@@ -85,10 +82,7 @@ def usermod(username,primaryKey):
             target_del = md.System_User.query.filter(md.System_User.username == primaryKey).first()
             sq.db_session.delete(target_del)
             sq.db_session.commit()
-            # logger["user"].info(
-            # 		primaryKey+
-            # 		" deleted from the system"
-            # 		)
+            srvlog["sys"].info(primaryKey+" deleted from the system") #logging
             return redirect(url_for('admintools.userlist',username=current_user.username))
 
         elif(request.form["button"]=="Modify"):
@@ -129,11 +123,7 @@ def useradd_nologin():#This function is for initial server initialization only,
         target_add = md.System_User(useradd_form.username.data,hpass,True if int(useradd_form.adminPriv.data) else False)#create user obj
         sq.db_session.add(target_add)#adds user object onto database.
         sq.db_session.commit()
-        # logger["user"].info(
-        # 		in_form.username.data+
-        # 		" registered as new user under admintools, admin="+
-        #  		str(in_form.adminPriv.data)
-        # 		) #TODO logging
+        srvlog["sys"].warning(useradd_form.username.data+ " registered under admintools/nologin ! admin="+str(useradd_form.adminPriv.data)) #logging
         return "admintools : ok" #TODO return a webpage
 
     return render_template('admintools/sysuseradd.html',form=useradd_form)

@@ -20,6 +20,7 @@ import pkg.const as const
 import pkg.models as md
 import pkg.forms as fm
 import pkg.assertw as a
+from pkg.servlog import srvlog
 
 #primary blueprint
 bp = Blueprint('auth', __name__, url_prefix='')
@@ -39,7 +40,7 @@ def login():
         else:
             if(check_password_hash(target_user.password,userlogin_form.password.data)):
                 #successful login
-                #logger["user"].info(userlogin_form.username.data+" logged into the system")#logging
+                srvlog["user"].info(userlogin_form.username.data+" logged onto the system") #logging
                 login_user(target_user)#login_manager logins
                 return redirect(url_for("home.home",username=target_user.username))
             else:
@@ -53,7 +54,7 @@ def login():
 def logout(username):
     logout_username = current_user.username
     logout_user()
-    #flog_main["user"].info(logout_username+" logged out from the system") #TODO implement logging
+    srvlog["user"].info(logout_username+" logged out the system") #logging
     return redirect(url_for("auth.login"))
 
 def sysuser_getobj(id):

@@ -31,13 +31,21 @@ TODO:	todo
 
 update0		8/12/18---1:22pm
 [+	ported old pyflask server to setup petabus
-[	>ported useradd/userlist/usermod
-[	>ported home
+[	  >ported useradd/userlist/usermod
+[ 	>ported home
+[   >ported admintools
+[   >ported models/sqlite engine
 [+	initialized git repo
 [+	added new pkg architectures
-[	>source.py to provide the flask object
-[	>flim.py renamed to limits.py
-[	>old changelogs can be viewed at pyFlask_old.txt (from pyflask)
+[	  >source.py to provide the flask object
+[   >introduced blueprinting, refer to flask
+[   >introduced seperate wrapper files
+[	  >flim.py renamed to limits.py
+[   >const.py added to store constant vals
+[	  >old changelogs can be viewed at pyFlask_old.txt (from pyflask)
 [$	new db models
+[$  revamp templates structure
 
-
+update1   12/12/18---11:04pm
+[+  ported flog.py from old pyflask to servlog.py
+[+  added finally: clause in server.py (main)

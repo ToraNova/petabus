@@ -1,8 +1,8 @@
 #--------------------------------------------------
-# Source.py
-# this file sources the main flask object
-# it also generates the the object
-# based on configuration files
+# models.py
+# this file contains the class definition
+# (i.e) the columns are class attributes
+# specifically for the database (sqlite3)
 # created 8/12/2018
 #--------------------------------------------------
 
