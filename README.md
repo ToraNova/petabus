@@ -3,8 +3,6 @@
 
 - Chia Jason
 
-- Haziq Imran bin Hanip
-
 - Hor Sui Lyn
 
 - Yeo Kai Shun
