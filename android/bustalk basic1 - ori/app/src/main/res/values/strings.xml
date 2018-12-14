@@ -1,0 +1,17 @@
+<resources>
+    //for all activities
+    <string name="app_name">Bustalk</string>
+    <string name="space">   </string>
+
+    //for LoginPage
+    <string name="id_hint">\t Driver ID</string>
+    <string name="bus_number_hint">\t Bus Number</string>
+    <string name="name_hint">\t Driver Name</string>
+    <string name="login">LOG IN</string>
+    <string name="ip_hint">\t IP</string>
+
+    //for PushPage
+    <string name="logout">LOG OUT</string>
+    <string name="send">SEND</string>
+    <string name="stop"> STOP</string>
+</resources>
