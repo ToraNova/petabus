@@ -11,6 +11,7 @@ from flask import Blueprint
 import pkg.const as const
 from pkg.fsqlite import db_session
 from flask_login import LoginManager
+from flask import render_template
 
 def server(config=None):
 	#create and configures the server
@@ -42,7 +43,7 @@ def server(config=None):
 	@out.login_manager.unauthorized_handler
 	def unauthorized_warning():
 		return render_template("errors/unauthorized.html",
-			displat_message="Login required!")
+			display_message="Login required!")
 	login_manager.login_view = "login"
 	login_manager.login_message = "Please login first."
 	login_manager.login_message_category = "info"
