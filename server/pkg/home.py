@@ -28,6 +28,7 @@ bp = Blueprint('home', __name__, url_prefix='')
 @bp.route('/')
 @bp.route('/alt')
 def index():
+	return redirect(url_for("home"))
 	return redirect(url_for("auth.login"))
 
 @bp.route('/<username>/home',methods=['GET','POST'])
