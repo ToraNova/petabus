@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block head %}
-<link href="{{url_for('.static', filename='bootstrap/css/bootstrap.css')}}" rel="stylesheet" type="text/css">
+<link href="{{url_for('static', filename='bootstrap/css/bootstrap.css')}}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -21,7 +21,7 @@
       <div class="container">
         <h2 class="bg-danger">Invalid Login</h2> <!Editable Header>
           {% include 'includes/_space1br.html' %}
-        <form class="form-group" method="POST" action="{{url_for('login')}}">
+        <form class="form-group" method="POST" action="{{url_for('auth.login')}}">
 					<p>{{display_message}}</p>
           <button class="btn btn-danger" type="submit">Return</button><!Editable Button Text>
         </form>

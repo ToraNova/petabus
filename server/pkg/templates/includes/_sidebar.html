@@ -37,7 +37,9 @@
 		<li><a><i class="fa fa-table"></i>Debugging<span class="fa fa-chevron-down"></span></a>
 		<ul class="nav child_menu">
 			<!Debug navbars> <!TODO LOGGING FILE DISPLAY>
-
+			<li><a href="{{ url_for('admintools.logview', logtype='user') }}">User Logs</a></li>
+			<li><a href="{{ url_for('admintools.logview', logtype='sys') }}">System Logs</a></li>
+			<li><a href="{{ url_for('admintools.logview', logtype='oper') }}">Operational Logs</a></li>
 		</ul>
 		</li>
 

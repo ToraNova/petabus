@@ -34,12 +34,26 @@ def gen_FileLogger(a_loggername,a_path):
 	gen_handler = FileHandler(filename=a_path,delay=False)
 	return attach_Handler(a_loggername,gen_handler)
 
-#EXPORT THE FOLLOWING
+# LOGTYPES, introduced update2
+userlog = "user" #user logs
+systlog = "sys"  #system logs
+operlog = "oper" #operational logs
+
+#Logger to file translation (exported as well) update2
+logtofile = {
+	"user":'user.log',
+	"sys":'sys.log',
+	"oper":'oper.log'
+}
+
+#EXPORT THE FOLLOWING: Last edit update2
 srvlog = {
-		"user":gen_FileLogger('user_logger',os.path.join(const.LOGS_DIR,'user.log')),
-		"sys":gen_RotatingFileLogger('sys_logger',os.path.join(const.LOGS_DIR,'sys.log')),
-		'oper':gen_RotatingFileLogger('ope_logger',os.path.join(const.LOGS_DIR,'oper.log'))
+		userlog:gen_FileLogger('user_logger',os.path.join(const.LOGS_DIR,logtofile[userlog])),
+		systlog:gen_RotatingFileLogger('sys_logger',os.path.join(const.LOGS_DIR,logtofile[systlog])),
+		operlog:gen_RotatingFileLogger('ope_logger',os.path.join(const.LOGS_DIR,logtofile[operlog]))
 		}
+
+
 
 #############################################################################################################
 # Referrals
