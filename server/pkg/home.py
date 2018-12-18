@@ -28,12 +28,11 @@ bp = Blueprint('home', __name__, url_prefix='')
 @bp.route('/')
 @bp.route('/alt')
 def index():
-	return redirect(url_for("home"))
 	return redirect(url_for("auth.login"))
 
 @bp.route('/<username>/home',methods=['GET','POST'])
 @login_required
-def home(username):
+def home(username): 
 	return render_template("welcome.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
 	username=current_user.username)
 
