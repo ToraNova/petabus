@@ -20,17 +20,22 @@ import pkg.models as md
 import pkg.forms as fm
 import pkg.assertw as a
 import pkg.fsqlite as sq #extra for any db commits
-from pkg.servlog import srvlog
+from pkg.servlog import srvlog,logtofile
+
+#additional overheads
+import os
 
 bp = Blueprint('admintools', __name__, url_prefix='/admintools')
 
 ##############################################################################################
 # system user add/mod routes
 # USER ADD ROUTE
+# last edit : update2
+# removed system username on route url.
 ##############################################################################################
-@bp.route('/<username>/useradd',methods=['GET','POST'])
+@bp.route('/useradd',methods=['GET','POST'])
 @a.admin_required
-def useradd(username):
+def useradd():
     '''adds a system user onto the system'''
     useradd_form = fm.System_User_RegisterForm()
     if useradd_form.validate_on_submit():
@@ -56,10 +61,12 @@ def useradd(username):
 
 ##############################################################################################
 # USER LIST ROUTE
+# last edit : update2
+# removed system username on route url.
 ##############################################################################################
-@bp.route('/<username>/userlist',methods=['GET','POST'])
+@bp.route('/userlist',methods=['GET','POST'])
 @a.admin_required
-def userlist(username):
+def userlist():
     '''list out system users'''
     columnHead = ["username","adminpri"]
     userlist = md.System_User.query.all()
@@ -72,10 +79,12 @@ def userlist(username):
 
 ##############################################################################################
 # USER MODIFY ROUTE
+# last edit : update2
+# removed system username on route url.
 ##############################################################################################
-@bp.route('/<username>/usermod/<primaryKey>',methods=['GET','POST'])
+@bp.route('/usermod/<primaryKey>',methods=['GET','POST'])
 @a.admin_required
-def usermod(username,primaryKey):
+def usermod(primaryKey):
     '''modify system user'''
     if(request.method=="POST"):
         if(request.form["button"]=="Delete"):
@@ -127,3 +136,22 @@ def useradd_nologin():#This function is for initial server initialization only,
         return "admintools : ok" #TODO return a webpage
 
     return render_template('admintools/sysuseradd.html',form=useradd_form)
+
+##############################################################################################
+# Logging routes (display server logs)
+# ported from old pyflask project : update2
+##############################################################################################
+@bp.route('/logs/<logtype>')
+@a.admin_required
+def logview(logtype):
+    #Display logs on the local server
+    filebuff = []
+    with open( os.path.join(const.LOGS_DIR,logtofile[logtype]) ,'r' ) as f:
+        #opens the logfile of required logtype for reading
+        for line in f:
+            filebuff.append(line)
+        if(len(filebuff) == 0):
+            filebuff = ["Empty, No logs at the moment"]
+        return render_template("admintools/logging.html",
+                            	PAGE_MAIN_TITLE=const.SERVER_NAME,
+                            	logfile = filebuff)
