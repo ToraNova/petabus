@@ -26,8 +26,8 @@ def server(config=None):
 	else:
 		out.config.from_mapping(config)
 
-	from pkg import auth,home,admintools
 
+	from pkg import auth,home,admintools
 
 	#######################################################################################################
 	# Login manager section

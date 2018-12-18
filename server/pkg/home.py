@@ -26,6 +26,7 @@ bp = Blueprint('home', __name__, url_prefix='')
 # Index routings
 ##############################################################################################
 @bp.route('/')
+@bp.route('/alt')
 def index():
 	return redirect(url_for("auth.login"))
 
