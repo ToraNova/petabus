@@ -53,6 +53,6 @@ class Configuration_EditForm(FlaskForm):
 # From YT - correction needed
 ##############################################################################################
 
-class Data_ViewForm(Flask Form):
+class Data_ViewForm(FlaskForm):
 	bustype = StringField('bus_type', validators=[InputRequired(),Length(min=2,max=10)])
 	buslist = SelectField('bus_schedule',choices=[('0','Non Working Bus'),('1','Working Bus')])
