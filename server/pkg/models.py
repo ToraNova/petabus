@@ -49,6 +49,23 @@ class System_Configuration(Base):#This class is permanent in almost all pyFlask 
     def __repr__(self):
         return '<%r %r>' % (self.__tablename__,self.id)
 
+class Bus_Driver(Base, UserMixin):#This class is permanent in almost all pyFlask deployment
+    #System_User is a mandatory class in any pyFlask system
+    #This class stores information on the user which will access the system,
+    #Examples of instances of this class are admin, user01, human_resource ...
+    __tablename__ = "Bus_Driver"
+    id = Column(Integer, primary_key=True)
+    busname = Column(String(lim.MAX_USERNAME_SIZE),unique=True,nullable=False)
+    password = Column(String(lim.MAX_PASSWORD_SIZE),unique=False,nullable=False)
+
+    def __init__(self,a_busname = None,a_password = None):
+        self.busname = a_busname
+        self.password = a_password
+
+    def __repr__(self):
+        return '<%r %r %r>' % (self.__tablename__,self.busname)
+
+
 ###############################################################################
 # Non permanent models
 #   Regarding non-perma models and is a type of resource (actors/entities)

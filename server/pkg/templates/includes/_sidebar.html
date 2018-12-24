@@ -23,7 +23,9 @@
 		<li><a><i class="fa fa-bar-chart-o"></i>Data View<span class="fa fa-chevron-down"></span></a>
 		<ul class="nav child_menu">
 			<!Insert database urls here>
-
+			<!From YT> 
+				<li><a href="{{ url_for('dataview.busadd', username=current_user.username) }}">Add bus</a></li>
+				<li><a href="{{ url_for('dataview.buslist',username=current_user.username) }}">List bus</a></li>
 		</ul>
 		</li>
 

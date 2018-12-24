@@ -48,3 +48,13 @@ class Configuration_EditForm(FlaskForm):
 ##############################################################################################
 # Distribution dependent forms
 ##############################################################################################
+
+##############################################################################################
+# From YT - correction needed
+##############################################################################################
+
+class Bus_Driver_RegisterForm(FlaskForm):
+		busname = StringField('busname',
+			validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
+		password = PasswordField('password',
+			validators=[InputRequired(),Length(min=lim.MIN_PASSWORD_SIZE,max=lim.MAX_PASSWORD_SIZE)])
