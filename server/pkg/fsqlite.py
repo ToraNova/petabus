@@ -29,15 +29,14 @@ def update_meta():
 	#--------------------------------------------
 	from pkg.models import System_User #perma
 	from pkg.models import System_Configuration #perma
-<<<<<<< HEAD
+
 	from pkg.models import Data_Bus #perma
-=======
+
 
 	from pkg.models import Driver_Register#new
 
 	from pkg.models import Bus_Driver
 
->>>>>>> ebd74eb02f27f2bdfd02d3c49f43b5bfd7e7973d
 	Base.metadata.create_all(bind=engine)
 
 def default_add():
