@@ -17,11 +17,7 @@
 {% block body %}
 <div class="page-title">
 	<div class="title_left">
-<<<<<<< HEAD:server/pkg/templates/yt-busmod.html
-		<h3> <small>Editing entry for Bus Driver : {{primaryKey}}</small></h3> <!PAGE TITLE HERE>
-=======
 		<h3> <small>Editing entry for Bus Admin : {{primaryKey}}</small></h3> <!PAGE TITLE HERE>
->>>>>>> 1d110d538b9761dd601319b2ecc71e55101489af:server/pkg/templates/busmod.html
 	</div>
 	<div class="title_right">
 		<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -59,7 +55,7 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="x_content">
-			<form class="form-group" method="POST" action="{{url_for('dataview.busmod',primaryKey = primaryKey)}}">
+			<form class="form-group" method="POST" action="{{url_for('yt_dataview.busmod',primaryKey = primaryKey)}}">
 					{{ form.hidden_tag() }}
 					<dl>
 					{% for field in form %}

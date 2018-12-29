@@ -72,7 +72,7 @@
 					{% endfor %}
 					<td>
 						<form
-						action="{{ url_for('dataview.busmod',primaryKey=row[0])}}"
+						action="{{ url_for('yt_dataview.busmod',primaryKey=row[0])}}"
 						method="POST">
 							<input type="submit" name="button" value="Modify" class="btn btn-warning"></input>
 							<input type="submit" name="button" value="Delete" class="btn btn-danger"></input>
