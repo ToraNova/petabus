@@ -53,11 +53,7 @@ def server(config=None):
 	out.register_blueprint(auth.bp)
 	out.register_blueprint(home.bp)
 	out.register_blueprint(admintools.bp)
-<<<<<<< HEAD
-
-=======
 	out.register_blueprint(dataview.bp)
->>>>>>> eaf00bb9f7d4f9e4dff68517f1e80ba75df44a42
 	out.register_blueprint(jack.bp)
 	out.register_blueprint(ting.bp)
 
