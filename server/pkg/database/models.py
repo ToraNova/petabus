@@ -7,7 +7,7 @@
 #--------------------------------------------------
 
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
-from pkg.fsqlite import Base    #fsqlite dependency
+from pkg.database.fsqlite import Base    #fsqlite dependency
 from pkg import limits as lim     #lim dependency
 from flask_login import UserMixin
 

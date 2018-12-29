@@ -8,10 +8,10 @@
 
 #from pkg.fsock import fsock_app #re-import the app after routing and socketing
 from pkg.source import server
-from pkg.servlog import srvlog
-from pkg.fsqlite import init_db
+from pkg.system.servlog import srvlog
 
-from pkg.fsqlite import db_session
+from pkg.database.fsqlite import init_db
+from pkg.database.fsqlite import db_session
 
 import os.path
 

@@ -16,11 +16,11 @@ from flask_login import current_user
 
 #usual imports (copy pasta this)
 import pkg.const as const
-import pkg.models as md
-import pkg.forms as fm
-import pkg.assertw as a
-import pkg.fsqlite as sq #extra for any db commits
-from pkg.servlog import srvlog,logtofile
+from pkg.database import models as md
+from pkg.database import fsqlite as sq #extra for any db commits
+from pkg.interface import forms as fm
+from pkg.system import assertw as a
+from pkg.system.servlog import srvlog,logtofile
 
 #additional overheads
 import os

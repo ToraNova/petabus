@@ -27,13 +27,11 @@ def update_meta():
 	#this is called when we want to change our db
 	#NOTE please add imports of new models here
 	#--------------------------------------------
-	from pkg.models import System_User #perma
-	from pkg.models import System_Configuration #perma
+	from pkg.database.models import System_User #perma
+	from pkg.database.models import System_Configuration #perma
 	Base.metadata.create_all(bind=engine)
 
 def default_add():
-	from pkg.models import System_Configuration #perma
-	from pkg.models import System_User #perma
 	#add default values of the configuration table
 	#default_config_list = [["ScannerID","AR001"],["MainServerIP","127.0.0.1"],["MainServerPort","4000"]] #used for attemoni
 	default_config_list = []

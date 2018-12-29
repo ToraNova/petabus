@@ -17,10 +17,11 @@ from flask import Blueprint
 
 #usual imports (copy pasta this)
 import pkg.const as const
-import pkg.models as md
-import pkg.forms as fm
-import pkg.assertw as a
-from pkg.servlog import srvlog
+from pkg.database import models as md
+from pkg.database import fsqlite as sq #extra for any db commits
+from pkg.interface import forms as fm
+from pkg.system import assertw as a
+from pkg.system.servlog import srvlog,logtofile
 
 #primary blueprint
 bp = Blueprint('auth', __name__, url_prefix='')

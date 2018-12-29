@@ -9,9 +9,10 @@
 from flask import Flask
 from flask import Blueprint
 import pkg.const as const
-from pkg.fsqlite import db_session
 from flask_login import LoginManager
 from flask import render_template
+
+from pkg.database.fsqlite import db_session
 
 def server(config=None):
 	#create and configures the server
@@ -27,7 +28,8 @@ def server(config=None):
 	else:
 		out.config.from_mapping(config)
 
-	from pkg import auth,home,admintools
+	from pkg.interface import home
+	from pkg.system import auth,admintools
 
 
 	#######################################################################################################
