@@ -57,10 +57,12 @@ class Bus_Driver(Base):#This class is permanent in almost all pyFlask deployment
     id = Column(Integer, primary_key=True)
     busname = Column(String(lim.MAX_USERNAME_SIZE),unique=False,nullable=False)
     busroute = Column(String(lim.MAX_USERNAME_SIZE),unique=False,nullable=True)
+    busStatus = Column(Boolean(),unique=False,nullable=False)
 
-    def __init__(self,a_busname = None,a_busroute = None):
+    def __init__(self,a_busname = None,a_busroute = None, a_busStatus = False):
         self.busname = a_busname
         self.busroute = a_busroute
+        self.busStatus = a_busStatus
 
     def __repr__(self):
         return '<%r %r %r>' % (self.__tablename__,self.busname)

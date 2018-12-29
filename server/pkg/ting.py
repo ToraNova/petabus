@@ -29,7 +29,7 @@ def busadd():
     if busadd_form.validate_on_submit():
         target_user = md.Bus_Driver.query.filter(md.Bus_Driver.busname == busadd_form.busname.data).first()
         if(target_user == None):
-            target_add = md.Bus_Driver(busadd_form.busname.data,busadd_form.busroute.data)#create user obj
+            target_add = md.Bus_Driver(busadd_form.busname.data,busadd_form.busroute.data,True if int(busadd_form.busStatus.data) else False)#create user obj
             sq.db_session.add(target_add)#adds user object onto database.
             sq.db_session.commit()
             #srvlog["sys"].info(busadd_form.busname.data+" registered as new user) #logging
@@ -38,7 +38,7 @@ def busadd():
                 display_title="Success",
                 display_message="Added "+target_add.busname+" into the system.")
 
-    return render_template('busadd.html',form=busadd_form)
+    return render_template('yt-busadd.html',form=busadd_form)
 
 @bp.route('/bus_view',methods=['GET','POST'])
 def buslist():
@@ -46,13 +46,13 @@ def buslist():
 #    busview_form = fm.Data_ViewForm()
 #    return render_template('/buslist.html',form=busview_form)
     '''list out bus users'''
-    columnHead = ["busname","busroute"]
+    columnHead = ["busname","busroute","bus status"]
     buslist = md.Bus_Driver.query.all()
     match = []
     for users in buslist:
-        temp = [users.busname,users.busroute]
+        temp = [users.busname,users.busroute,users.busStatus]
         match.append(temp)
-    return render_template('buslist.html',PAGE_MAIN_TITLE=const.SERVER_NAME,
+    return render_template('yt-buslist.html',PAGE_MAIN_TITLE=const.SERVER_NAME,
         colNum=len(columnHead),matches=match,columnHead=columnHead)
 
 
@@ -73,13 +73,18 @@ def busmod(primaryKey):
             busmod_form = fm.Bus_Driver_EditForm()
             target_busroute = busmod_form.busroute
             busmod_form.process()
-            return render_template("busmod.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
+            target_busstatus = md.Bus_Driver.query.filter(md.Bus_Driver.busname == primaryKey).first().busStatus
+            busmod_form.status.default = ('1' if target_busstatus else '0')
+            busmod_form.process()
+            return render_template("yt-busmod.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
             primaryKey=primaryKey,form = busmod_form)
-
+###need correction :D
         elif(request.form["button"]=="Submit Changes"):
-            target_busroute = request.form.get("busroute")
+            #target_busroute = request.form.get("busroute")
             target_mod = md.Bus_Driver.query.filter(md.Bus_Driver.busname == primaryKey).first()
-            target_mod.busroute = target_busroute
+            #target_mod.busroute = target_busroute
+            busStatus = request.form.get("status")
+            target_mod.busstatus = True if busStatus == '1' else False
             sq.db_session.add(target_mod)
             sq.db_session.commit()
             return redirect(url_for('dataview.buslist',username=current_user.username))

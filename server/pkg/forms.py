@@ -37,9 +37,11 @@ class System_User_RegisterForm(FlaskForm): #Last Edit R7
 class System_User_EditForm(FlaskForm): #Last Edit R8
 	adminPriv = SelectField('administrator privelege ?',choices=[('0','No admin privelege'),('1','Grant admin privelege')])
 
+
 class Bus_Driver_EditForm(FlaskForm):
 	busroute =  StringField('Changing busroute ?',
 		validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
+	status = SelectField('bus status ?',choices=[('0','Not on-site'),('1','Grant on-site')])
 ##############################################################################################
 # Admin Forms - Edits
 ##############################################################################################
@@ -60,3 +62,4 @@ class Bus_Driver_RegisterForm(FlaskForm):
 			validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
 		busroute = StringField('busroute',
 			validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
+		busStatus = SelectField('bus status ?',choices=[('0','Not on-site'),('1','Grant on-site')])
