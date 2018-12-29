@@ -22,7 +22,7 @@ from pkg.servlog import srvlog,logtofile
 #additional overheads
 import os
 
-bp = Blueprint('dataview', __name__, url_prefix='/databus')
+bp = Blueprint('mei', __name__, url_prefix='/databus')
 
 ##############################################################################################
 # system user add/mod routes
@@ -87,7 +87,7 @@ def busmod(primaryKey):
             sq.db_session.delete(target_del)
             sq.db_session.commit()
             srvlog["sys"].info(primaryKey+" deleted from the system") #logging
-            return redirect(url_for('dataview.buslist'))
+            return redirect(url_for('mei.buslist'))
 
         elif(request.form["button"]=="Modify"):
             busdriver = md.Data_Bus.query.filter(md.Data_Bus.id == primaryKey).first().busdriver
@@ -108,7 +108,7 @@ def busmod(primaryKey):
             target_mod.busstatus = True if busstatus == '1' else False
             sq.db_session.add(target_mod)
             sq.db_session.commit()
-            return redirect(url_for('dataview.buslist'))
+            return redirect(url_for('mei.buslist'))
 
         else:
             abort(404)

@@ -55,7 +55,7 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="x_content">
-			<form class="form-group" method="POST" action="{{url_for('dataview.busmod',primaryKey = primaryKey)}}">
+			<form class="form-group" method="POST" action="{{url_for('mei.busmod',primaryKey = primaryKey)}}">
 					{{ form.hidden_tag() }}
 					<dl>
 					{% for field in form %}
