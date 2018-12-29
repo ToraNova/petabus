@@ -32,6 +32,8 @@ def update_meta():
 	Base.metadata.create_all(bind=engine)
 
 def default_add():
+	from pkg.database.models import System_User #perma
+	from pkg.database.models import System_Configuration #perma
 	#add default values of the configuration table
 	#default_config_list = [["ScannerID","AR001"],["MainServerIP","127.0.0.1"],["MainServerPort","4000"]] #used for attemoni
 	default_config_list = []
