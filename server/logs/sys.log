@@ -674,3 +674,8 @@ sys_logger--2018-12-29 18:53:56,884:INFO 	[system halt]
 =======
 >>>>>>> ebd74eb02f27f2bdfd02d3c49f43b5bfd7e7973d
 >>>>>>> 1d110d538b9761dd601319b2ecc71e55101489af
+sys_logger--2018-12-29 19:08:05,846:INFO 	[system start]
+sys_logger--2018-12-29 19:08:06,140:INFO 	[system start]
+sys_logger--2018-12-29 19:10:43,959:INFO 	[system halt]
+sys_logger--2018-12-29 19:11:03,277:INFO 	[system start]
+sys_logger--2018-12-29 19:11:03,600:INFO 	[system start]
