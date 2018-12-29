@@ -47,7 +47,7 @@ def login():
                 #incorrect password
                 return render_template("errors/invalid_login.html",
                 display_message="Invalid password")
-    return render_template('login.html',form=userlogin_form)
+    return render_template('standard/login.html',form=userlogin_form)
 
 @bp.route('/<username>/logout')
 @login_required

@@ -32,7 +32,7 @@ def index():
 @bp.route('/<username>/home',methods=['GET','POST'])
 @login_required
 def home(username):
-	return render_template("welcome.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
+	return render_template("standard/welcome.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
 	username=current_user.username)
 
 ####################################################################################

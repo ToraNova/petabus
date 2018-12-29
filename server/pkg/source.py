@@ -11,6 +11,7 @@ from flask import Blueprint
 import pkg.const as const
 from pkg.fsqlite import db_session
 from flask_login import LoginManager
+from flask import render_template
 
 def server(config=None):
 	#create and configures the server

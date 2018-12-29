@@ -27,7 +27,7 @@ def admin_required(fn):
 			return render_template("errors/unauthorized.html",
         		displat_message="Login required!")
 		elif (not current_user.adminpri):
-			return render_template("error.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
+			return render_template("errors/error.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
 				username=current_user.username,
 				error_title="Unauthorized",
 				error_message="You are not authorized to access this content.")

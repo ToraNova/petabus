@@ -1,5 +1,6 @@
-logs/
-__pycache__/
-.pyc*
+/logs
+/__pycache__
+*.pyc
 *.db
+*.log
 init.token

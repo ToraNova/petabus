@@ -21,7 +21,7 @@
       <div class="container">
         <h2 class="bg-danger">Unauthorized Access</h2> <!Editable Header>
           {% include 'includes/_space1br.html' %}
-        <form class="form-group" method="POST" action="{{url_for('login')}}">
+        <form class="form-group" method="POST" action="{{url_for('auth.login')}}">
 					<p>{{display_message}}</p>
           <button class="btn btn-danger" type="submit">Go to Login</button><!Editable Button Text>
         </form>
