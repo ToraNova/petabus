@@ -53,6 +53,12 @@ class Configuration_EditForm(FlaskForm):
 # From YT - correction needed
 ##############################################################################################
 
-class Data_ViewForm(FlaskForm):
-	bustype = StringField('bus_type', validators=[InputRequired(),Length(min=2,max=10)])
-	buslist = SelectField('bus_schedule',choices=[('0','Non Working Bus'),('1','Working Bus')])
+class Driver_RegisterForm(FlaskForm):
+	username = StringField('username',
+		validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
+	Drivername = StringField('Drivername',
+		validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
+	Dexperience = StringField('Dexperience',
+		validators=[InputRequired(),Length(min=lim.MIN_EXP_SIZE,max=lim.MAX_EXP_SIZE)])
+	Dpassword = PasswordField('Dpassword',
+		validators=[InputRequired(),Length(min=lim.MIN_PASSWORD_SIZE,max=lim.MAX_PASSWORD_SIZE)])

@@ -29,11 +29,13 @@ def update_meta():
 	#--------------------------------------------
 	from pkg.models import System_User #perma
 	from pkg.models import System_Configuration #perma
+	from pkg.models import Driver_Register#new
 	Base.metadata.create_all(bind=engine)
 
 def default_add():
 	from pkg.models import System_Configuration #perma
 	from pkg.models import System_User #perma
+	from pkg.models import Driver_Register #new
 	#add default values of the configuration table
 	#default_config_list = [["ScannerID","AR001"],["MainServerIP","127.0.0.1"],["MainServerPort","4000"]] #used for attemoni
 	default_config_list = []

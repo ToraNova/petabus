@@ -23,7 +23,8 @@
 		<li><a><i class="fa fa-bar-chart-o"></i>Data View<span class="fa fa-chevron-down"></span></a>
 		<ul class="nav child_menu">
 			<!Insert database urls here>
-
+			<li><a href="{{ url_for('Bus_Driver_Data.bus_add', username=current_user.username) }}">Add Bus Driver</a></li>
+			<li><a href="{{ url_for('Bus_Driver_Data.bus_list', username=current_user.username) }}">List Bus Driver</a></li>
 		</ul>
 		</li>
 
