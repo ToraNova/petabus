@@ -49,6 +49,31 @@ class System_Configuration(Base):#This class is permanent in almost all pyFlask 
     def __repr__(self):
         return '<%r %r>' % (self.__tablename__,self.id)
 
+##########################################################################
+# FROM MEI YUET MODIFIER
+##########################################################################
+
+class Data_Bus(Base):#This class is permanent in almost all pyFlask deployment
+    #System_User is a mandatory class in any pyFlask system
+    #This class stores information on the user which will access the system,
+    #Examples of instances of this class are admin, user01, human_resource ...
+    __tablename__ = "Data_Bus"
+    id = Column(Integer, primary_key=True)
+    busname = Column(String(lim.MAX_USERNAME_SIZE),unique=True,nullable=False)
+    busdriver = Column(String(lim.MAX_USERNAME_SIZE),unique=True,nullable=False)
+    busstatus = Column(Boolean(),unique=False,nullable=False)
+    #adminpri = Column(Boolean(),unique=False,nullable=False)
+
+    def __init__(self,a_busname,a_busdriver,a_busstatus=False):
+        self.busname = a_busname
+        self.busdriver = a_busdriver
+        self.busstatus = a_busstatus
+
+    #this is for print stuff
+    def __repr__(self):
+        return '<%r %r %r %r>' % (self.__tablename__,self.busname,self.busdriver,self.busstatus)
+
+
 ###############################################################################
 # Non permanent models
 #   Regarding non-perma models and is a type of resource (actors/entities)

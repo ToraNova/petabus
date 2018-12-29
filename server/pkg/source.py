@@ -26,7 +26,7 @@ def server(config=None):
 	else:
 		out.config.from_mapping(config)
 
-	from pkg import auth,home,admintools
+	from pkg import auth,home,admintools,dataview
 
 
 	#######################################################################################################
@@ -50,6 +50,7 @@ def server(config=None):
 	out.register_blueprint(auth.bp)
 	out.register_blueprint(home.bp)
 	out.register_blueprint(admintools.bp)
+	out.register_blueprint(dataview.bp)
 
 	#tear down context is done here.
 	@out.teardown_appcontext
