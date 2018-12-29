@@ -29,8 +29,7 @@ def busadd():
     if busadd_form.validate_on_submit():
         target_user = md.Bus_Driver.query.filter(md.Bus_Driver.busname == busadd_form.busname.data).first()
         if(target_user == None):
-            hpass = generate_password_hash(busadd_form.password.data,method=const.HASH_ALGORITHM_0)#password hashing
-            target_add = md.Bus_Driver(busadd_form.busname.data,hpass)#create user obj
+            target_add = md.Bus_Driver(busadd_form.busname.data,busadd_form.busroute.data)#create user obj
             sq.db_session.add(target_add)#adds user object onto database.
             sq.db_session.commit()
             #srvlog["sys"].info(busadd_form.busname.data+" registered as new user) #logging
@@ -38,12 +37,6 @@ def busadd():
                 busname=current_user.username,
                 display_title="Success",
                 display_message="Added "+target_add.busname+" into the system.")
-
-        else:
-            return render_template("error.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
-            Busname=current_user.busname,
-            error_title="Failure",
-            error_message="Busname already exists!")
 
     return render_template('busadd.html',form=busadd_form)
 
@@ -53,34 +46,20 @@ def buslist():
 #    busview_form = fm.Data_ViewForm()
 #    return render_template('/buslist.html',form=busview_form)
     '''list out bus users'''
-    columnHead = ["busname"]
+    columnHead = ["busname","busroute"]
     buslist = md.Bus_Driver.query.all()
     match = []
     for users in buslist:
-        temp = [users.busname]
+        temp = [users.busname,users.busroute]
         match.append(temp)
     return render_template('buslist.html',PAGE_MAIN_TITLE=const.SERVER_NAME,
         colNum=len(columnHead),matches=match,columnHead=columnHead)
 
-@bp.route('/busadd',methods=['GET','POST'])
-
-def busadd_nologin():#This function is for initial server initialization only,
-	#NOT RECOMMENDED FOR ACTUAL USE DUE TO SECURITY ISSUE
-    '''Adds a bus into system using admintools, no checking is done
-    Use only in initial deployment phase, please switch off the routes
-    regarding this one it is done. returns 0 on success and 1 on fail'''
-    busadd_form = fm.Bus_Driver_RegisterForm()
-    if busadd_form.validate_on_submit():
-        hpass = generate_password_hash(busadd_form.password.data,method=const.HASH_ALGORITHM_0)#password hashing
-        target_add = md.Bus_Driver(busadd_form.busname.data,hpass)#create user obj
-        sq.db_session.add(target_add)#adds user object onto database.
-        sq.db_session.commit()
-    return render_template('busadd.html',form=busadd_form)
 
 @bp.route('/busmod/<primaryKey>',methods=['GET','POST'])
 @a.admin_required
 def busmod(primaryKey):
-    '''modify system user'''
+    '''modify bus user'''
     if(request.method=="POST"):
         if(request.form["button"]=="Delete"):
             target_del = md.Bus_Driver.query.filter(md.Bus_Driver.busname == primaryKey).first()
@@ -88,3 +67,19 @@ def busmod(primaryKey):
             sq.db_session.commit()
             srvlog["sys"].info(primaryKey+" deleted from the system") #logging
             return redirect(url_for('dataview.buslist'))
+
+        elif(request.form["button"]=="Modify"):
+            target_busroute = md.Bus_Driver.query.filter(md.Bus_Driver.busname == primaryKey).first().busroute
+            busmod_form = fm.Bus_Driver_EditForm()
+            target_busroute = busmod_form.busroute
+            busmod_form.process()
+            return render_template("busmod.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
+            primaryKey=primaryKey,form = busmod_form)
+
+        elif(request.form["button"]=="Submit Changes"):
+            target_busroute = request.form.get("busroute")
+            target_mod = md.Bus_Driver.query.filter(md.Bus_Driver.busname == primaryKey).first()
+            target_mod.busroute = target_busroute
+            sq.db_session.add(target_mod)
+            sq.db_session.commit()
+            return redirect(url_for('dataview.buslist',username=current_user.username))

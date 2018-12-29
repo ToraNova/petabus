@@ -48,19 +48,19 @@ class System_Configuration(Base):#This class is permanent in almost all pyFlask 
 
     def __repr__(self):
         return '<%r %r>' % (self.__tablename__,self.id)
-
-class Bus_Driver(Base, UserMixin):#This class is permanent in almost all pyFlask deployment
+#YT
+class Bus_Driver(Base):#This class is permanent in almost all pyFlask deployment
     #System_User is a mandatory class in any pyFlask system
     #This class stores information on the user which will access the system,
     #Examples of instances of this class are admin, user01, human_resource ...
     __tablename__ = "Bus_Driver"
     id = Column(Integer, primary_key=True)
-    busname = Column(String(lim.MAX_USERNAME_SIZE),unique=True,nullable=False)
-    password = Column(String(lim.MAX_PASSWORD_SIZE),unique=False,nullable=False)
+    busname = Column(String(lim.MAX_USERNAME_SIZE),unique=False,nullable=False)
+    busroute = Column(String(lim.MAX_USERNAME_SIZE),unique=False,nullable=True)
 
-    def __init__(self,a_busname = None,a_password = None):
+    def __init__(self,a_busname = None,a_busroute = None):
         self.busname = a_busname
-        self.password = a_password
+        self.busroute = a_busroute
 
     def __repr__(self):
         return '<%r %r %r>' % (self.__tablename__,self.busname)

@@ -37,6 +37,9 @@ class System_User_RegisterForm(FlaskForm): #Last Edit R7
 class System_User_EditForm(FlaskForm): #Last Edit R8
 	adminPriv = SelectField('administrator privelege ?',choices=[('0','No admin privelege'),('1','Grant admin privelege')])
 
+class Bus_Driver_EditForm(FlaskForm):
+	busroute =  StringField('Changing busroute ?',
+		validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
 ##############################################################################################
 # Admin Forms - Edits
 ##############################################################################################
@@ -55,5 +58,5 @@ class Configuration_EditForm(FlaskForm):
 class Bus_Driver_RegisterForm(FlaskForm):
 		busname = StringField('busname',
 			validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
-		password = PasswordField('password',
-			validators=[InputRequired(),Length(min=lim.MIN_PASSWORD_SIZE,max=lim.MAX_PASSWORD_SIZE)])
+		busroute = StringField('busroute',
+			validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
