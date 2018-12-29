@@ -55,4 +55,8 @@ user_logger--2018-12-29 19:07:00,935:INFO 	[admin logged onto the system]
 user_logger--2018-12-29 19:12:47,261:INFO 	[admin logged onto the system]
 =======
 >>>>>>> 60fb035f75ef8d4d191b4de33f639913c641d17d
+<<<<<<< HEAD
 >>>>>>> be2d2f4e99761541e387235fba37e9a0574346d9
+=======
+user_logger--2018-12-29 19:13:36,361:INFO 	[admin logged onto the system]
+>>>>>>> 8c011836b7ff43d520257c8ab7d90f45e88c06b4
