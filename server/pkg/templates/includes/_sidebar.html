@@ -25,17 +25,17 @@
 		<ul class="nav child_menu">
 			<!Insert database urls here>
 
-			<!Mei Yuet>
-			<li><a href="{{ url_for('mei.bus_Add')}}">Data bus</a></li>
-			<li><a href="{{ url_for('mei.buslist')}}">List databus users</a></li>
+			<!Mei Yuet modifier>
+			<li><a href="{{ url_for('dataview.bus_Add')}}">Data bus</a></li>
+			<li><a href="{{ url_for('dataview.buslist')}}">List databus users</a></li>
 
 
 			<!FROM JACK>
 			<li><a href="{{ url_for('Bus_Driver_Data.bus_add', username=current_user.username) }}">Add Bus Driver</a></li>
 			<li><a href="{{ url_for('Bus_Driver_Data.bus_list', username=current_user.username) }}">List Bus Driver</a></li>
 			<!From YT>
-				<li><a href="{{ url_for('dataview.busadd', username=current_user.username) }}">Add bus</a></li>
-				<li><a href="{{ url_for('dataview.buslist',username=current_user.username) }}">List bus</a></li>
+				<li><a href="{{ url_for('yt_dataview.busadd', username=current_user.username) }}">Add bus</a></li>
+				<li><a href="{{ url_for('yt_dataview.buslist',username=current_user.username) }}">List bus</a></li>
 
 		</ul>
 		</li>
