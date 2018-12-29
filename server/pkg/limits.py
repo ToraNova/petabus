@@ -15,5 +15,7 @@ MIN_PASSWORD_SIZE = 5
 MAX_NAME_SIZE = 50 		#Legal Name
 MAX_CONFIG_NAME_SIZE = 50
 MAX_CONFIG_VALU_SIZE = 50
+MAX_EXP_SIZE = 2
+MIN_EXP_SIZE = 1
 LOGS_MAX_BYTES = 100000
 ################################################################

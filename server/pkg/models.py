@@ -48,7 +48,50 @@ class System_Configuration(Base):#This class is permanent in almost all pyFlask 
 
     def __repr__(self):
         return '<%r %r>' % (self.__tablename__,self.id)
+<<<<<<< HEAD
+#class Data_RegisterForm(Base):
+#   __tablename__ = "Data_RegisterForm"
+#    bustype = Column(String(lim.MAX_USERNAME_SIZE),unique=True,nullable=False)
+#    buslist = Column(String(lim.MAX_PASSWORD_SIZE),unique=False,nullable=False)
+=======
+#YT
+class Bus_Driver(Base):#This class is permanent in almost all pyFlask deployment
+    #System_User is a mandatory class in any pyFlask system
+    #This class stores information on the user which will access the system,
+    #Examples of instances of this class are admin, user01, human_resource ...
+    __tablename__ = "Bus_Driver"
+    id = Column(Integer, primary_key=True)
+    busname = Column(String(lim.MAX_USERNAME_SIZE),unique=False,nullable=False)
+    busroute = Column(String(lim.MAX_USERNAME_SIZE),unique=False,nullable=True)
 
+    def __init__(self,a_busname = None,a_busroute = None):
+        self.busname = a_busname
+        self.busroute = a_busroute
+
+    def __repr__(self):
+        return '<%r %r %r>' % (self.__tablename__,self.busname)
+
+>>>>>>> d802fbdcb8683ab76ed8921abad3cd0257df43fb
+
+#    def __init__(self,a_bustype = None,a_buslist = None):
+#       self.bus_type = a_bustype
+#       self.buslist = a_buslist
+
+#    def __repr__(self):
+#        return '<%r %r>' % (self.__tablename__,self.bustype,self.buslist)
+class Driver_Register(Base, UserMixin):#This class is permanent in almost all pyFlask deployment
+    #System_User is a mandatory class in any pyFlask system
+    #This class stores information on the user which will access the system,
+    #Examples of instances of this class are admin, user01, human_resource ...
+    __tablename__ = "Bus_Driver_Name"
+    id = Column(Integer, primary_key=True)
+    username = Column(String(lim.MAX_USERNAME_SIZE),unique=True,nullable=False)
+    Drivername = Column(String(lim.MAX_USERNAME_SIZE),unique=True,nullable=False)
+    Dexperience = Column(String(lim.MAX_EXP_SIZE),unique=True,nullable=False)
+    Dpassword = Column(String(lim.MAX_PASSWORD_SIZE),unique=False,nullable=False)
+
+
+<<<<<<< HEAD
 ##########################################################################
 # FROM MEI YUET MODIFIER
 ##########################################################################
@@ -74,6 +117,18 @@ class Data_Bus(Base):#This class is permanent in almost all pyFlask deployment
         return '<%r %r %r %r>' % (self.__tablename__,self.busname,self.busdriver,self.busstatus)
 
 
+=======
+    def __init__(self,a_username = None,a_Drivername = None,a_Dexperience = None,a_Dpassword = None):
+        self.username = a_username
+        self.Drivername = a_Drivername
+        self.Dexperience = a_Dexperience
+        self.Dpassword = a_Dpassword
+
+
+
+    def __repr__(self):
+        return '<%r %r %r>' % (self.__tablename__,self.username,self.Drivername,self.Dexperience)
+>>>>>>> ebd74eb02f27f2bdfd02d3c49f43b5bfd7e7973d
 ###############################################################################
 # Non permanent models
 #   Regarding non-perma models and is a type of resource (actors/entities)

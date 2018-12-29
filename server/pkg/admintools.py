@@ -76,7 +76,6 @@ def userlist():
         match.append(temp)
     return render_template('userlist.html',PAGE_MAIN_TITLE=const.SERVER_NAME,
         colNum=len(columnHead),matches=match,columnHead=columnHead)
-
 ##############################################################################################
 # USER MODIFY ROUTE
 # last edit : update2
