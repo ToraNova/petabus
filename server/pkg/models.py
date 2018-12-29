@@ -68,6 +68,58 @@ class Bus_Driver(Base):#This class is permanent in almost all pyFlask deployment
         return '<%r %r %r>' % (self.__tablename__,self.busname)
 
 
+#    def __init__(self,a_bustype = None,a_buslist = None):
+#       self.bus_type = a_bustype
+#       self.buslist = a_buslist
+
+#    def __repr__(self):
+#        return '<%r %r>' % (self.__tablename__,self.bustype,self.buslist)
+class Driver_Register(Base, UserMixin):#This class is permanent in almost all pyFlask deployment
+    #System_User is a mandatory class in any pyFlask system
+    #This class stores information on the user which will access the system,
+    #Examples of instances of this class are admin, user01, human_resource ...
+    __tablename__ = "Bus_Driver_Name"
+    id = Column(Integer, primary_key=True)
+    username = Column(String(lim.MAX_USERNAME_SIZE),unique=True,nullable=False)
+    Drivername = Column(String(lim.MAX_USERNAME_SIZE),unique=True,nullable=False)
+    Dexperience = Column(String(lim.MAX_EXP_SIZE),unique=True,nullable=False)
+    Dpassword = Column(String(lim.MAX_PASSWORD_SIZE),unique=False,nullable=False)
+
+    def __init__(self,a_username = None,a_Drivername = None,a_Dexperience = None,a_Dpassword = None):
+        self.username = a_username
+        self.Drivername = a_Drivername
+        self.Dexperience = a_Dexperience
+        self.Dpassword = a_Dpassword
+
+    def __repr__(self):
+        return '<%r %r %r>' % (self.__tablename__,self.username,self.Drivername,self.Dexperience)
+
+##########################################################################
+# FROM MEI YUET MODIFIER
+##########################################################################
+
+class Data_Bus(Base):#This class is permanent in almost all pyFlask deployment
+    #System_User is a mandatory class in any pyFlask system
+    #This class stores information on the user which will access the system,
+    #Examples of instances of this class are admin, user01, human_resource ...
+    __tablename__ = "Data_Bus"
+    id = Column(Integer, primary_key=True)
+    busname = Column(String(lim.MAX_USERNAME_SIZE),unique=True,nullable=False)
+    busdriver = Column(String(lim.MAX_USERNAME_SIZE),unique=True,nullable=False)
+    busstatus = Column(Boolean(),unique=False,nullable=False)
+    #adminpri = Column(Boolean(),unique=False,nullable=False)
+
+    def __init__(self,a_busname,a_busdriver,a_busstatus=False):
+        self.busname = a_busname
+        self.busdriver = a_busdriver
+        self.busstatus = a_busstatus
+
+    #this is for print stuff
+    def __repr__(self):
+        return '<%r %r %r %r>' % (self.__tablename__,self.busname,self.busdriver,self.busstatus)
+
+
+
 ###############################################################################
 # Non permanent models
 #   Regarding non-perma models and is a type of resource (actors/entities)

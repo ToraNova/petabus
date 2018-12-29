@@ -55,8 +55,35 @@ class Configuration_EditForm(FlaskForm):
 ##############################################################################################
 
 ##############################################################################################
+# From Mei Yuet
+##############################################################################################
+class Data_Bus_RegisterForm(FlaskForm):
+	busname = StringField('busname',
+		validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
+	busdriver= StringField('busdriver',
+		validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
+	busstatus = SelectField('bus status?',choices=[('0','Closed'),('1','Active')])
+
+class Data_Bus_EditForm(FlaskForm):
+	busdriver= StringField('busdriver',
+		validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
+	busstatus = SelectField('bus status?',choices=[('0','Closed'),('1','Active')])
+
+
+##############################################################################################
 # From YT - correction needed
 ##############################################################################################
+
+class Driver_RegisterForm(FlaskForm):
+	username = StringField('username',
+		validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
+	Drivername = StringField('Drivername',
+		validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
+	Dexperience = StringField('Dexperience',
+		validators=[InputRequired(),Length(min=lim.MIN_EXP_SIZE,max=lim.MAX_EXP_SIZE)])
+	Dpassword = PasswordField('Dpassword',
+		validators=[InputRequired(),Length(min=lim.MIN_PASSWORD_SIZE,max=lim.MAX_PASSWORD_SIZE)])
+
 class Bus_Driver_RegisterForm(FlaskForm):
 		busname = StringField('busname',
 			validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
