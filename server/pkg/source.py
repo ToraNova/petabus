@@ -26,11 +26,10 @@ def server(config=None):
 	else:
 		out.config.from_mapping(config)
 
-<<<<<<< HEAD
+
+	from pkg import auth,home,admintools,dataview
 	from pkg import auth,home,admintools,jack
-=======
 	from pkg import auth,home,admintools,ting
->>>>>>> d802fbdcb8683ab76ed8921abad3cd0257df43fb
 
 
 	#######################################################################################################
@@ -54,7 +53,11 @@ def server(config=None):
 	out.register_blueprint(auth.bp)
 	out.register_blueprint(home.bp)
 	out.register_blueprint(admintools.bp)
+<<<<<<< HEAD
 
+=======
+	out.register_blueprint(dataview.bp)
+>>>>>>> eaf00bb9f7d4f9e4dff68517f1e80ba75df44a42
 	out.register_blueprint(jack.bp)
 	out.register_blueprint(ting.bp)
 

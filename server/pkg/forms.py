@@ -53,6 +53,22 @@ class Configuration_EditForm(FlaskForm):
 ##############################################################################################
 
 ##############################################################################################
+# From Mei Yuet
+##############################################################################################
+class Data_Bus_RegisterForm(FlaskForm):
+	busname = StringField('busname',
+		validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
+	busdriver= StringField('busdriver',
+		validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
+	busstatus = SelectField('bus status?',choices=[('0','Closed'),('1','Active')])
+
+class Data_Bus_EditForm(FlaskForm):
+	busdriver= StringField('busdriver',
+		validators=[InputRequired(),Length(min=lim.MIN_USERNAME_SIZE,max=lim.MAX_USERNAME_SIZE)])
+	busstatus = SelectField('bus status?',choices=[('0','Closed'),('1','Active')])
+
+
+##############################################################################################
 # From YT - correction needed
 ##############################################################################################
 
