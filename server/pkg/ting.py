@@ -19,7 +19,7 @@ import pkg.assertw as a
 import pkg.fsqlite as sq #extra for any db commits
 from pkg.servlog import srvlog,logtofile
 
-bp = Blueprint('dataview', __name__, url_prefix='/admintools')
+bp = Blueprint('yt_dataview', __name__, url_prefix='/admintools')
 
 @bp.route('/busadd',methods=['GET','POST'])
 @a.admin_required
@@ -66,7 +66,7 @@ def busmod(primaryKey):
             sq.db_session.delete(target_del)
             sq.db_session.commit()
             srvlog["sys"].info(primaryKey+" deleted from the system") #logging
-            return redirect(url_for('dataview.buslist'))
+            return redirect(url_for('yt_dataview.buslist'))
 
         elif(request.form["button"]=="Modify"):
             target_busroute = md.Bus_Driver.query.filter(md.Bus_Driver.busname == primaryKey).first().busroute
@@ -87,4 +87,4 @@ def busmod(primaryKey):
             target_mod.busstatus = True if busStatus == '1' else False
             sq.db_session.add(target_mod)
             sq.db_session.commit()
-            return redirect(url_for('dataview.buslist',username=current_user.username))
+            return redirect(url_for('yt_dataview.buslist',username=current_user.username))
