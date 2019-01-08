@@ -12,8 +12,11 @@ from flask_login import current_user
 
 #usual imports (copy pasta this)
 import pkg.const as const
-import pkg.models as md
-import pkg.forms as fm
+from pkg.database import models as md
+from pkg.database import fsqlite as sq #extra for any db commits
+from pkg.interface import forms as fm
+from pkg.system import assertw as a
+from pkg.system.servlog import srvlog,logtofile
 
 from functools import wraps
 
@@ -25,14 +28,16 @@ def admin_required(fn):
 	def decorated_view(*args, **kwargs):
 		if (not current_user.is_authenticated):
 			return render_template("errors/unauthorized.html",
-        		displat_message="Login required!")
+        		display_message="Login required!")
 		elif (not current_user.adminpri):
-			return render_template("error.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
+			return render_template("errors/error.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
 				username=current_user.username,
 				error_title="Unauthorized",
 				error_message="You are not authorized to access this content.")
-			#abort(401) #throw unauthorized_request 401
-		return fn(*args, **kwargs)
+			#abort(401) #throw unauthorized_request 401'
+		else:
+			#here if user is admin and already logged in
+			return fn(*args, **kwargs)
 	return decorated_view
 
 def route_disabled(fn):

@@ -16,11 +16,11 @@ from flask_login import current_user
 
 #usual imports (copy pasta this)
 import pkg.const as const
-import pkg.models as md
-import pkg.forms as fm
-import pkg.assertw as a
-import pkg.fsqlite as sq #extra for any db commits
-from pkg.servlog import srvlog,logtofile
+from pkg.database import models as md
+from pkg.database import fsqlite as sq #extra for any db commits
+from pkg.interface import forms as fm
+from pkg.system import assertw as a
+from pkg.system.servlog import srvlog,logtofile
 
 #additional overheads
 import os
@@ -46,18 +46,18 @@ def useradd():
             sq.db_session.add(target_add)#adds user object onto database.
             sq.db_session.commit()
             srvlog["sys"].info(useradd_form.username.data+" registered as new user, admin="+str(useradd_form.adminPriv.data)) #logging
-            return render_template("message.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
+            return render_template("standard/message.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
                 username=current_user.username,
                 display_title="Success",
                 display_message="Added "+target_add.username+" into the system.")
 
         else:
-            return render_template("error.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
+            return render_template("errors/error.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
             username=current_user.username,
             error_title="Failure",
             error_message="Username already exists!")
 
-    return render_template('useradd.html',form=useradd_form)
+    return render_template('sysuser/useradd.html',form=useradd_form)
 
 ##############################################################################################
 # USER LIST ROUTE
@@ -74,7 +74,7 @@ def userlist():
     for users in userlist:
         temp = [users.username,users.adminpri]
         match.append(temp)
-    return render_template('userlist.html',PAGE_MAIN_TITLE=const.SERVER_NAME,
+    return render_template('sysuser/userlist.html',PAGE_MAIN_TITLE=const.SERVER_NAME,
         colNum=len(columnHead),matches=match,columnHead=columnHead)
 
 ##############################################################################################
@@ -99,7 +99,7 @@ def usermod(primaryKey):
             usermod_form = fm.System_User_EditForm()
             usermod_form.adminPriv.default = ('1' if adminpri else '0')
             usermod_form.process()
-            return render_template("usermod.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
+            return render_template("sysuser/usermod.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
             primaryKey=primaryKey,form = usermod_form)
 
         elif(request.form["button"]=="Submit Changes"):
@@ -112,7 +112,6 @@ def usermod(primaryKey):
 
         else:
             abort(404)
-
     else:
         abort(400)
 

@@ -4,13 +4,17 @@
 # it also generates the the object
 # based on configuration files
 # created 8/12/2018
+# author : ToraNova
 #--------------------------------------------------
 
 from flask import Flask
 from flask import Blueprint
 import pkg.const as const
-from pkg.fsqlite import db_session
 from flask_login import LoginManager
+from flask import render_template
+
+from pkg.database.fsqlite import db_session
+from flask_socketio import SocketIO
 
 def server(config=None):
 	#create and configures the server
@@ -26,8 +30,10 @@ def server(config=None):
 	else:
 		out.config.from_mapping(config)
 
-	from pkg import auth,home,admintools
+	from pkg.interface import socketio #socket io import
 
+	from pkg.interface import home
+	from pkg.system import auth,admintools
 
 	#######################################################################################################
 	# Login manager section
@@ -50,10 +56,17 @@ def server(config=None):
 	out.register_blueprint(auth.bp)
 	out.register_blueprint(home.bp)
 	out.register_blueprint(admintools.bp)
+	out.register_blueprint(socketio.bp)
 
 	#tear down context is done here.
 	@out.teardown_appcontext
 	def shutdown_session(exception=None):
 		db_session.remove()
 
-	return out
+
+	# FLASK SOCKET USE 8/1/2019
+	out_nonsock = out
+	out = SocketIO(out_nonsock)
+	out.on_namespace(socketio.SystemUtilNamespace('/sysutil'))
+
+	return out,out_nonsock

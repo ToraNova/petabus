@@ -1,7 +1,8 @@
-{% extends 'support.html' %}
+{% extends 'standard/support.html' %}
 
 {% block head %}
-
+<!-- iCheck -->
+<link href="{{url_for('static', filename='vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -28,7 +29,7 @@
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 		<div class="x_title">
-			<h2>Welcome Back {{username}}<small></small></h2>
+			<h1 class="text-danger">{{error_title}}</h1>
 			<ul class="nav navbar-right panel_toolbox">
 			<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 			</li>
@@ -48,7 +49,7 @@
 		</div>
 		<div class="x_content">
 			<br/>
-			<h1>{{ PAGE_MAIN_TITLE }}</h1>
+			<h2>{{error_message}}</h2>
 
 
 		</div>
@@ -59,5 +60,4 @@
 {% endblock %}
 
 {% block script %}
-
 {% endblock %}

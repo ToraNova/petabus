@@ -15,9 +15,9 @@ from flask_login import current_user
 
 #usual imports (copy pasta this)
 import pkg.const as const
-import pkg.models as md
-import pkg.forms as fm
-import pkg.assertw as a
+from pkg.database import models as md
+from pkg.interface import forms as fm
+from pkg.system import assertw as a
 
 #primary blueprint
 bp = Blueprint('home', __name__, url_prefix='')
@@ -32,7 +32,7 @@ def index():
 @bp.route('/<username>/home',methods=['GET','POST'])
 @login_required
 def home(username):
-	return render_template("welcome.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
+	return render_template("standard/welcome.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
 	username=current_user.username)
 
 ####################################################################################

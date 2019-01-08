@@ -1,7 +1,11 @@
 {% extends 'standard/support.html' %}
 
+<!Import line from a pre-defined formhelpers in the include dir>
+{% from "includes/_formhelpers.html" import render_field %}
+
 {% block head %}
-<link href="{{url_for('static',filename='vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
+<!-- iCheck -->
+<link href="{{url_for('static', filename='vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
 <!-- Datatables -->
 <link href="{{url_for('static',filename='vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
 <link href="{{url_for('static',filename='vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
@@ -13,15 +17,14 @@
 {% block body %}
 <div class="page-title">
 	<div class="title_left">
-		<h3>Log view<small></small></h3>
+		<h3> <small>{{data_table_name}}</small></h3> <!PAGE TITLE HERE>
 	</div>
-
 	<div class="title_right">
 		<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Search for...">
 				<span class="input-group-btn">
-				  <button class="btn btn-default" type="button">Go!</button>
+				<button class="btn btn-default" type="button">Go!</button>
 				</span>
 			</div>
 		</div>
@@ -30,51 +33,55 @@
 
 <div class="clearfix"></div>
 
-<!Table content>
 <div class="row">
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 		<div class="x_title">
-			<h2>Log entries<small></small></h2>
 			<ul class="nav navbar-right panel_toolbox">
-				<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-					<ul class="dropdown-menu" role="menu">
-					<li><a href="#">Settings 1</a>
-					</li>
-					<li><a href="#">Settings 2</a>
-					</li>
-					</ul>
-				</li>
-				<li><a class="close-link"><i class="fa fa-close"></i></a></li>
+			<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+			</li>
+			<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+			<ul class="dropdown-menu" role="menu">
+			<li><a href="#">Settings 1</a>
+			</li>
+			<li><a href="#">Settings 2</a>
+			</li>
+			</ul>
+			</li>
+			<li><a class="close-link"><i class="fa fa-close"></i></a>
+			</li>
 			</ul>
 			<div class="clearfix"></div>
 		</div>
 		<div class="x_content">
-			<p class="text-muted font-13 m-b-30"></p>
-
-				<table id="datatable" class="table table-striped table-bordered">
-					<thead>
-						<tr>
-							<th>Log entry</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for line in logfile %}
-						<tr>
-						<td>{{line}}</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-
-				<form
-				action="{{ url_for('home.home',username=current_user.username)}}"
-				method="POST">
-					<input type="submit" name="button" value="Return" class="btn btn-default"></input>
-				</form>
-
+			<table id="datatable" class="table table-striped table-bordered">
+				<thead>
+					<tr>
+					{% for count in range(colNum) %}
+					<th>{{columnHead[count]}}</th>
+					{% endfor %}
+					<th>Options</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for row in matches %}
+					<tr>
+					{% for count in range(colNum) %}
+					<td>{{row[count]}}</td>
+					{% endfor %}
+					<td>
+						<form
+						action="{{ url_for('rmod',username=current_user.username, tablename=tablename ,primaryKey=row[0])}}"
+						method="POST">
+							<input type="submit" name="button" value="Modify" class="btn btn-warning"></input>
+							<input type="submit" name="button" value="Delete" class="btn btn-danger"></input>
+						</form>
+					</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
 		</div>
 		</div>
 	</div>
@@ -83,22 +90,8 @@
 {% endblock %}
 
 {% block script %}
-	<script>
-	$(document).ready(function() {
-
-		$('#datatable').dataTable({
-
-			aLengthMenu: [
-				[25, 50, 100, 200, -1],
-				[25, 50, 100, 200, "All"]
-			],
-			iDisplayLength: -1
-		});
-	} );
-	</script>
-
-    <!-- Datatables -->
-    <script src="{{url_for('static',filename='vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+		<!-- dataTables-->
+		<script src="{{url_for('static',filename='vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{url_for('static',filename='vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
     <script src="{{url_for('static',filename='vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
     <script src="{{url_for('static',filename='vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
@@ -110,8 +103,4 @@
     <script src="{{url_for('static',filename='vendors/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{url_for('static',filename='vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js')}}"></script>
     <script src="{{url_for('static',filename='vendors/datatables.net-scroller/js/dataTables.scroller.min.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/jszip/dist/jszip.min.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/pdfmake/build/pdfmake.min.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/pdfmake/build/vfs_fonts.js')}}"></script>
-
 {% endblock %}
