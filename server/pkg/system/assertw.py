@@ -28,14 +28,16 @@ def admin_required(fn):
 	def decorated_view(*args, **kwargs):
 		if (not current_user.is_authenticated):
 			return render_template("errors/unauthorized.html",
-        		displat_message="Login required!")
+        		display_message="Login required!")
 		elif (not current_user.adminpri):
 			return render_template("errors/error.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
 				username=current_user.username,
 				error_title="Unauthorized",
 				error_message="You are not authorized to access this content.")
-			#abort(401) #throw unauthorized_request 401
-		return fn(*args, **kwargs)
+			#abort(401) #throw unauthorized_request 401'
+		else:
+			#here if user is admin and already logged in
+			return fn(*args, **kwargs)
 	return decorated_view
 
 def route_disabled(fn):

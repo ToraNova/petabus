@@ -112,7 +112,6 @@ def usermod(primaryKey):
 
         else:
             abort(404)
-
     else:
         abort(400)
 
