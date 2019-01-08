@@ -16,7 +16,7 @@
 			<!Administrator's Column>
 			<li><a href="{{ url_for('admintools.useradd', username=current_user.username) }}">Add system user</a></li>
 			<li><a href="{{ url_for('admintools.userlist', username=current_user.username) }}">List system users</a></li>
-
+			<li><a href="{{ url_for('sock.sysclock') }}">System Clock</a></li> <!Flask socket io use cases>
 		</ul>
 		</li>
 
