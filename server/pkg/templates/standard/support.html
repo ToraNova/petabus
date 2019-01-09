@@ -8,14 +8,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>{{ PAGE_MAIN_TITLE }}</title> <!TODO - Editable content here>
-	<!-- Bootstrap -->
-	<link href="{{url_for('static',filename='vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
-	<!-- Font Awesome -->
-	<link href="{{url_for('static',filename='vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
-	<!-- NProgress -->
-	<link href="{{url_for('static',filename='vendors/nprogress/nprogress.css')}}" rel="stylesheet">
-	<!-- Custom Theme Style -->
-	<link href="{{url_for('static',filename='gentelella/css/custom.min.css')}}" rel="stylesheet">
+
+	{% include 'includes/std_css.html' %} <!--Includes the standard css files-->
+
 </head>
 
 <body class="nav-md">
@@ -62,19 +57,8 @@
 
 	{% block script %}
 	{% endblock %}
-	<!_________________________________________Persistent_________________________________________>
-	<!-- jQuery -->
-	<script src="{{url_for('static',filename='vendors/jquery/dist/jquery.min.js')}}"></script>
-	<!-- Bootstrap -->
-	<script src="{{url_for('static',filename='vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-	<!-- FastClick -->
-	<script src="{{url_for('static',filename='vendors/fastclick/lib/fastclick.js')}}"></script>
-	<!-- NProgress -->
-	<script src="{{url_for('static',filename='vendors/nprogress/nprogress.js')}}"></script>
-	<!-- Custom js -->
-	<script src="{{url_for('static',filename='gentelella/js/custom.min.js')}}"></script>
-	<!-- icheck js -->
-	<script src="{{url_for('static', filename='vendors/iCheck/icheck.min.js')}}"></script>
-	<!_________________________________________/Persistent_________________________________________>
+
+	{% include 'includes/std_js.html' %} <!--Includes the standard javascript files-->
+
 </body>
 </html>

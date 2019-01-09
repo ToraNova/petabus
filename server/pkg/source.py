@@ -32,7 +32,7 @@ def server(config=None):
 
 	from pkg.interface import socketio #socket io import
 
-	from pkg.interface import home
+	from pkg.interface import home,mapping
 	from pkg.system import auth,admintools
 
 	#######################################################################################################
@@ -57,6 +57,7 @@ def server(config=None):
 	out.register_blueprint(home.bp)
 	out.register_blueprint(admintools.bp)
 	out.register_blueprint(socketio.bp)
+	out.register_blueprint(mapping.bp)
 
 	#tear down context is done here.
 	@out.teardown_appcontext
