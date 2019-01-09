@@ -10,6 +10,7 @@ flask_bootstrap
 flask_login
 flask_admin
 flask_io
+flask_socketio
 
 changelogs formatting
 update<N>	<date:DD/MM/YY>---<time>
@@ -49,3 +50,17 @@ update0		8/12/18---1:22pm
 update1   12/12/18---11:04pm
 [+  ported flog.py from old pyflask to servlog.py
 [+  added finally: clause in server.py (main)
+
+update2   09/01/18---10:26pm
+[+  Major pkg system revamp
+[   >subdir added to further subdivide and clear up the pkg dir
+[   >template file system also followed suite, now classed by directory
+[   >improved the javascript src and css files, using include directory to import
+[+  ported flask socketio
+[   >new system time clock (for testing)
+[+  introduced a mapping module (leaflet)
+[-  fixed some old .static problem : .static -> static, reference error
+[   >this bug fix comes along with the template dir revamp
+[$  introduce universal sysres mechanics
+TODO: Mapping system to now get location from db
+TODO: flask-socket io to update map location without refresh
