@@ -4,12 +4,25 @@
 # (i.e) the columns are class attributes
 # specifically for the database (sqlite3)
 # created 8/12/2018
+# u2 : PLEASE DO NOT APPEND TO THIS FILE !
+# u2 : THIS FILE IS NOW ONLY MEANT FOR PERMANENT MODELS!
+# ToraNova
 #--------------------------------------------------
 
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from pkg.database.fsqlite import Base    #fsqlite dependency
 from pkg import limits as lim     #lim dependency
 from flask_login import UserMixin
+
+###############################################################################
+#   System Permanent models
+#   these models are used throughout all deployment of pyFlask server.
+#   PLEASE DO NOT ADD RESOURCE MODELS HERE ! THEY ARE NOW MOVED TO THE RESOURCE
+#   DIRECTORY UNDER pkg/resource. ADD A NEW FILE FOR ANY NON-PERMA MODELS THERE!
+#   this model is imported directly onto fsqlite, likewise, resource models
+#   added under resource must also be added there, but please split them up
+#   so that we know which is permanent and deployment based.
+###############################################################################
 
 class System_User(Base, UserMixin):#This class is permanent in almost all pyFlask deployment
     #System_User is a mandatory class in any pyFlask system
@@ -49,13 +62,7 @@ class System_Configuration(Base):#This class is permanent in almost all pyFlask 
     def __repr__(self):
         return '<%r %r>' % (self.__tablename__,self.id)
 
-###############################################################################
-# Non permanent models
-#   Regarding non-perma models and is a type of resource (actors/entities)
-#   They must take a list in their constructors. PLEASE GO ACCORDING TO SEQUENCE
-#   The first element in the list must be the logical identifiable field excluding
-#   the intrinsic ID id. All classes MUST have id and another uniquely identifiable ID.
-###############################################################################
+
 
 #NOT USED ON THE LOCAL SITE
 # class Class_Scanner(Base):

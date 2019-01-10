@@ -30,7 +30,7 @@ TODO:	todo
 ------------------------------------------------------------------------------------
 ---------------------------------CHANGELOGS-----------------------------------------
 
-update0		8/12/18---1:22pm
+update0		08/12/18---1:22pm
 [+	ported old pyflask server to setup petabus
 [	  >ported useradd/userlist/usermod
 [ 	>ported home
@@ -64,3 +64,9 @@ update2   09/01/18---10:26pm
 [$  introduce universal sysres mechanics
 TODO: Mapping system to now get location from db
 TODO: flask-socket io to update map location without refresh
+
+update3
+[+  generalized sysres mechanics
+[>  refer to readme in /resource directory under pkg
+[>  now only add py files and define your models.
+[>  remember to add link in includes/_sidebar.html

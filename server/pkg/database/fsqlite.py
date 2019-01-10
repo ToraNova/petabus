@@ -26,9 +26,15 @@ def init_db():
 def update_meta():
 	#this is called when we want to change our db
 	#NOTE please add imports of new models here
-	#--------------------------------------------
+	#-----------------------PERMA MODELS-------------------------------------
 	from pkg.database.models import System_User #perma
 	from pkg.database.models import System_Configuration #perma
+	#------------------------------------------------------------------------
+
+	#-----------------------Non PERMA----------------------------------------
+	from pkg.resource import res_import
+	#------------------------------------------------------------------------
+
 	Base.metadata.create_all(bind=engine)
 
 def default_add():
@@ -45,4 +51,5 @@ def default_add():
 	default_password = "sha256$mDDYIdTb$9cebe876c8e8fea365c8116a49cc0376ddbb14e03d5043950eb8d8978523fea5"
 	default_user = System_User(default_username,default_password,True)
 	db_session.add(default_user)
+
 	db_session.commit()

@@ -13,17 +13,26 @@
 
 		<li><a><i class="fa fa-user"></i>Admin<span class="fa fa-chevron-down"></span></a>
 		<ul class="nav child_menu">
-			<!Administrator's Column>
+			<!Administrator's Column_______SEMI_PERMANENT__________>
 			<li><a href="{{ url_for('admintools.useradd', username=current_user.username) }}">Add system user</a></li>
 			<li><a href="{{ url_for('admintools.userlist', username=current_user.username) }}">List system users</a></li>
 			<li><a href="{{ url_for('sock.sysclock') }}">System Clock</a></li> <!Flask socket io use cases>
+			<!/Administrator's Column_______SEMI_PERMANENT__________>
+
+			<!___________________NON PERMANENT_____________________>
+			<li><a href="{{ url_for('resource.radd', tablename = 'Georoute') }}">Register New Georoute</a></li>
+			<li><a href="{{ url_for('resource.radd', tablename = 'Geopoint') }}">Register New Geopoint</a></li>
+			<li><a href="{{ url_for('resource.radd', tablename = 'Geopath') }}">Register New Path</a></li>
+			<!___________________/NON PERMANENT____________________>
 		</ul>
 		</li>
 
 		<li><a><i class="fa fa-bar-chart-o"></i>Data View<span class="fa fa-chevron-down"></span></a>
 		<ul class="nav child_menu">
 			<!Insert database urls here>
-
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Georoute') }}">List Georoutes</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Geopoint') }}">List Geopoints</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Geopath') }}">List Paths</a></li>
 		</ul>
 		</li>
 

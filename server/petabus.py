@@ -46,5 +46,5 @@ if __name__ == '__main__':
         srvlog["sys"].error("exception error")
         srvlog["sys"].error(e)
     finally:
-        print("[IF] Server terminated.")
+        print("[IF]",__name__," Server terminated.")
         srvlog["sys"].info("system halt") #logging
