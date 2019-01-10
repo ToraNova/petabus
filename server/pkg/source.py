@@ -32,8 +32,9 @@ def server(config=None):
 
 	from pkg.interface import socketio #socket io import
 
-	from pkg.interface import home
+	from pkg.interface import home,mapping
 	from pkg.system import auth,admintools
+	from pkg.resource import r
 
 	#######################################################################################################
 	# Login manager section
@@ -53,10 +54,12 @@ def server(config=None):
 	login_manager.login_message = "Please login first."
 	login_manager.login_message_category = "info"
 
+	out.register_blueprint(r.bp)
 	out.register_blueprint(auth.bp)
 	out.register_blueprint(home.bp)
 	out.register_blueprint(admintools.bp)
 	out.register_blueprint(socketio.bp)
+	out.register_blueprint(mapping.bp)
 
 	#tear down context is done here.
 	@out.teardown_appcontext

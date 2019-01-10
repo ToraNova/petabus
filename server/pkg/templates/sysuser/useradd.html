@@ -4,8 +4,7 @@
 {% from "includes/_formhelpers.html" import render_field %}
 
 {% block head %}
-<!-- iCheck -->
-<link href="{{url_for('static', filename='vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
+{% include 'includes/dtable_css.html' %} <!--Includes the data table css files-->
 {% endblock %}
 
 {% block body %}
@@ -75,5 +74,7 @@
 {% endblock %}
 
 {% block script %}
+
+{% include 'includes/dtable_js.html' %} <!--Includes the data table javascript files-->
 
 {% endblock %}

@@ -24,6 +24,7 @@ from pkg.system.servlog import srvlog,logtofile
 
 #additional overheads
 import os
+from pkg.database.fsqlite import init_db
 
 bp = Blueprint('admintools', __name__, url_prefix='/admintools')
 
@@ -47,13 +48,11 @@ def useradd():
             sq.db_session.commit()
             srvlog["sys"].info(useradd_form.username.data+" registered as new user, admin="+str(useradd_form.adminPriv.data)) #logging
             return render_template("standard/message.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
-                username=current_user.username,
                 display_title="Success",
                 display_message="Added "+target_add.username+" into the system.")
 
         else:
             return render_template("errors/error.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
-            username=current_user.username,
             error_title="Failure",
             error_message="Username already exists!")
 
@@ -128,13 +127,38 @@ def useradd_nologin():#This function is for initial server initialization only,
     useradd_form = fm.System_User_RegisterForm()
     if useradd_form.validate_on_submit():
         hpass = generate_password_hash(useradd_form.password.data,method=const.HASH_ALGORITHM_0)#password hashing
-        target_add = md.System_User(useradd_form.username.data,hpass,True if int(useradd_form.adminPriv.data) else False)#create user obj
-        sq.db_session.add(target_add)#adds user object onto database.
-        sq.db_session.commit()
-        srvlog["sys"].warning(useradd_form.username.data+ " registered under admintools/nologin ! admin="+str(useradd_form.adminPriv.data)) #logging
-        return "admintools : ok" #TODO return a webpage
+        try:
+            target_add = md.System_User(useradd_form.username.data,hpass,True if int(useradd_form.adminPriv.data) else False)#create user obj
+            sq.db_session.add(target_add)#adds user object onto database.
+            sq.db_session.commit()
+            srvlog["sys"].warning(useradd_form.username.data+ " registered under admintools/nologin ! admin="+str(useradd_form.adminPriv.data)) #logging
+            return "admintools : ok" #TODO return a webpage
+        except Exception as e:
+            sq.db_session.rollback() #rollback errors
+            print("[ER]",__name__," Exception has occurred:",str(e))
+            srvlog["sys"].warning("Sysuseradd/nologin with exception "+str(e)) #logging
+            return "admintools : failed"
 
     return render_template('admintools/sysuseradd.html',form=useradd_form)
+
+@bp.route('/resetdb')
+@a.route_disabled #disable if DISABLE_CRIT_ROUTE from CONST is set to TRUE
+def resetdb():
+    #NOT RECOMMENDED FOR ACTUAL USE DUE TO SECURITY ISSUE
+    '''resets the database with the default user admin
+    this way, the metadata and schema is also recreated.
+    DO NOT USE DURING DEPLOYMENT'''
+    try:
+        os.remove('temp.db')
+        os.remove('init.token')
+        init_db()
+        print("[IF]",__name__," Database reset.")
+        srvlog["sys"].warning("Database reset under admintools/resetdb") #logging
+        return "admintools : ok"
+    except Exception as e:
+        print("[ER]",__name__," Exception has occurred:",str(e))
+        srvlog["sys"].warning("Database reset with exception "+str(e)) #logging
+        return "admintools : fail"
 
 ##############################################################################################
 # Logging routes (display server logs)

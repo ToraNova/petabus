@@ -4,14 +4,6 @@
 {% from "includes/_formhelpers.html" import render_field %}
 
 {% block head %}
-<!-- iCheck -->
-<link href="{{url_for('static', filename='vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
-<!-- Datatables -->
-<link href="{{url_for('static',filename='vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
-<link href="{{url_for('static',filename='vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
-<link href="{{url_for('static',filename='vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
-<link href="{{url_for('static',filename='vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
-<link href="{{url_for('static',filename='vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -55,7 +47,7 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="x_content">
-			<form class="form-group" method="POST" action="{{url_for('radd', username=current_user.username, tablename = tablename)}}">
+			<form class="form-group" method="POST" action="{{url_for('resource.radd', tablename = tablename)}}">
 					{{ form.hidden_tag() }}
 					<dl>
 					{% for field in form %}
@@ -77,17 +69,4 @@
 {% endblock %}
 
 {% block script %}
-		<!-- dataTables-->
-		<script src="{{url_for('static',filename='vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js')}}"></script>
-    <script src="{{url_for('static',filename='vendors/datatables.net-scroller/js/dataTables.scroller.min.js')}}"></script>
 {% endblock %}
