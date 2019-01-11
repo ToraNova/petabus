@@ -97,7 +97,7 @@ def rmod(tablename,primaryKey):
 
 		elif(request.form["button"]=="Modify"):
 
-			if(rdef.dist_resource[tablename][rdef.eForm] == None):
+			if(rdef.dist_resources[tablename][rdef.eForm] == None):
 				#edits disabled
 				return render_template("errors/error.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
 	            error_title="Modify Failure",

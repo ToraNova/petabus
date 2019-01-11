@@ -51,7 +51,7 @@ update1   12/12/18---11:04pm
 [+  ported flog.py from old pyflask to servlog.py
 [+  added finally: clause in server.py (main)
 
-update2   09/01/18---10:26pm
+update2   09/01/19---10:26pm
 [+  Major pkg system revamp
 [   >subdir added to further subdivide and clear up the pkg dir
 [   >template file system also followed suite, now classed by directory
@@ -65,8 +65,9 @@ update2   09/01/18---10:26pm
 TODO: Mapping system to now get location from db
 TODO: flask-socket io to update map location without refresh
 
-update3
+update3   10/01/19---06:49pm
 [+  generalized sysres mechanics
 [>  refer to readme in /resource directory under pkg
 [>  now only add py files and define your models.
 [>  remember to add link in includes/_sidebar.html
+[+  admintools/resetdb route now resets the database without deleting manually
