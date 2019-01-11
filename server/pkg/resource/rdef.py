@@ -23,6 +23,8 @@ rgen_selkey = "rgensel_" #used to seek out SelectField form attr
 from pkg.resource.geores import geopoint
 from pkg.resource.geores import georoute
 from pkg.resource.geores import geopath
+from pkg.resource.busres import driver
+from pkg.resource.busres import bus_system
 
 ##########################################################
 # PLEASE EDIT THE FOLLOWING FOR EACH DEPLOYMENT!
@@ -47,4 +49,17 @@ dist_resources = {
     geopath.Geopath_AddForm,
     None
     ]
+    ,
+    "Bus_Driver":[
+    driver.Bus_Driver,
+    driver.Bus_Driver_AddForm,
+    driver.Bus_Driver_EditForm
+    ]
+    ,
+    "Bus_System":[
+    bus_system.Bus_System,
+    bus_system.Bus_System_AddForm,
+    bus_system.Bus_System_EditForm
+    ]
+
 }
