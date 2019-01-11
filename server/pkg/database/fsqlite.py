@@ -32,7 +32,7 @@ def update_meta():
 	#------------------------------------------------------------------------
 
 	#-----------------------Non PERMA----------------------------------------
-	from pkg.resource import res_import
+	from pkg.resource import rdef
 	#------------------------------------------------------------------------
 
 	Base.metadata.create_all(bind=engine)
