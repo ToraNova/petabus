@@ -27,6 +27,8 @@ from pkg.resource.busres import driver
 from pkg.resource.busres import bus_system
 from pkg.resource.busres import active_bus
 from pkg.resource.logres import bus_log
+from pkg.resource.logres import loc_log
+
 ##########################################################
 # PLEASE EDIT THE FOLLOWING FOR EACH DEPLOYMENT!
 # The following dictionary will be exported to r.py
@@ -71,6 +73,12 @@ dist_resources = {
     ,
     "Bus_Log":[
     bus_log.Bus_Log,
+    None,
+    None
+    ]
+    ,
+    "Loc_Log":[
+    loc_log.Loc_Log,
     None,
     None
     ]

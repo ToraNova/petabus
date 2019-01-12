@@ -9,7 +9,7 @@
 
 from pkg.resource import res_import as r
 
-class Geopoint(r.Base):
+class Loc_Log(r.Base):
     # PERMA : DO NOT CHANGE ANYTHING HERE UNLESS NECESSARY
     id = r.Column(r.Integer, primary_key=True)
     def __repr__(self):
@@ -20,63 +20,36 @@ class Geopoint(r.Base):
     # EDITABLE ZONE
     ######################################################################################################
     # TODO: CHANGE TABLENAME
-    __tablename__ = "TABLENAME"
+    __tablename__ = "Loc_Log"
     # TODO: DEFINE LIST OF COLUMNS
-    long = r.Column(r.Float, nullable=False)
-    lati = r.Column(r.Float, nullable=False) #latitude
-    route_id = r.Column(r.Integer, nullable=True) #indicate this geopoint belongs to which route
+    loc = r.Column(r.String(r.lim.MAX_LOCATION_SIZE), nullable=False, unique=False)
+    time_stamp = r.Column(r.DateTime, nullable=False)
+    tracking_num = r.Column(r.String(r.lim.MAX_LOCATION_SIZE), nullable=False, unique=False)
 
     # TODO: DEFINE THE RLIST
     #The following is for r-listing (resource listing)
     # the values in the rlist must be the same as the column var name
     rlist = {
-    "Geopoint ID":"id",
-    "Longitude":"long",
-    "Latitude":"lati",
-    "Assigned Route ID":"route_id"
+    "Log Number":"id",
+    "Location":"loc",
+    "Time stamp":"time_stamp",
+    "Tracking Number":"tracking_num",
+
     } #header:row data
 
     # TODO: DEFINE THE priKey and display text
     #this primary key is used for rlisting/adding and mod.
     rlist_priKey = "id"
-    rlist_dis = "Geopoints" #display for r routes
+    rlist_dis = "Loc_Log" #display for r routes
 
     # TODO: NOT IMPLEMENT YET, PLEASE IGNORE
     #The following is for r-listing on foreign tables
     rlist_flist = {
-        "Assigned Route ID":"Georoute"
     }
 
-    # TODO: CONSTRUCTOR DEFINES, PLEASE ADD IN ACCORDING TO COLUMNS
-    # the key in the insert_list must be the same as the column var name
     def __init__(self,insert_list):
-        self.long = insert_list["long"]
-        self.lati = insert_list["lati"]
-        self.route_id = insert_list["route_id"]
+        self.id = insert_list["id"]
+        self.loc = insert_list["loc"]
+        self.time_stamp = insert_list["time_stamp"]
+        self.tracking_num = insert_list["tracking_num"]
     ######################################################################################################
-
-#TODO : DEFINE ADD RES FORM
-#ADD FORM TEMPLATE
-class Geopoint_AddForm(r.FlaskForm):
-    #TODO: List the fields here, FIELDS MUST BE PREFIXED WITH rgen_
-    # The names here after the rgen_ prefix must correspond to a var name in the respective model
-    rgen_long = r.StringField('New Longitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
-    rgen_lati = r.StringField('New Latitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
-
-    #TODO: List select fields here, FIELDS MUST BE PREFIXED WITH rgensel_
-    # The names here after the rgen_ prefix must correspond to a var name in the respective model
-    rgensel_route_id = r.SelectField('Assigned Route',choices=[('0','No route')])
-    fKeylist = {"route_id":("Georoute","name")}
-
-#TODO : DEFINE ADD RES FORM
-#EDIT FORM TEMPLATE
-class Geopoint_EditForm(r.FlaskForm):
-    #TODO: List the fields here, FIELDS MUST BE PREFIXED WITH rgen_
-    # The names here after the rgen_ prefix must correspond to a var name in the respective model
-    rgen_long = r.StringField('Renew Longitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
-    rgen_lati = r.StringField('Renew Latitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
-
-    #TODO: List select fields here, FIELDS MUST BE PREFIXED WITH rgensel_
-    # The names here after the rgen_ prefix must correspond to a var name in the respective model
-    rgensel_route_id = r.SelectField('Reassigned Route',choices=[('0','No route')])
-    fKeylist = {"route_id":("Georoute","name")}
