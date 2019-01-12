@@ -25,6 +25,7 @@ from pkg.resource.geores import georoute
 from pkg.resource.geores import geopath
 from pkg.resource.busres import driver
 from pkg.resource.busres import bus_system
+from pkg.resource.busres import active_bus
 
 ##########################################################
 # PLEASE EDIT THE FOLLOWING FOR EACH DEPLOYMENT!
@@ -61,5 +62,12 @@ dist_resources = {
     bus_system.Bus_System_AddForm,
     bus_system.Bus_System_EditForm
     ]
+    ,
+    "Active_Bus":[
+    active_bus.Active_Bus,
+    active_bus.Active_Bus_AddForm,
+    None 
+    ]
+
 
 }
