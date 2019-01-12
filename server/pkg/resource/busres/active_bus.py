@@ -32,8 +32,8 @@ class Active_Bus(r.Base):
     #The following is for r-listing (resource listing)
     # the values in the rlist must be the same as the column var name
     rlist = {
-    "Bus":"bus_id",
-    "Driver":"driver_id",
+    "Bus ID":"bus_id",
+    "Driver ID":"driver_id",
     "Route":"route_num",
     "Time Stamp":"time_stamp"
 
@@ -58,7 +58,7 @@ class Active_Bus(r.Base):
         self.route_num = insert_list["route_num"]
         self.time_stamp = insert_list["time_stamp"]
     ######################################################################################################
-## optional, dateinput time will be adjusted later on 
+## optional, dateinput time will be adjusted later on
 class Active_Bus_AddForm(r.FlaskForm):
     #TODO: List the fields here, FIELDS MUST BE PREFIXED WITH rgen_
     rgen_time_stamp = r.DateTimeField('time_stamp',validators=[r.InputRequired()])
