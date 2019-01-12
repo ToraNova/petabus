@@ -20,7 +20,7 @@ class Bus_Log(r.Base):
     # EDITABLE ZONE
     ######################################################################################################
     # TODO: CHANGE TABLENAME
-    __tablename__ = "TABLENAME"
+    __tablename__ = "Bus_Log"
     # TODO: DEFINE LIST OF COLUMNS
     start_ts = r.Column(r.DateTime, nullable=False)
     end_ts = r.Column(r.DateTime, nullable=False) #latitude
