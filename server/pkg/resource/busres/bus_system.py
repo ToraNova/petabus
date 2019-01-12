@@ -43,7 +43,6 @@ class Bus_System(r.Base):
     # TODO: NOT IMPLEMENT YET, PLEASE IGNORE
     #The following is for r-listing on foreign tables
     rlist_flist = {
-        "Assigned Route ID":"Georoute"
     }
 
     # TODO: CONSTRUCTOR DEFINES, PLEASE ADD IN ACCORDING TO COLUMNS

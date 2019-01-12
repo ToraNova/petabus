@@ -26,7 +26,7 @@ from pkg.resource.geores import geopath
 from pkg.resource.busres import driver
 from pkg.resource.busres import bus_system
 from pkg.resource.busres import active_bus
-
+from pkg.resource.logres import bus_log
 ##########################################################
 # PLEASE EDIT THE FOLLOWING FOR EACH DEPLOYMENT!
 # The following dictionary will be exported to r.py
@@ -66,7 +66,13 @@ dist_resources = {
     "Active_Bus":[
     active_bus.Active_Bus,
     active_bus.Active_Bus_AddForm,
-    None 
+    None
+    ]
+    ,
+    "Bus_Log":[
+    bus_log.Bus_Log,
+    None,
+    None
     ]
 
 
