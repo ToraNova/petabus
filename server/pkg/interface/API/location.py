@@ -38,7 +38,7 @@ def addGP3():
     upload_argTotal = 5
 
         #check for missing argument
-    for row in range(upload_argTotal):
+    for idx in range(upload_argTotal):
         if( 'f'+str(idx) not in request.args):
             return ("Missing argument "+'f'+str(idx))
 #    for row in range(upload_argTotal):
