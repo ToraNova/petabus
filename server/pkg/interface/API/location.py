@@ -63,7 +63,7 @@ def addGP3():
     #obtain uploader's IP address
     print() #DEBUGGING ONLY
 
-    insert_list1 = { "Driver ID":upload_locationArr[1],"Route No":upload_locationArr[2]}
+    insert_list1 = { "Bus ID":upload_locationArr[0],"Driver ID":upload_locationArr[1],"Route No":upload_locationArr[2]}
     insert_list2 = { "Bus ID":upload_locationArr[0],"Longitude":upload_locationArr[3],"Latitude":upload_locationArr[4]}
     target_add1 = active_bus.Active_Bus(insert_list1)
     target_add2 = bus.Bus(insert_list2)
