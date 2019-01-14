@@ -38,7 +38,7 @@ class Bus(r.Base):
     # TODO: DEFINE THE priKey and display text
     #this primary key is used for rlisting/adding and mod.
     rlist_priKey = "id"
-    rlist_dis = "Bus_System" #display for r routes
+    rlist_dis = "Bus" #display for r routes
 
     # TODO: NOT IMPLEMENT YET, PLEASE IGNORE
     #The following is for r-listing on foreign tables
