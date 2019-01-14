@@ -1,6 +1,6 @@
 from pkg.resource import res_import as r
 
-class Truck_System(r.Base):
+class Truck(r.Base):
     # PERMA : DO NOT CHANGE ANYTHING HERE UNLESS NECESSARY
     id = r.Column(r.Integer, primary_key=True)
     def __repr__(self):
@@ -11,7 +11,7 @@ class Truck_System(r.Base):
     # EDITABLE ZONE
     ######################################################################################################
     # TODO: CHANGE TABLENAME
-    __tablename__ = "Truck_System"
+    __tablename__ = "Truck"
     # TODO: DEFINE LIST OF COLUMNS
     long = r.Column(r.Float, nullable=False)
     lati = r.Column(r.Float, nullable=False) #latitude
@@ -29,7 +29,7 @@ class Truck_System(r.Base):
     # TODO: DEFINE THE priKey and display text
     #this primary key is used for rlisting/adding and mod.
     rlist_priKey = "id"
-    rlist_dis = "Truck_System" #display for r routes
+    rlist_dis = "Truck" #display for r routes
 
     # TODO: NOT IMPLEMENT YET, PLEASE IGNORE
     #The following is for r-listing on foreign tables
@@ -46,7 +46,7 @@ class Truck_System(r.Base):
 
 #TODO : DEFINE ADD RES FORM
 #ADD FORM TEMPLATE
-class Truck_System_AddForm(r.FlaskForm):
+class Truck_AddForm(r.FlaskForm):
     #TODO: List the fields here, FIELDS MUST BE PREFIXED WITH rgen_
     # The names here after the rgen_ prefix must correspond to a var name in the respective model
     rgen_reg_no = r.StringField('New Registered Number',validators=[r.InputRequired(),r.Length(min=1,max=10)])
@@ -60,7 +60,7 @@ class Truck_System_AddForm(r.FlaskForm):
 
 #TODO : DEFINE ADD RES FORM
 #EDIT FORM TEMPLATE
-class Truck_System_EditForm(r.FlaskForm):
+class Truck_EditForm(r.FlaskForm):
     #TODO: List the fields here, FIELDS MUST BE PREFIXED WITH rgen_
     # The names here after the rgen_ prefix must correspond to a var name in the respective model
     rgen_long = r.StringField('Renew Longitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])

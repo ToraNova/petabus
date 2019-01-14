@@ -30,7 +30,7 @@ from pkg.resource.logres import bus_log
 from pkg.resource.logres import loc_log
 from pkg.resource.logres import truck_log
 from pkg.resource.truckres import truck_driver
-from pkg.resource.truckres import truck_system
+from pkg.resource.truckres import truck
 from pkg.resource.truckres import active_truck
 ##########################################################
 # PLEASE EDIT THE FOLLOWING FOR EACH DEPLOYMENT!
@@ -92,10 +92,10 @@ dist_resources = {
     truck_driver.Truck_Driver_EditForm
     ]
     ,
-    "Truck_System":[
-    truck_system.Truck_System,
-    truck_system.Truck_System_AddForm,
-    truck_system.Truck_System_EditForm
+    "Truck":[
+    truck.Truck,
+    truck.Truck_AddForm,
+    truck.Truck_EditForm
     ]
     ,
     "Truck_Log":[
