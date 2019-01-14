@@ -21,7 +21,7 @@ from pkg.system.servlog import srvlog,logtofile
 from pkg.database import fsqlite as sq
 from pkg.resource.busres import bus #SAMPLE ONLY, DO NOT USE FOR ACTUAL DEPLOYMENT
 from pkg.resource.busres import active_bus
-
+import time
 #primary blueprint
 bp = Blueprint('push', __name__, url_prefix='/push')
 
@@ -35,7 +35,7 @@ def addGP3():
     print("Uploaded from host ",upload_ip,end=': ') #DEBUGGING ONLY
     #Argument Parsing, requires 20 arguments f0,f1 ... f19 (quarryTrack)
     #Attemoni - 5 arguments
-    upload_argTotal = 5
+    upload_argTotal = 6
 
         #check for missing argument
     for idx in range(upload_argTotal):
@@ -62,9 +62,9 @@ def addGP3():
 
     #obtain uploader's IP address
     print() #DEBUGGING ONLY
-
-    insert_list1 = { "bus_id":upload_locationArr[0],"driver_id":upload_locationArr[1],"route_num":upload_locationArr[2],"timestamp"}
-    insert_list2 = { "id":upload_locationArr[0],"long":upload_locationArr[3],"lati":upload_locationArr[4]}
+    timenow = time.strftime('%A %B, %d %Y %H:%M:%S')
+    insert_list1 = { "bus_id":upload_locationArr[0],"driver_id":upload_locationArr[1],"route_num":upload_locationArr[2],"timestamp":timenow}
+    insert_list2 = { "id":upload_locationArr[0],"long":upload_locationArr[3],"lati":upload_locationArr[4],"reg_no":upload_locationArr[5]}
     target_add1 = active_bus.Active_Bus(insert_list1)
     target_add2 = bus.Bus(insert_list2)
 
@@ -86,7 +86,7 @@ def updateGP3():
     print("Uploaded from host ",upload_ip,end=': ') #DEBUGGING ONLY
     #Argument Parsing, requires 20 arguments f0,f1 ... f19 (quarryTrack)
     #Attemoni - 5 arguments
-    upload_argTotal = 5
+    upload_argTotal = 6
     for idx in range(upload_argTotal):
         #check for missing argument
         if( 'f'+str(idx) not in request.args):
@@ -108,6 +108,7 @@ def updateGP3():
         getattr(bus.Bus,bus.Bus.rlist_priKey) == upload_locationArr[0] ).first()
     target_mod2.long = upload_locationArr[3]
     target_mod2.lati = upload_locationArr[4]
+    target_mod2.reg_no = upload_locationArr[5]
     if target_mod1 and target_mod2 == None:
             return '1'
 
