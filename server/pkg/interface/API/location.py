@@ -36,16 +36,30 @@ def addGP3():
     #Argument Parsing, requires 20 arguments f0,f1 ... f19 (quarryTrack)
     #Attemoni - 5 arguments
     upload_argTotal = 5
-    for idx in range(upload_argTotal):
+
         #check for missing argument
+    for row in range(upload_argTotal):
         if( 'f'+str(idx) not in request.args):
             return ("Missing argument "+'f'+str(idx))
+#    for row in range(upload_argTotal):
+#        data={
+#            "busid"=row[0],
+#            "driverid"=row[1],
+#            "routenum"=row[2],
+#            "longitude"=row[3],
+#            "latitude"=row[4]
+#        }
+#    if((data)not in request.args):
+#        for
+#        return ("Missing argument "+'f'+str(idx))
 
     upload_locationArr = []
     #Argument Obtain, get all arguments and store in an array
     for idx in range(upload_argTotal):
         upload_locationArr.append(request.args.get('f'+str(idx)))
         print('f'+str(idx)+"="+request.args.get('f'+str(idx)),end=' ') #DEBUGGING ONLY
+
+
     #obtain uploader's IP address
     print() #DEBUGGING ONLY
 
