@@ -106,4 +106,4 @@ def updateGP3():
     except Exception as e:
         sq.db_session.rollback()
         srvlog["oper"].error("push/bus/location FAIL :"+str(upload_locationArr))
-return '1'
+        return '1'
