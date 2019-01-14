@@ -3,6 +3,8 @@
 # this file is for API routings, particularly pushing data
 # introduced 8/12/2018
 #--------------------------------------------------
+#error in output
+
 
 #flask routing imports
 from flask import render_template, redirect, url_for
