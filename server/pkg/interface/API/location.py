@@ -63,8 +63,8 @@ def addGP3():
     #obtain uploader's IP address
     print() #DEBUGGING ONLY
 
-    insert_list1 = { "Bus ID":upload_locationArr[0],"Driver ID":upload_locationArr[1],"Route No":upload_locationArr[2]}
-    insert_list2 = { "Longitude":upload_locationArr[3],"Latitude":upload_locationArr[4]}
+    insert_list1 = { "Driver ID":upload_locationArr[1],"Route No":upload_locationArr[2]}
+    insert_list2 = { "Bus ID":upload_locationArr[0],"Longitude":upload_locationArr[3],"Latitude":upload_locationArr[4]}
     target_add1 = active_bus.Active_Bus(insert_list1)
     target_add2 = bus.Bus(insert_list2)
 
@@ -101,7 +101,7 @@ def updateGP3():
     print() #DEBUGGING ONLY
 
     target_mod1 = active_bus.Active_Bus.query.filter(
-        getattr(active_bus.Active_Bus,active_bus.Active_Bus.rlist_priKey) == upload_locationArr[0] ).first()
+        getattr(active_bus.Active_Bus,active_bus.Active_Bus.bus_id) == upload_locationArr[0]  ).first()
     target_mod1.driver_id = upload_locationArr[1]
     target_mod1.route_num = upload_locationArr[2]
     target_mod2 = bus.Bus.query.filter(
