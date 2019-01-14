@@ -60,7 +60,7 @@ def server(config=None):
 	out.register_blueprint(admintools.bp)
 	out.register_blueprint(socketio.bp)
 	out.register_blueprint(mapping.bp)
-	out.register_blueprint(push.bp)
+	out.register_blueprint(location.bp)
 
 	#tear down context is done here.
 	@out.teardown_appcontext
