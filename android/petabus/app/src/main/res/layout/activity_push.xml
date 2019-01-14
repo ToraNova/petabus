@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".sendLoc">
+
+    <!-- include action setting to logout and save preference -->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingTop="4dp"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:title="@string/app_name"
+            app:fontFamily="sans-serif">
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/txtBusId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="50dp"
+        android:text="@string/bus_id"
+        app:fontFamily="sans-serif"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <RelativeLayout
+        android:id="@+id/spinnerBusIdWhole"
+        android:layout_width="120dp"
+        android:layout_height="30sp"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="130dp"
+        android:background="@drawable/spinner_background">
+
+        <Spinner
+            android:id="@+id/spinnerBusId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/Widget.AppCompat.DropDownItem.Spinner"
+            app:fontFamily="sans-serif"
+            android:textSize="20sp"
+            android:spinnerMode="dialog"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txtRouteNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="50dp"
+        android:text="@string/route_num"
+        app:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+
+    <RelativeLayout
+        android:id="@+id/spinnerRouteNumWhole"
+        android:layout_width="230dp"
+        android:layout_height="30sp"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="130dp"
+        android:background="@drawable/spinner_background">
+
+        <Spinner
+            android:id="@+id/spinnerRouteNum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/Widget.AppCompat.DropDownItem.Spinner"
+            app:fontFamily="sans-serif"
+            android:textSize="20sp"
+            android:spinnerMode="dialog" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtRouteNum"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:text="@string/send"
+        app:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorLightBlue"/>
+
+    <!-- blinks while location is being sent -->
+    <ImageView
+        android:id="@+id/imgSending"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/sendloc"
+        android:layout_marginTop="250dp"
+        android:layout_marginLeft="150dp"
+        android:visibility="invisible"/>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
