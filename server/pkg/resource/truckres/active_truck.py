@@ -8,9 +8,8 @@
 #--------------------------------------------------
 
 from pkg.resource import res_import as r
-import datetime
 
-class Active_Bus(r.Base):
+class Active_Truck(r.Base):
     # PERMA : DO NOT CHANGE ANYTHING HERE UNLESS NECESSARY
     id = r.Column(r.Integer, primary_key=True)
     def __repr__(self):
@@ -22,27 +21,29 @@ class Active_Bus(r.Base):
     # EDITABLE ZONE
     ######################################################################################################
     # TODO: CHANGE TABLENAME
-    __tablename__ = "Active_Bus"
+    __tablename__ = "Active_Truck"
     # TODO: DEFINE LIST OF COLUMNS
-    bus_id = r.Column(r.Integer,nullable=False)
-    driver_id = r.Column(r.Integer,nullable=False)
-    route_num = r.Column(r.Integer,nullable=False)
-    time_stamp = r.Column(r.DateTime,nullable=False)
+    tracking_number = r.Column(r.String(r.lim.MAX_LOCATION_SIZE), nullable=False, unique=True)
+    location1 = r.Column(r.Boolean(),unique=False,nullable=False)
+    location2 = r.Column(r.Boolean(),unique=False,nullable=False)
+    location3 = r.Column(r.Boolean(),unique=False,nullable=False)
+    location4 = r.Column(r.Boolean(),unique=False,nullable=False)
     # TODO: DEFINE THE RLIST
     #The following is for r-listing (resource listing)
     # the values in the rlist must be the same as the column var name
     rlist = {
-    "Bus ID":"bus_id",
-    "Driver ID":"driver_id",
-    "Route":"route_num",
-    "Time Stamp":"time_stamp"
+    "Tracking number":"tracking_number",
+    "Location 1":"location1",
+    "Location 2":"location2",
+    "Location 3":"location3",
+    "Location 4":"location4",
 
     } #header:row data
 
     # TODO: DEFINE THE priKey and display text
     #this primary key is used for rlisting/adding and mod.
     rlist_priKey = "id"
-    rlist_dis = "Active_Bus" #display for r routes
+    rlist_dis = "Active_Truck" #display for r routes
 
     # TODO: NOT IMPLEMENT YET, PLEASE IGNORE
     #The following is for r-listing on foreign tables
@@ -53,11 +54,9 @@ class Active_Bus(r.Base):
     # TODO: CONSTRUCTOR DEFINES, PLEASE ADD IN ACCORDING TO COLUMNS
     # the key in the insert_list must be the same as the column var name
     def __init__(self,insert_list):
-        self.bus_id = insert_list["bus_id"]
-        self.driver_id = insert_list["driver_id"]
-        self.route_num = insert_list["route_num"]
-        self.time_stamp = insert_list["time_stamp"]
+        self.tracking_number = insert_list["tracking_number"]
+        self.location1 = insert_list["location1"]
+        self.location2 = insert_list["location2"]
+        self.location3 = insert_list["location3"]
+        self.location4 = insert_list["location4"]
     ######################################################################################################
-## optional, dateinput time will be adjusted later on
-#TODO : DEFINE ADD RES FORM
-#ADD FORM TEMPLATE

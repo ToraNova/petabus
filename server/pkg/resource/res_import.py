@@ -22,5 +22,5 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, DateTimeField
 from wtforms import SelectField, IntegerField, RadioField
 from wtforms import SubmitField, SelectMultipleField
-from wtforms.validators import InputRequired, Email, Length, NumberRange
+from wtforms.validators import InputRequired, Email, Length, NumberRange,DataRequired
 ###############################################################################

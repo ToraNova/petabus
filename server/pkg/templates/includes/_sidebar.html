@@ -24,10 +24,9 @@
 			<li><a href="{{ url_for('resource.radd', tablename = 'Geopoint') }}">Register New Geopoint</a></li>
 			<li><a href="{{ url_for('resource.radd', tablename = 'Geopath') }}">Register New Path</a></li>
 			<li><a href="{{ url_for('resource.radd', tablename = 'Bus_Driver') }}">Register New Bus Driver</a></li>
-			<li><a href="{{ url_for('resource.radd', tablename = 'Bus_System') }}">Register New Bus In System</a></li>
-			<li><a href="{{ url_for('resource.radd', tablename = 'Active_Bus') }}">Register Active Bus In System</a></li>
-			<li><a href="{{ url_for('resource.radd', tablename = 'Bus_Log') }}">Record Bus Log In System</a></li>
-			<li><a href="{{ url_for('resource.radd', tablename = 'Loc_Log') }}">Record Location Log In System</a></li>
+			<li><a href="{{ url_for('resource.radd', tablename = 'Bus') }}">Register New Bus In System</a></li>
+			<li><a href="{{ url_for('resource.radd', tablename = 'Truck_Driver') }}">Register New Truck Driver</a></li>
+			<li><a href="{{ url_for('resource.radd', tablename = 'Truck_System') }}">Register New Truck In System</a></li>
 			<!___________________/NON PERMANENT____________________>
 		</ul>
 		</li>
@@ -39,10 +38,14 @@
 			<li><a href="{{ url_for('resource.rlist', tablename = 'Geopoint') }}">List Geopoints</a></li>
 			<li><a href="{{ url_for('resource.rlist', tablename = 'Geopath') }}">List Paths</a></li>
 			<li><a href="{{ url_for('resource.rlist', tablename = 'Bus_Driver') }}">List Bus Driver</a></li>
-			<li><a href="{{ url_for('resource.rlist', tablename = 'Bus_System') }}">List Bus System</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Bus_System') }}">List Bus in System</a></li>
 			<li><a href="{{ url_for('resource.rlist', tablename = 'Active_Bus') }}">List Active Bus</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Truck_Driver') }}">List Truck Driver</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Truck_System') }}">List Truck System</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Active_Truck') }}">List Active Truck</a></li>
 			<li><a href="{{ url_for('resource.rlist', tablename = 'Bus_Log') }}">List Bus Log</a></li>
 			<li><a href="{{ url_for('resource.rlist', tablename = 'Loc_Log') }}">List Location Log</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Truck_Log') }}">List Truck Log</a></li>
 		</ul>
 		</li>
 
