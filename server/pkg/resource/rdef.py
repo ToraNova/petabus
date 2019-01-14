@@ -24,6 +24,8 @@ from pkg.resource.geores import geopoint
 from pkg.resource.geores import georoute
 from pkg.resource.geores import geopath
 
+from pkg.resource.generic import param3model
+
 ##########################################################
 # PLEASE EDIT THE FOLLOWING FOR EACH DEPLOYMENT!
 # The following dictionary will be exported to r.py
@@ -45,6 +47,12 @@ dist_resources = {
     "Geopath":[
     geopath.Geopath,
     geopath.Geopath_AddForm,
+    None
+    ],
+
+    "Param3":[
+    param3model.Param3,
+    None,
     None
     ]
 }
