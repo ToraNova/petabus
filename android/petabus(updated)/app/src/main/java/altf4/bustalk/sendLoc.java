@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,7 +22,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class sendLoc extends AppCompatActivity {
     //declaration of variables and constants
@@ -29,14 +33,17 @@ public class sendLoc extends AppCompatActivity {
     public static final int period = 3000;     //for sending location periodically
     public static String PACKAGE_NAME;
 
-
     private String driver_id = "AD82733";
     private String ip_address = "10.100.19.114";
+    private String response = "bus_id=WWW1234,TWI432,JSA8989;route=1,2,3,4;";
     private Spinner spinnerRouteNum;
     private Spinner spinnerBusId;
-    private ArrayAdapter<CharSequence> adapterBusId;
-    private ArrayAdapter<CharSequence> adapterRoute;
+    private ArrayAdapter<String> adapterBusId;
+    private ArrayAdapter<String> adapterRoute;
+    private ArrayList<String> bus_id_list = new ArrayList<String>();
+    private ArrayList<String> route_list = new ArrayList<String>();
     private ImageView imgSendingLoc;
+    private Button sendLoc_button;
     private String selectedBusId;
     private String selectedRouteNum;
     private int count;
@@ -48,6 +55,7 @@ public class sendLoc extends AppCompatActivity {
     private LocationManager locman;
     private Activity activity;
     private location locationFunc;
+    private boolean send = false;
 
     public static final String SHARED_PREF = "sharedPrefs";
     public static final String SAVED_BUS_ID = "520";
@@ -65,7 +73,8 @@ public class sendLoc extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         driver_id = bundle.getString("driver_id");
         ip_address = bundle.getString("ip_address");
-        Log.d(DebugTag, "Driver id: " + driver_id + "\t IP: " + ip_address);
+        response = bundle.getString("response");
+        Log.d(DebugTag, "Driver id: " + driver_id + "\t IP: " + ip_address + "\t response: " + response);
         */
 
         count = 0;
@@ -77,22 +86,30 @@ public class sendLoc extends AppCompatActivity {
 
         alphaAnim = new AlphaAnimation(0, (float) 0.5);
 
-        //map xml to java
+        // map xml to java
         spinnerBusId = findViewById(R.id.spinnerBusId);
         spinnerRouteNum = findViewById(R.id.spinnerRouteNum);
         imgSendingLoc = findViewById(R.id.imgSending);
-        final Button sendLoc_button = findViewById(R.id.btnSend);
+        sendLoc_button = findViewById(R.id.btnSend);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // process response from server to know valid bus ids and route nums
+        processResponse();
+
         // set up spinners
-        adapterBusId = ArrayAdapter.createFromResource(this, R.array.busId, android.R.layout.simple_spinner_item);
-        adapterBusId.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //adapterBusId = ArrayAdapter.createFromResource(this, R.array.busId, android.R.layout.simple_spinner_item);
+        adapterBusId = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, bus_id_list);
+        adapterBusId.setDropDownViewResource(R.layout.spinner_dialog);
         spinnerBusId.setAdapter(adapterBusId);
 
-        adapterRoute = ArrayAdapter.createFromResource(this, R.array.route, android.R.layout.simple_spinner_item);
-        adapterRoute.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterRoute = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, route_list);
+        adapterRoute.setDropDownViewResource(R.layout.spinner_dialog);
         spinnerRouteNum.setAdapter(adapterRoute);
+
+        // set default values
+        spinnerBusId.setSelection(0);
+        spinnerRouteNum.setSelection(0);
 
         // update selected bus id and selected route whenever needed
         spinnerBusId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -127,6 +144,7 @@ public class sendLoc extends AppCompatActivity {
 
                 // display "stop" on button while location is being sent
                 if(buttonText.equals("BEGIN")) {
+                    send = true;
                     if(locationFunc.checkLocationPermission()) {
                         sendLoc_button.setText(getResources().getIdentifier("@string/stop", "string", PACKAGE_NAME));
                         Log.d(DebugTag, "bus id: " + selectedBusId + "\t route num: " + selectedRouteNum);
@@ -169,24 +187,66 @@ public class sendLoc extends AppCompatActivity {
                 else{
                     // display "send" on button while location is not being sent
                     if(buttonText.equals("STOP")) {
-                        sendLoc_button.setText(getResources().getIdentifier("@string/send", "string", PACKAGE_NAME));
-
-                        imgSendingLoc.setVisibility(View.INVISIBLE);
-
-                        // enable spinners (can change value on spinners) when location is not being sent
-                        spinnerBusId.setEnabled(true);
-                        spinnerRouteNum.setEnabled(true);
-
-                        // stop sending location
-                        sendHandler.removeCallbacks(sendRunnableCode);
-                        //locman = null;
-                        //locationFunc = null;
+                        stopSendingLoc();
                     }
                 }
             }
         });
 
         Log.d(DebugTag, "sendLoc activity created");
+    }
+
+    private void processResponse(){
+        // extract bus ids
+        String temp = "";
+        int start = response.indexOf("=");
+        int end = response.indexOf(";");
+        Log.d(DebugTag, "start: " + start + "\t end: " + end);
+        int from = start + 1;
+
+        for(int i = start + 1; i <= end; i++){
+            if (response.charAt(i) == ',' || response.charAt(i) == ';'){
+                temp = response.substring(from, i);
+                from = i + 1;
+                Log.d(DebugTag, "Bus ID: " + temp + "\t i = " + i);
+
+                bus_id_list.add(temp);
+                Log.d(DebugTag, temp + " added into list");
+            }
+        }
+
+        // extract route numbers
+        start = response.lastIndexOf("=");
+        end = response.lastIndexOf(";");
+        Log.d(DebugTag, "start: " + start + "\t end: " + end);
+        from = start + 1;
+
+        for(int i = start + 1; i <= end; i++){
+            if (response.charAt(i) == ','){
+                temp = response.substring(from, i);
+                from = i + 1;
+                Log.d(DebugTag, "Route num: " + temp);
+
+                route_list.add(temp);
+                Log.d(DebugTag, temp + " added into adapter");
+            }
+        }
+    }
+
+    private void stopSendingLoc(){
+        send = false;
+        sendLoc_button.setText(getResources().getIdentifier("@string/send", "string", PACKAGE_NAME));
+
+        imgSendingLoc.setVisibility(View.INVISIBLE);
+
+        // enable spinners (can change value on spinners) when location is not being sent
+        spinnerBusId.setEnabled(true);
+        spinnerRouteNum.setEnabled(true);
+
+        // stop sending location
+        sendHandler.removeCallbacks(sendRunnableCode);
+        //locman = null;
+        //locationFunc = null;
     }
 
     @Override
@@ -209,13 +269,20 @@ public class sendLoc extends AppCompatActivity {
         else{
             if (id == R.id.action_load) {
                 Log.d(DebugTag, "load settings pressed");
-                loadData();
-                updateViews();
+                if(send){
+                    Toast.makeText(this, "Data cannot be loaded when location is being sent", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    loadData();
+                }
                 return true;
             }
             else {
                 if (id == R.id.action_logout) {
                     Log.d(DebugTag, "log out pressed");
+
+                    stopSendingLoc();
+                    Log.d(DebugTag, "stop sending location");
 
                     // prepare the URL to push data to web server
                     String startURL = "http://" + ip_address + "/bustalk/logout.php";
@@ -247,10 +314,17 @@ public class sendLoc extends AppCompatActivity {
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
 
-        selectedBusId = sharedPreferences.getString(SAVED_BUS_ID, "");
-        selectedRouteNum = sharedPreferences.getString(SAVED_ROUTE, "");
+        if ((adapterBusId.getPosition(selectedBusId) != -1) && (adapterRoute.getPosition(selectedRouteNum) != -1)) {
+            selectedBusId = sharedPreferences.getString(SAVED_BUS_ID, "");
+            selectedRouteNum = sharedPreferences.getString(SAVED_ROUTE, "");
 
-        Toast.makeText(this, "Data Loaded", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Data Loaded", Toast.LENGTH_SHORT).show();
+
+            updateViews();
+        }
+        else{
+            Toast.makeText(this, "The data is not valid at the moment", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void updateViews(){
