@@ -8,7 +8,6 @@
 #--------------------------------------------------
 
 from pkg.resource import res_import as r
-from werkzeug.security import generate_password_hash
 
 class Bus_Driver(r.Base):
     # PERMA : DO NOT CHANGE ANYTHING HERE UNLESS NECESSARY
@@ -33,6 +32,7 @@ class Bus_Driver(r.Base):
     "Driver ID":"id",
     "Driver Name":"name",
     "Contact Number":"contact_no",
+
     } #header:row data
 
     # TODO: DEFINE THE priKey and display text

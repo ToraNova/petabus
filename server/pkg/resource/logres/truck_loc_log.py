@@ -25,7 +25,6 @@ class Truck_Loc_Log(r.Base):
     "Location":"loc",
     "Time stamp":"time_stamp",
     "Tracking Number":"tracking_num",
-
     } #header:row data
 
     # TODO: DEFINE THE priKey and display text
