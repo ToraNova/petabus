@@ -28,6 +28,7 @@ bp = Blueprint('push', __name__, url_prefix='/push')
 # API push routings
 ##############################################################################################
 @bp.route('/generic/param3/add')
+#This route allows API callers to add an entry
 def addGP3():
 
     upload_ip=request.remote_addr
@@ -62,6 +63,7 @@ def addGP3():
         return '1'
 
 @bp.route('/generic/param3/update')
+#This route allows API users to update an entry
 def updateGP3():
 
     upload_ip=request.remote_addr
