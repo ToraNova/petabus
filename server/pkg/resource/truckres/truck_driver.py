@@ -24,14 +24,14 @@ class Truck_Driver(r.Base):
     # TODO: DEFINE LIST OF COLUMNS
     name = r.Column(r.String(r.lim.MAX_USERNAME_SIZE), nullable=False, unique=False)
     contact_no = r.Column(r.String(r.lim.MAX_CONTACT_SIZE), nullable=False, unique=True) #longitude
-
+    password = r.Column(r.String(r.lim.MAX_PASSWORD_SIZE),unique=False,nullable=False)
     # TODO: DEFINE THE RLIST
     #The following is for r-listing (resource listing)
     # the values in the rlist must be the same as the column var name
     rlist = {
     "Driver ID":"id",
     "Driver Name":"name",
-    "Contact Number":"contact_no",
+    "Contact Number":"contact_no"
     } #header:row data
 
     # TODO: DEFINE THE priKey and display text
@@ -49,6 +49,7 @@ class Truck_Driver(r.Base):
     def __init__(self,insert_list):
         self.name = insert_list["name"]
         self.contact_no = insert_list["contact_no"]
+        self.password = insert_list["password"]
     ######################################################################################################
 
 #TODO : DEFINE ADD RES FORM

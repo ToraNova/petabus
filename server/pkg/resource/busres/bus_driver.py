@@ -8,6 +8,7 @@
 #--------------------------------------------------
 
 from pkg.resource import res_import as r
+from werkzeug.security import generate_password_hash
 
 class Bus_Driver(r.Base):
     # PERMA : DO NOT CHANGE ANYTHING HERE UNLESS NECESSARY
@@ -24,7 +25,7 @@ class Bus_Driver(r.Base):
     # TODO: DEFINE LIST OF COLUMNS
     name = r.Column(r.String(r.lim.MAX_USERNAME_SIZE), nullable=False, unique=False)
     contact_no = r.Column(r.String(r.lim.MAX_CONTACT_SIZE), nullable=False, unique=True) #longitude
-
+    password = r.Column(r.String(r.lim.MAX_PASSWORD_SIZE),unique=False,nullable=False)
     # TODO: DEFINE THE RLIST
     #The following is for r-listing (resource listing)
     # the values in the rlist must be the same as the column var name
