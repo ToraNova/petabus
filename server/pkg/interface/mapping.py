@@ -24,4 +24,10 @@ bp = Blueprint('maptrack', __name__, url_prefix='/track')
 
 @bp.route('/basic')
 def basic():
-	return render_template('flask_io/basic_map.html',PAGE_MAIN_TITLE=const.SERVER_NAME)
+	#return render_template('flask_io/basic_map.html')
+	return render_template('flask_io/basic_map_test.html',MAPWIDTH=500,MAPHEIGHT=500)
+
+@bp.route('/geopoint')
+def point():
+	#return render_template('flask_io/basic_map.html')
+	return render_template('flask_io/pointdisp.html',MAPWIDTH=800,MAPHEIGHT=800)

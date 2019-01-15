@@ -33,6 +33,7 @@ def server(config=None):
 	from pkg.interface import socketio #socket io import
 	from pkg.interface.API import location
 	from pkg.interface import home,mapping
+	from pkg.interface import push,pull
 	from pkg.system import auth,admintools
 	from pkg.resource import r
 
@@ -54,12 +55,17 @@ def server(config=None):
 	login_manager.login_message = "Please login first."
 	login_manager.login_message_category = "info"
 
+  #Added by ToraNova
 	out.register_blueprint(r.bp)
 	out.register_blueprint(auth.bp)
 	out.register_blueprint(home.bp)
 	out.register_blueprint(admintools.bp)
 	out.register_blueprint(socketio.bp)
 	out.register_blueprint(mapping.bp)
+  out.register_blueprint(push.bp)
+	out.register_blueprint(pull.bp)
+  
+  #Added by Mei
 	out.register_blueprint(location.bp)
 
 	#tear down context is done here.
@@ -72,5 +78,6 @@ def server(config=None):
 	out_nonsock = out
 	out = SocketIO(out_nonsock)
 	out.on_namespace(socketio.SystemUtilNamespace('/sysutil'))
+	out.on_namespace(socketio.MapDisplayNamespace('/pointdisp'))
 
 	return out,out_nonsock
