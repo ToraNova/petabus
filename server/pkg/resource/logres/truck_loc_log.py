@@ -1,6 +1,6 @@
 from pkg.resource import res_import as r
 
-class Bus_Log(r.Base):
+class Truck_Loc_Log(r.Base):
     # PERMA : DO NOT CHANGE ANYTHING HERE UNLESS NECESSARY
     id = r.Column(r.Integer, primary_key=True)
     def __repr__(self):
@@ -11,32 +11,27 @@ class Bus_Log(r.Base):
     # EDITABLE ZONE
     ######################################################################################################
     # TODO: CHANGE TABLENAME
-    __tablename__ = "Bus_Log"
+    __tablename__ = "Truck_Loc_Log"
     # TODO: DEFINE LIST OF COLUMNS
-    start_ts = r.Column(r.DateTime, nullable=False)
-    end_ts = r.Column(r.DateTime, nullable=False) #latitude
-    bus_id = r.Column(r.Integer,nullable=False)
-    driver_id = r.Column(r.Integer,nullable=False)
-    activebus_id = r.Column(r.Integer,nullable=False)
-    route_num = r.Column(r.Integer,nullable=False)
+    loc = r.Column(r.String(r.lim.MAX_LOCATION_SIZE), nullable=False, unique=False)
+    time_stamp = r.Column(r.DateTime, nullable=False)
+    tracking_num = r.Column(r.String(r.lim.MAX_LOCATION_SIZE), nullable=False, unique=False)
 
     # TODO: DEFINE THE RLIST
     #The following is for r-listing (resource listing)
     # the values in the rlist must be the same as the column var name
     rlist = {
-    "Start Timestamp":"start_ts",
-    "End Timestamp":"end_ts",
-    "Bus ID":"bus_id",
-    "Driver ID":"driver_id",
-    "Active Bus ID":"activebus_id",
-    "Route Number":"route_num"
+    "Log Number":"id",
+    "Location":"loc",
+    "Time stamp":"time_stamp",
+    "Tracking Number":"tracking_num",
 
     } #header:row data
 
     # TODO: DEFINE THE priKey and display text
     #this primary key is used for rlisting/adding and mod.
     rlist_priKey = "id"
-    rlist_dis = "Bus_Log" #display for r routes
+    rlist_dis = "Truck_Loc_Log" #display for r routes
 
     # TODO: NOT IMPLEMENT YET, PLEASE IGNORE
     #The following is for r-listing on foreign tables
@@ -44,10 +39,8 @@ class Bus_Log(r.Base):
     }
 
     def __init__(self,insert_list):
-        self.bus_id = insert_list["bus_id"]
-        self.driver_id = insert_list["driver_id"]
-        self.route_num = insert_list["route_num"]
-        self.activebus_id = insert_list["activebus_id"]
-        self.start_ts = insert_list["start_ts"]
-        self.end_ts = insert_list["end_ts"]
+        self.id = insert_list["id"]
+        self.loc = insert_list["loc"]
+        self.time_stamp = insert_list["time_stamp"]
+        self.tracking_num = insert_list["tracking_num"]
     ######################################################################################################

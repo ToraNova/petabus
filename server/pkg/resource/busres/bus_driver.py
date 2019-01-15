@@ -49,6 +49,7 @@ class Bus_Driver(r.Base):
     def __init__(self,insert_list):
         self.name = insert_list["name"]
         self.contact_no = insert_list["contact_no"]
+        self.password=insert_list["password"]
     ######################################################################################################
 
 #TODO : DEFINE ADD RES FORM
@@ -58,6 +59,7 @@ class Bus_Driver_AddForm(r.FlaskForm):
     # The names here after the rgen_ prefix must correspond to a var name in the respective model
     rgen_name = r.StringField('New Name',validators=[r.InputRequired(),r.Length(min=4,max=40)])
     rgen_contact_no = r.StringField('New Contact Number',validators=[r.InputRequired(),r.Length(min=10,max=11)])
+    rgen_password = r.PasswordField('New Password',validators=[r.InputRequired(),r.Length(min=5,max=80)])
     #TODO: List select fields here, FIELDS MUST BE PREFIXED WITH rgensel_
     # The names here after the rgen_ prefix must correspond to a var name in the respective model
     fKeylist = {}
@@ -69,7 +71,7 @@ class Bus_Driver_EditForm(r.FlaskForm):
     # The names here after the rgen_ prefix must correspond to a var name in the respective model
     rgen_name = r.StringField('Renew Name',validators=[r.InputRequired(),r.Length(min=4,max=40)])
     rgen_contact_no = r.StringField('Renew Contact Number',validators=[r.InputRequired(),r.Length(min=10,max=11)])
-
+    rgen_password = r.PasswordField('New Password',validators=[r.InputRequired(),r.Length(min=5,max=80)])
     #TODO: List select fields here, FIELDS MUST BE PREFIXED WITH rgensel_
     # The names here after the rgen_ prefix must correspond to a var name in the respective model
     fKeylist = {}

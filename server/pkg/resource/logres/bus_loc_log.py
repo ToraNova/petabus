@@ -1,15 +1,6 @@
-#--------------------------------------------------
-# COPY_template.py
-# COPY_template is a resource template. Please
-# use this as a base file when introducing new tables
-# use ctrl-f on TODO to findout which parts to change
-# introduced in u3
-# ToraNova
-#--------------------------------------------------
-
 from pkg.resource import res_import as r
 
-class Loc_Log(r.Base):
+class Bus_Loc_Log(r.Base):
     # PERMA : DO NOT CHANGE ANYTHING HERE UNLESS NECESSARY
     id = r.Column(r.Integer, primary_key=True)
     def __repr__(self):
@@ -20,27 +11,29 @@ class Loc_Log(r.Base):
     # EDITABLE ZONE
     ######################################################################################################
     # TODO: CHANGE TABLENAME
-    __tablename__ = "Loc_Log"
+    __tablename__ = "Bus_Loc_Log"
     # TODO: DEFINE LIST OF COLUMNS
-    loc = r.Column(r.String(r.lim.MAX_LOCATION_SIZE), nullable=False, unique=False)
+    activebus_id = r.Column(r.Integer,nullable=False)
+    long = r.Column(r.Float, nullable=False)
+    lati = r.Column(r.Float, nullable=False) #latitude
     time_stamp = r.Column(r.DateTime, nullable=False)
-    tracking_num = r.Column(r.String(r.lim.MAX_LOCATION_SIZE), nullable=False, unique=False)
 
     # TODO: DEFINE THE RLIST
     #The following is for r-listing (resource listing)
     # the values in the rlist must be the same as the column var name
     rlist = {
     "Log Number":"id",
-    "Location":"loc",
-    "Time stamp":"time_stamp",
-    "Tracking Number":"tracking_num",
+    "Active Bus id":"activebus_id",
+    "Longitude":"long",
+    "Latitude":"lati",
+    "Time stamp":"time_stamp"
 
     } #header:row data
 
     # TODO: DEFINE THE priKey and display text
     #this primary key is used for rlisting/adding and mod.
     rlist_priKey = "id"
-    rlist_dis = "Loc_Log" #display for r routes
+    rlist_dis = "Bus_Loc_Log" #display for r routes
 
     # TODO: NOT IMPLEMENT YET, PLEASE IGNORE
     #The following is for r-listing on foreign tables
@@ -49,7 +42,8 @@ class Loc_Log(r.Base):
 
     def __init__(self,insert_list):
         self.id = insert_list["id"]
-        self.loc = insert_list["loc"]
+        self.activebus_id = insert_list["activebus_id"]
         self.time_stamp = insert_list["time_stamp"]
-        self.tracking_num = insert_list["tracking_num"]
+        self.long = insert_list["long"]
+        self.lati = insert_list["lati"]
     ######################################################################################################

@@ -60,6 +60,7 @@ class Truck_Driver_AddForm(r.FlaskForm):
     rgen_contact_no = r.StringField('New Contact Number',validators=[r.InputRequired(),r.Length(min=10,max=11)])
     #TODO: List select fields here, FIELDS MUST BE PREFIXED WITH rgensel_
     # The names here after the rgen_ prefix must correspond to a var name in the respective model
+    rgen_password = r.PasswordField('New Password',validators=[r.InputRequired(),r.Length(min=5,max=80)])
     fKeylist = {}
 
 #TODO : DEFINE ADD RES FORM
@@ -69,7 +70,7 @@ class Truck_Driver_EditForm(r.FlaskForm):
     # The names here after the rgen_ prefix must correspond to a var name in the respective model
     rgen_name = r.StringField('Renew Name',validators=[r.InputRequired(),r.Length(min=4,max=40)])
     rgen_contact_no = r.StringField('Renew Contact Number',validators=[r.InputRequired(),r.Length(min=10,max=11)])
-
+    #rgen_password = r.PasswordField('New Password',validators=[r.InputRequired(),r.Length(min=5,max=80)])
     #TODO: List select fields here, FIELDS MUST BE PREFIXED WITH rgensel_
     # The names here after the rgen_ prefix must correspond to a var name in the respective model
     fKeylist = {}

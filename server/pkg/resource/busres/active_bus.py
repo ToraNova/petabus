@@ -28,6 +28,8 @@ class Active_Bus(r.Base):
     driver_id = r.Column(r.Integer,nullable=False)
     route_num = r.Column(r.Integer,nullable=False)
     time_stamp = r.Column(r.DateTime,nullable=False)
+    long = r.Column(r.Float, nullable=False)
+    lati = r.Column(r.Float, nullable=False) #latitude
     # TODO: DEFINE THE RLIST
     #The following is for r-listing (resource listing)
     # the values in the rlist must be the same as the column var name
@@ -35,7 +37,9 @@ class Active_Bus(r.Base):
     "Bus ID":"bus_id",
     "Driver ID":"driver_id",
     "Route":"route_num",
-    "Time Stamp":"time_stamp"
+    "Time Stamp":"time_stamp",
+    "Longitude":"long",
+    "Latitude":"lati"
 
     } #header:row data
 
@@ -57,6 +61,8 @@ class Active_Bus(r.Base):
         self.driver_id = insert_list["driver_id"]
         self.route_num = insert_list["route_num"]
         self.time_stamp = insert_list["time_stamp"]
+        self.long = insert_list["long"]
+        self.lati = insert_list["lati"]
     ######################################################################################################
 ## optional, dateinput time will be adjusted later on
 #TODO : DEFINE ADD RES FORM

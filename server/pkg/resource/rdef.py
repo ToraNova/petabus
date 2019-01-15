@@ -27,11 +27,13 @@ from pkg.resource.busres import bus_driver
 from pkg.resource.busres import bus
 from pkg.resource.busres import active_bus
 from pkg.resource.logres import bus_log
-from pkg.resource.logres import loc_log
+from pkg.resource.logres import bus_loc_log
+from pkg.resource.logres import truck_loc_log
 from pkg.resource.logres import truck_log
 from pkg.resource.truckres import truck_driver
 from pkg.resource.truckres import truck
 from pkg.resource.truckres import active_truck
+
 ##########################################################
 # PLEASE EDIT THE FOLLOWING FOR EACH DEPLOYMENT!
 # The following dictionary will be exported to r.py
@@ -65,7 +67,7 @@ dist_resources = {
     "Bus":[
     bus.Bus,
     bus.Bus_AddForm,
-    bus.Bus_EditForm
+    None
     ]
     ,
     "Active_Bus":[
@@ -80,8 +82,8 @@ dist_resources = {
     None
     ]
     ,
-    "Loc_Log":[
-    loc_log.Loc_Log,
+    "Bus_Loc_Log":[
+    bus_loc_log.Bus_Loc_Log,
     None,
     None
     ]
@@ -109,6 +111,10 @@ dist_resources = {
     None,
     None
     ]
-
-
+    ,
+    "Truck_Loc_Log":[
+    truck_loc_log.Truck_Loc_Log,
+    None,
+    None
+    ]
 }
