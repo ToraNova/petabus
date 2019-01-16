@@ -62,9 +62,9 @@ def server(config=None):
 	out.register_blueprint(admintools.bp)
 	out.register_blueprint(socketio.bp)
 	out.register_blueprint(mapping.bp)
-  out.register_blueprint(push.bp)
+	out.register_blueprint(push.bp)
 	out.register_blueprint(pull.bp)
-  
+
   #Added by Mei
 	out.register_blueprint(location.bp)
 
