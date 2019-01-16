@@ -25,13 +25,13 @@ from pkg.resource.busres import bus #SAMPLE ONLY, DO NOT USE FOR ACTUAL DEPLOYME
 from pkg.resource.busres import active_bus
 import time
 #primary blueprint
-bp = Blueprint('push', __name__, url_prefix='/push')
+bp = Blueprint('busLocAPI', __name__, url_prefix='/push')
 
 ##############################################################################################
 # API push routings
 ##############################################################################################
 @bp.route('/bus/location/add')
-def addGP3():
+def busLocAPI_add(): #fixed on 19/1/16 by ToraNova
 
     upload_ip=request.remote_addr
     print("Uploaded from host ",upload_ip,end=': ') #DEBUGGING ONLY
@@ -82,7 +82,7 @@ def addGP3():
         return '1'
 
 @bp.route('/bus/location/update')
-def updateGP3():
+def busLocAPI_upd(): #fixed on 19/1/16 by ToraNova
 
     upload_ip=request.remote_addr
     print("Uploaded from host ",upload_ip,end=': ') #DEBUGGING ONLY
