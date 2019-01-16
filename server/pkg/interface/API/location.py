@@ -31,7 +31,7 @@ bp = Blueprint('busLocAPI', __name__, url_prefix='/push')
 # API push routings
 ##############################################################################################
 @bp.route('/bus/location/add')
-def busLocAPI_add():
+def busLocAPI_add(): #fixed on 19/1/16 by ToraNova
 
     upload_ip=request.remote_addr
     print("Uploaded from host ",upload_ip,end=': ') #DEBUGGING ONLY
@@ -82,7 +82,7 @@ def busLocAPI_add():
         return '1'
 
 @bp.route('/bus/location/update')
-def busLocAPI_upd():
+def busLocAPI_upd(): #fixed on 19/1/16 by ToraNova
 
     upload_ip=request.remote_addr
     print("Uploaded from host ",upload_ip,end=': ') #DEBUGGING ONLY
