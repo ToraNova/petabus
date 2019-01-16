@@ -32,6 +32,7 @@ def server(config=None):
 
 	from pkg.interface import socketio #socket io import
 	from pkg.interface.API import location
+	from pkg.interface.API import pull_businfo
 	from pkg.interface import home,mapping
 	from pkg.interface import push,pull
 	from pkg.system import auth,admintools
@@ -67,6 +68,7 @@ def server(config=None):
 
   #Added by Mei
 	out.register_blueprint(location.bp)
+	out.register_blueprint(pull_businfo.bp)
 
 	#tear down context is done here.
 	@out.teardown_appcontext
