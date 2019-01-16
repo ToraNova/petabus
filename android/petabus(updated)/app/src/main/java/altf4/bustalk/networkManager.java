@@ -22,6 +22,7 @@ public class networkManager extends AsyncTask<Void, Void, String> {
     private String param;
     private String urlmini;
     private URL url;
+    private String inputLine = "";
     private HttpURLConnection connection = null;
     private static final String DebugTag = "DEV_HTTP_DEBUG_MSG";
     private login loginActivity;
@@ -46,7 +47,6 @@ public class networkManager extends AsyncTask<Void, Void, String> {
         this.type = t;
         this.param = param;
         this.urlmini =  mini;
-
     }
 
     public networkManager(String a, String b, String c, String d, String e, String f) {
@@ -56,7 +56,6 @@ public class networkManager extends AsyncTask<Void, Void, String> {
         this.ip_address = d;
         this.param = e;
         this.urlmini = f;
-
     }
 
     protected String doInBackground(Void... params) {
@@ -99,9 +98,7 @@ public class networkManager extends AsyncTask<Void, Void, String> {
         }
         // POST method
         else{
-            // insert here
             try {
-
                 String urlParameters  = param;
                 byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
                 int    postDataLength = postData.length;
@@ -119,10 +116,10 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
 
-                //Send POST request
+                // Send POST request
                 try(DataOutputStream wr = new DataOutputStream( conn.getOutputStream())){
                     wr.write(postData);
-                };
+                }
                 //wr.writeBytes(param);
                 //wr.flush();
                 //wr.close();
@@ -133,7 +130,7 @@ public class networkManager extends AsyncTask<Void, Void, String> {
 
                 BufferedReader in =
                         new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String inputLine;
+                // String inputLine;
                 StringBuffer response = new StringBuffer();
 
                 //       InputStream in2 = connection.getInputStream();
@@ -145,15 +142,6 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                 in.close();
                 //       System.out.println(response.toString() + "HAHAHAHAHAHA");
 
-            /*
-            //read status of pushing data to the web server
-            int data = isw.read();
-            while (data != -1) {
-                char current = (char) data;
-                data = isw.read();
-                buffer += current;      //includes feedback
-            }
-            */
                 Log.d(DebugTag, "in netman, buffer: " + buffer);
 
             } catch (Exception e) {
@@ -166,10 +154,9 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                     connection.disconnect();
                 }
             }
-
-
         }
-        return buffer;
+        //return buffer;
+        return inputLine;
     }
 
     // run automatically after doInBackground
@@ -187,6 +174,8 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                     Intent passIntent = new Intent(loginActivity, sendLoc.class);
                     passIntent.putExtra("driver_id", driver_id);
                     passIntent.putExtra("ip_address", ip_address);
+                    // for post method response from server
+                    passIntent.putExtra("response", inputLine);
                     Log.d(DebugTag, "sending values to next activity");
                     loginActivity.startActivity(passIntent);
 
@@ -197,19 +186,14 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                     loginActivity.finish();      // disable "back" to go back to login page
 
                     Log.d(DebugTag, "pushing to web server");
-                    }
+                }
                 // otherwise display error message on screen
                 else {
                     loginActivity.status_text.setText(loginActivity.getResources().
                             getIdentifier("@string/error_in_pushing", "string", loginActivity.getPackageName()));
                     Log.d(DebugTag, "error in pushing to web server");
                 }
-            } /*else {
-                if (urlString.contains("get_rating")) {
-                    Log.d(DebugTag, "outputting feedback");
-                    pushActivity.outputRating(result);
-                }
-            }*/
+            }
         }
         catch(Exception e){
             e.printStackTrace();

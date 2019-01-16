@@ -65,7 +65,7 @@
 	<script type="text/javascript" src="{{url_for('static', filename='flask_io/socket.io.min.js')}}"></script>
 	<script type="text/javascript" charset="utf-8">
 	var namespace = '/sysutil'
-	var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+	var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //persistent
 	socket.on('connect', function() {
 			console.log("sysclock_test connected...")
 			socket.emit('sync_time', {'data': 'Requesting time sync...'});

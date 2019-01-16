@@ -30,17 +30,19 @@
     <!-- button -->
     <string name="send">BEGIN</string>
     <string name="stop">STOP</string>
+
     <!-- Bus ID selections -->
+    <!--
     <string-array name="busId">
         <item>520</item>
         <item>T520</item>
-    </string-array>
+    </string-array> -->
     <!-- Route selections -->
-    <string-array name="route">
+    <!--<string-array name="route">
         <item>Route_1</item>
         <item>Route_2</item>
         <item>Route_3</item>
-    </string-array>
+    </string-array> -->
 
     <string name="logoutStatus">Logging Out......</string>
 </resources>
