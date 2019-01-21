@@ -21,8 +21,8 @@ from pkg.database import models as md
 from pkg.system import assertw as a
 #from pkg.system.servlog import srvlog,logtofile
 #import log file
-from pkg.logres import bus_loc_log as loclog
-from pkg.logres import bus_log as buslog
+from pkg.resource.logres import bus_loc_log as loclog
+from pkg.resource.logres import bus_log as buslog
 
 from pkg.database import fsqlite as sq
 from pkg.resource.busres import bus #SAMPLE ONLY, DO NOT USE FOR ACTUAL DEPLOYMENT
@@ -56,7 +56,9 @@ def busLocAPI():
 
     print() #DEBUGGING ONLY
 
-    global timenow = time.strftime('%A %B, %d %Y %H:%M:%S')
+    global timenow
+
+    timenow = time.strftime('%A %B, %d %Y %H:%M:%S')
     #insert_list = { reg_no:upload_locationArr[0],"driver_id":upload_locationArr[1],"route_num":upload_locationArr[2],"time_stamp":timenow}
     target_list = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.bus_id == upload_bufferArr[0], active_bus.Active_Bus.driver_id == upload_bufferArr[1], active_bus.Active_Bus.route_num == upload_bufferArr[2]).first()
 
@@ -64,7 +66,7 @@ def busLocAPI():
     #target_list[0] = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.bus_id == upload_bufferArr[0]).first()
     if (target_list == None):
         #add
-        insert_list = { "bus_id":upload_bufferArr[0],"driver_id":upload_bufferArr[1],"route_num":upload_bufferArr[2],"time_stamp":timenow,"long"=upload_bufferArr[3], "lati" = upload_bufferArr[4], "current_seqno" = 1}
+        insert_list = { "bus_id":upload_bufferArr[0],"driver_id":upload_bufferArr[1],"route_num":upload_bufferArr[2],"time_stamp":timenow,"long":upload_bufferArr[3], "lati":upload_bufferArr[4], "current_seqno": 1}
         target_add = active_bus.Active_Bus(insert_list)
         #log = loclog.Bus_Loc_Log.query.(func.max(Bus.Bus_Loc_Log.id))
         log = loclog.Bus_Loc_Log.query.all()
@@ -72,14 +74,17 @@ def busLocAPI():
         if (log == None):
             logid = 0
         else:
-            logid = log[-1].id
-            logid = logid +1
+            #def last_index(self):
+            #    return len(self)-1
+            #loglast = log.last_index()
+            logid = log.id + 1
 
         ab_busid = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.bus_id == upload_bufferArr[0]).first()
 
         #query activebus filter witht the corresponding bus id to get the ab id. ( ab.id)
         #logid=0
-        insert_log = { "id":logid,"activebus_id":ab_busid.id,"long"=upload_bufferArr[3], "lati" = upload_bufferArr[4],"time_stamp":time.strftime('%A %B, %d %Y %H:%M:%S')}
+        curtime =time.strftime('%A %B, %d %Y %H:%M:%S')
+        insert_log = { "id":logid,"activebus_id":ab_busid.id,"long":upload_bufferArr[3], "lati":upload_bufferArr[4],"time_stamp":curtime}
         buslocationlog =  loclog.Bus_Loc_Log(insert_log)
         try:
             sq.db_session.add(target_add)
@@ -98,7 +103,8 @@ def busLocAPI():
         except Exception as e:
             sq.db_session.rollback()
             #srvlog["oper"].error("push/bus/location FAIL :"+str(upload_locationArr))
-            insert_log = { "id": 999 ,"activebus_id":999,"long"= 999, "lati" = 999,"time_stamp":time.strftime('%A %B, %d %Y %H:%M:%S')}
+            curtime =time.strftime('%A %B, %d %Y %H:%M:%S')
+            insert_log = { "id": 999 ,"activebus_id":999,"long": 999, "lati": 999,"time_stamp":curtime}
             buslocationlog =  loclog.Bus_Loc_Log(insert_log)
             #sq.db_session.add(buslocationlog)
             #sq.db.session.commit()
@@ -130,8 +136,12 @@ def busLocAPI():
         if (log == None):
             logid = 0
         else:
-            logid = log[-1].id
-            logid = logid +1
+            #logid = log[-1].id
+            #logid = logid +1
+            #def last_index(self):
+            #    return len(self)-1
+            #loglast = log.last_index()
+            logid = log.id + 1
 
         ab_busid = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.bus_id == upload_bufferArr[0]).first()
 
@@ -139,8 +149,8 @@ def busLocAPI():
             sq.db_session.add(target_mod)
             sq.db_session.commit()
             #srvlog["oper"].info("push/bus/location MOD :"+str(upload_locationArr))
-
-            insert_log = { "id":logid,"activebus_id":ab_busid.id,"long"=upload_bufferArr[3], "lati" = upload_bufferArr[4],"time_stamp":time.strftime('%A %B, %d %Y %H:%M:%S')}
+            curtime =time.strftime('%A %B, %d %Y %H:%M:%S')
+            insert_log = { "id":logid,"activebus_id":ab_busid.id,"long":upload_bufferArr[3], "lati":upload_bufferArr[4],"time_stamp":curtime}
             buslocationlog =  loclog.Bus_Loc_Log(insert_log)
             if (target_mod.current_seqno == 5):
                 target_mod.current_seqno == 0
@@ -156,7 +166,8 @@ def busLocAPI():
         except Exception as e:
             sq.db_session.rollback()
             #srvlog["oper"].error("push/bus/location FAIL :"+str(upload_locationArr))
-            insert_log = { "id": 999 ,"activebus_id":999,"long"= 999, "lati" = 999,"time_stamp":time.strftime('%A %B, %d %Y %H:%M:%S')}
+            curtime =time.strftime('%A %B, %d %Y %H:%M:%S')
+            insert_log = { "id": 999 ,"activebus_id":999,"long": 999, "lati": 999,"time_stamp":curtime}
             buslocationlog =  loclog.Bus_Loc_Log(insert_log)
             #sq.db_session.add(buslocationlog)
             #sq.db.session.commit()
@@ -201,7 +212,7 @@ def buslogoutAPI():
         databuslog[5] = target_del.route_num
         insert_log = { "start_ts": databuslog[0], "end_ts": databuslog[1], "bus_id": databuslog[2], "driver_id": databuslog[3], "activebus_id": databuslog[4], "route_num":databuslog[5]}
         busdetails = buslog.Bus_Log(insert_log)
-        
+
         sq.db_session.add(busdetails)
         sq.db_session.commit()
         sq.db_session.delete(target_del)
