@@ -49,14 +49,14 @@ def busLocAPI():
             return ("Missing argument "+'f'+str(idx))
 
     upload_bufferArr=[]
-    target_list=[]
+    #target_list=[]
     for idx in range(upload_argTotal):
         upload_bufferArr.append(request.args.get('f'+str(idx)))
         print('f'+str(idx)+"="+request.args.get('f'+str(idx)),end=' ') #DEBUGGING ONLY
 
     print() #DEBUGGING ONLY
 
-    timenow = time.strftime('%A %B, %d %Y %H:%M:%S')
+    global timenow = time.strftime('%A %B, %d %Y %H:%M:%S')
     #insert_list = { reg_no:upload_locationArr[0],"driver_id":upload_locationArr[1],"route_num":upload_locationArr[2],"time_stamp":timenow}
     target_list = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.bus_id == upload_bufferArr[0], active_bus.Active_Bus.driver_id == upload_bufferArr[1], active_bus.Active_Bus.route_num == upload_bufferArr[2]).first()
 
@@ -64,7 +64,7 @@ def busLocAPI():
     #target_list[0] = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.bus_id == upload_bufferArr[0]).first()
     if (target_list == None):
         #add
-        insert_list = { "bus_id":upload_bufferArr[0],"driver_id":upload_bufferArr[1],"route_num":upload_bufferArr[2],"time_stamp":timenow,"long"=upload_bufferArr[3], "lati" = upload_bufferArr[4]}
+        insert_list = { "bus_id":upload_bufferArr[0],"driver_id":upload_bufferArr[1],"route_num":upload_bufferArr[2],"time_stamp":timenow,"long"=upload_bufferArr[3], "lati" = upload_bufferArr[4], "current_seqno" = 1}
         target_add = active_bus.Active_Bus(insert_list)
         #log = loclog.Bus_Loc_Log.query.(func.max(Bus.Bus_Loc_Log.id))
         log = loclog.Bus_Loc_Log.query.all()
@@ -75,33 +75,43 @@ def busLocAPI():
             logid = log[-1].id
             logid = logid +1
 
-            #logid = log.id
-            #logid = logid+1
-
         ab_busid = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.bus_id == upload_bufferArr[0]).first()
 
         #query activebus filter witht the corresponding bus id to get the ab id. ( ab.id)
         #logid=0
-        insert_log = { "id":logid,"activebus_id":ab_busid.id,"long"=upload_bufferArr[3], "lati" = upload_bufferArr[4],"time_stamp":timenow}
+        insert_log = { "id":logid,"activebus_id":ab_busid.id,"long"=upload_bufferArr[3], "lati" = upload_bufferArr[4],"time_stamp":time.strftime('%A %B, %d %Y %H:%M:%S')}
         buslocationlog =  loclog.Bus_Loc_Log(insert_log)
         try:
             sq.db_session.add(target_add)
             sq.db_session.commit()
             #srvlog["oper"].info("push/bus/location ADD :"+str(upload_locationArr))
-            sq.db_session.add(buslocationlog)
-            sq.db.session.commit()
+            try:
+                sq.db_session.add(buslocationlog)
+                sq.db.session.commit()
+                return 'add successfully'
 
-            return '0'
+            except Exception as e:
+                sq.db_session.rollback()
+                return 'add - couldnt add log'
+
 
         except Exception as e:
             sq.db_session.rollback()
             #srvlog["oper"].error("push/bus/location FAIL :"+str(upload_locationArr))
-            insert_log = { "id": 999 ,"activebus_id":999,"long"= 999, "lati" = 999,"time_stamp":999}
+            insert_log = { "id": 999 ,"activebus_id":999,"long"= 999, "lati" = 999,"time_stamp":time.strftime('%A %B, %d %Y %H:%M:%S')}
             buslocationlog =  loclog.Bus_Loc_Log(insert_log)
-            sq.db_session.add(buslocationlog)
-            sq.db.session.commit()
+            #sq.db_session.add(buslocationlog)
+            #sq.db.session.commit()
+            try:
+                sq.db_session.add(buslocationlog)
+                sq.db.session.commit()
+                return 'failtoadd'
 
-            return '1'
+            except Exception as e:
+                sq.db_session.rollback()
+                return 'failtoadd - couldnt add log'
+
+            #return '1'
 
     else:
         # update the database
@@ -114,6 +124,7 @@ def busLocAPI():
         target_mod.driver_id = upload_locationArr[1]
         target_mod.long = upload_locationArr[3]
         target_mod.lati = upload_locationArr[4]
+        target_mod.current_seqno = target_mod.current_seqno + 1
 
         log = loclog.Bus_Loc_Log.query.all()
         if (log == None):
@@ -121,6 +132,7 @@ def busLocAPI():
         else:
             logid = log[-1].id
             logid = logid +1
+
         ab_busid = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.bus_id == upload_bufferArr[0]).first()
 
         try:
@@ -128,24 +140,74 @@ def busLocAPI():
             sq.db_session.commit()
             #srvlog["oper"].info("push/bus/location MOD :"+str(upload_locationArr))
 
-            insert_log = { "id":logid,"activebus_id":ab_busid.id,"long"=upload_bufferArr[3], "lati" = upload_bufferArr[4],"time_stamp":timenow}
+            insert_log = { "id":logid,"activebus_id":ab_busid.id,"long"=upload_bufferArr[3], "lati" = upload_bufferArr[4],"time_stamp":time.strftime('%A %B, %d %Y %H:%M:%S')}
             buslocationlog =  loclog.Bus_Loc_Log(insert_log)
-            sq.db_session.add(buslocationlog)
-            sq.db.session.commit()
-
-            return '0'
+            if (target_mod.current_seqno == 5):
+                target_mod.current_seqno == 0
+                try:
+                    sq.db_session.add(buslocationlog)
+                    sq.db.session.commit()
+                    return 'update successfully'
+                except Exception as e:
+                    sq.db_session.rollback()
+                    return 'update - couldnt add log'
+            #return '0'
 
         except Exception as e:
             sq.db_session.rollback()
             #srvlog["oper"].error("push/bus/location FAIL :"+str(upload_locationArr))
-            insert_log = { "id": 999 ,"activebus_id":999,"long"= 999, "lati" = 999,"time_stamp":999}
+            insert_log = { "id": 999 ,"activebus_id":999,"long"= 999, "lati" = 999,"time_stamp":time.strftime('%A %B, %d %Y %H:%M:%S')}
             buslocationlog =  loclog.Bus_Loc_Log(insert_log)
-            sq.db_session.add(buslocationlog)
-            sq.db.session.commit()
+            #sq.db_session.add(buslocationlog)
+            #sq.db.session.commit()
+            try:
+                sq.db_session.add(buslocationlog)
+                sq.db.session.commit()
+                return 'failtoupdate'
+            except Exception as e:
+                sq.db_session.rollback()
+                return 'failtoupdate - couldnt add log'
+            #return '1'
 
-            return '1'
+
+@bp.route('/bus/location/logout')
+def buslogoutAPI():
+
+        upload_ip = request.remote_addr
+        print("Uploaded from host ",upload_ip,end=': ') #DEBUGGING ONLY
+        upload_argTotal = 1
+            #check for missing argument
+        for idx in range(upload_argTotal):
+            if( 'f'+str(idx) not in request.args):
+                return ("Missing argument "+'f'+str(idx))
+
+        upload_targetArr=[]
+        for idx in range(upload_argTotal):
+            upload_targetArr.append(request.args.get('f'+str(idx)))
+            print('f'+str(idx)+"="+request.args.get('f'+str(idx)),end=' ') #DEBUGGING ONLY
+
+        print() #DEBUGGING ONLY
+        timestop = time.strftime('%A %B, %d %Y %H:%M:%S')
 
 
+        target_del = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.driver_id == upload_targetArr[0]).first()
+        #starttime = active_bus.Active_Bus.get(0)
+        databuslog = []
+        databuslog[0] = timenow
+        databuslog[1] = timestop
+        databuslog[2] = target_del.bus_id
+        databuslog[3] = target_del.driver_id
+        databuslog[4] = target_del.id
+        databuslog[5] = target_del.route_num
+        insert_log = { "start_ts": databuslog[0], "end_ts": databuslog[1], "bus_id": databuslog[2], "driver_id": databuslog[3], "activebus_id": databuslog[4], "route_num":databuslog[5]}
+        busdetails = buslog.Bus_Log(insert_log)
+        
+        sq.db_session.add(busdetails)
+        sq.db_session.commit()
+        sq.db_session.delete(target_del)
+        sq.db_session.commit()
+
+        return "logout"
 ############################################################################################################################
 ##@bp.route('/bus/location/add')
 ##def busLocAPI_add(): #fixed on 19/1/16 by ToraNova
