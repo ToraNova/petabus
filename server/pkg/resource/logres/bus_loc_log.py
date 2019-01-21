@@ -41,7 +41,6 @@ class Bus_Loc_Log(r.Base):
     }
 
     def __init__(self,insert_list):
-        self.id = insert_list["id"]
         self.activebus_id = insert_list["activebus_id"]
         self.time_stamp = insert_list["time_stamp"]
         self.long = insert_list["long"]

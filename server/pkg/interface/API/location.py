@@ -68,28 +68,15 @@ def busLocAPI():
         #add
         insert_list = { "bus_id":upload_bufferArr[0],"driver_id":upload_bufferArr[1],"route_num":upload_bufferArr[2],"time_stamp":timenow,"long":upload_bufferArr[3], "lati":upload_bufferArr[4], "current_seqno": 1}
         target_add = active_bus.Active_Bus(insert_list)
-        #log = loclog.Bus_Loc_Log.query.(func.max(Bus.Bus_Loc_Log.id))
-        log = loclog.Bus_Loc_Log.query.all()
 
-        if (log == None):
-            logid = 0
-        else:
-            #def last_index(self):
-            #    return len(self)-1
-            #loglast = log.last_index()
-            logid = log.id + 1
-
-        ab_busid = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.bus_id == upload_bufferArr[0]).first()
-
-        #query activebus filter witht the corresponding bus id to get the ab id. ( ab.id)
-        #logid=0
-        curtime =time.strftime('%A %B, %d %Y %H:%M:%S')
-        insert_log = { "id":logid,"activebus_id":ab_busid.id,"long":upload_bufferArr[3], "lati":upload_bufferArr[4],"time_stamp":curtime}
-        buslocationlog =  loclog.Bus_Loc_Log(insert_log)
         try:
             sq.db_session.add(target_add)
             sq.db_session.commit()
             #srvlog["oper"].info("push/bus/location ADD :"+str(upload_locationArr))
+            ab_busid = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.bus_id == upload_bufferArr[0]).first()
+            curtime =time.strftime('%A %B, %d %Y %H:%M:%S')
+            insert_log = { "activebus_id":ab_busid.id,"long":upload_bufferArr[3], "lati":upload_bufferArr[4],"time_stamp":curtime}
+            buslocationlog =  loclog.Bus_Loc_Log(insert_log)
             try:
                 sq.db_session.add(buslocationlog)
                 sq.db.session.commit()
@@ -101,10 +88,11 @@ def busLocAPI():
 
 
         except Exception as e:
+            print(str(e))
             sq.db_session.rollback()
             #srvlog["oper"].error("push/bus/location FAIL :"+str(upload_locationArr))
             curtime =time.strftime('%A %B, %d %Y %H:%M:%S')
-            insert_log = { "id": 999 ,"activebus_id":999,"long": 999, "lati": 999,"time_stamp":curtime}
+            insert_log = {"activebus_id":999,"long": 999, "lati": 999,"time_stamp":curtime}
             buslocationlog =  loclog.Bus_Loc_Log(insert_log)
             #sq.db_session.add(buslocationlog)
             #sq.db.session.commit()
@@ -132,16 +120,16 @@ def busLocAPI():
         target_mod.lati = upload_locationArr[4]
         target_mod.current_seqno = target_mod.current_seqno + 1
 
-        log = loclog.Bus_Loc_Log.query.all()
-        if (log == None):
-            logid = 0
-        else:
+        #log = loclog.Bus_Loc_Log.query.all()
+        #if (log == None):
+        #    logid = 0
+        #else:
             #logid = log[-1].id
             #logid = logid +1
             #def last_index(self):
             #    return len(self)-1
             #loglast = log.last_index()
-            logid = log.id + 1
+        #    logid = log.id + 1
 
         ab_busid = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.bus_id == upload_bufferArr[0]).first()
 
@@ -150,7 +138,7 @@ def busLocAPI():
             sq.db_session.commit()
             #srvlog["oper"].info("push/bus/location MOD :"+str(upload_locationArr))
             curtime =time.strftime('%A %B, %d %Y %H:%M:%S')
-            insert_log = { "id":logid,"activebus_id":ab_busid.id,"long":upload_bufferArr[3], "lati":upload_bufferArr[4],"time_stamp":curtime}
+            insert_log = { "activebus_id":ab_busid.id,"long":upload_bufferArr[3], "lati":upload_bufferArr[4],"time_stamp":curtime}
             buslocationlog =  loclog.Bus_Loc_Log(insert_log)
             if (target_mod.current_seqno == 5):
                 target_mod.current_seqno == 0
@@ -167,7 +155,7 @@ def busLocAPI():
             sq.db_session.rollback()
             #srvlog["oper"].error("push/bus/location FAIL :"+str(upload_locationArr))
             curtime =time.strftime('%A %B, %d %Y %H:%M:%S')
-            insert_log = { "id": 999 ,"activebus_id":999,"long": 999, "lati": 999,"time_stamp":curtime}
+            insert_log = { "activebus_id":999,"long": 999, "lati": 999,"time_stamp":curtime}
             buslocationlog =  loclog.Bus_Loc_Log(insert_log)
             #sq.db_session.add(buslocationlog)
             #sq.db.session.commit()
