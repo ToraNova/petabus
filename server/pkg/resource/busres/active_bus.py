@@ -30,6 +30,7 @@ class Active_Bus(r.Base):
     time_stamp = r.Column(r.DateTime,nullable=False)
     long = r.Column(r.Float, nullable=False)
     lati = r.Column(r.Float, nullable=False) #latitude
+    current_seqno = r.Column(r.Integer, nullable=False)
     # TODO: DEFINE THE RLIST
     #The following is for r-listing (resource listing)
     # the values in the rlist must be the same as the column var name
@@ -39,8 +40,8 @@ class Active_Bus(r.Base):
     "Route":"route_num",
     "Time Stamp":"time_stamp",
     "Longitude":"long",
-    "Latitude":"lati"
-
+    "Latitude":"lati",
+    "Current Seq Number":"current_seqno"
     } #header:row data
 
     # TODO: DEFINE THE priKey and display text
@@ -63,6 +64,7 @@ class Active_Bus(r.Base):
         self.time_stamp = insert_list["time_stamp"]
         self.long = insert_list["long"]
         self.lati = insert_list["lati"]
+        self.current_seqno = insert_list["current_seqno"]
     ######################################################################################################
 ## optional, dateinput time will be adjusted later on
 #TODO : DEFINE ADD RES FORM
