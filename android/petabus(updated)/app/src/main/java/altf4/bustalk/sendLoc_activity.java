@@ -318,7 +318,7 @@ public class sendLoc_activity extends AppCompatActivity {
 
     private void logOut(){
         Log.d(DebugTag, "log out pressed");
-        // go back to login_activity activity
+        // go back to login activity
         Intent intent = new Intent(this, login_activity.class);
         startActivity(intent);
         // prevent back press to lead back to this activity once logged out

@@ -57,29 +57,6 @@ public class login_activity extends AppCompatActivity {
             Log.d(DebugTag, "Newly created");
         }
 
-        /*
-        id_input.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                //validate input
-                int n = editable.toString().length();
-                if (n < 10 ) {
-                    id_input.setError("Invalid driver ID");
-                    flag1 = false;
-                } else{
-                    flag1 = true;
-                }
-            }
-        });*/
-
         // when login_activity button is clicked
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +96,7 @@ public class login_activity extends AppCompatActivity {
                   /*String startURL = "http://" + ip_address + "/bustalk/verify.php";
                     String testURL = startURL + "?drvid=" + driver_id +
                             "&pw=" + password;*/
-                    String startURL = "http://" + ip_address + ":8000/push/driver/login_activity/valid";
+                    String startURL = "http://" + ip_address + ":8000/push/driver/login/valid";
                     String testURL = startURL + "?f0=" + driver_id +
                             "&f1=" + password;
                     String parameters = "f0=" + driver_id +

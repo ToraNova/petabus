@@ -203,7 +203,7 @@ public class networkManager extends AsyncTask<Void, Void, String> {
         Log.d(DebugTag, "Push status: " + result);
 
         try {
-            if (urlString.contains("login_activity")) {
+            if (urlString.contains("login")) {
                 Log.d(DebugTag, "verifying");
 
                 // pass values to next activity and go to next activity if push was successful
@@ -233,7 +233,7 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                         Log.d(DebugTag, "pushing to web server");
                     }
                     else {
-                        Log.d(DebugTag, "not login_activity: " + result);
+                        Log.d(DebugTag, "not login: " + result);
                     }
                 }
             }
