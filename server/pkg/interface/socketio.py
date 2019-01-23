@@ -65,7 +65,8 @@ class SystemUtilNamespace(Namespace):
 
 class MapDisplayNamespace(Namespace):
 	def on_connect(self):
-		self.sendPointData2()
+		#self.sendPointData2()
+		pass
 
 	def on_disconnect(self):
 		pass
@@ -102,6 +103,7 @@ class MapDisplayNamespace(Namespace):
 			route = active_bus.Active_Bus.query.filter(
 				active_bus.Active_Bus.route_num == points.route_num ).first()
 			data_dict["route_num"] = route.route_num
+			#route.route
 			list.append(data_dict)
 		#list = str(list)[1:-2]
 		#out = json.dumps({"points":list})

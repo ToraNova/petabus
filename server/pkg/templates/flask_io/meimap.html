@@ -124,35 +124,64 @@
     });
   });
 */
+
+  function updatePoint(){
+    socket.emit('update');
+    console.log("X")
+  }
+
   var myIcon = L.icon( {
   iconUrl: '{{url_for("static", filename="imgres/bus_green.png")}}',
   iconSize: [30, 30],
   popupAnchor: [0,-10]
   });
-  var shelter1 =  L.marker([2.925297, 101.642064], {icon: myIcon}).addTo(mymap);
-  var shelterMarkers = new L.FeatureGroup();
+
+  //var shelter1 =  L.marker([2.925297, 101.642064], {icon: myIcon}).addTo(mymap);
+  //var shelterMarkers = new L.FeatureGroup();
 
   //setInterval(timercallback2,5000);
   //setInterval(timercallback, 5000);
+
+L.marker([2.925297, 101.642064], {icon: myIcon});
 
   var pointArray2 = new Array();
   socket.on('point_data2', function(msg) {
     msg.points.forEach(function proc(element, index){
       //shelterMarkers.addLayer(shelter1);
-      var test = findPoint(element,pointArray2); //find the element in the array
+      console.log("yo1")
+
+      var test = findPoint(element,pointArray2);
+      console.log(test) //find the element in the array
       if( test != -1 ){
         //element already in
         console.log("Point edited on map",element)
         pointArray2[test][0] = element; // thedata in the element
+        //L.marker([element.long,element.lati],{icon: myIcon}).addTo(mymap);
         pointArray2[test][1].setLatLng([element.long,element.lati]); //marker
       }else{
+        //mymap.setView(element.long,element.lati)
         console.log("Point added to map",element)
-        pointArray2.push([element,L.marker([element.long,element.lati]).addTo(mymap)
-          .bindPopup("<b>{0}</b><br/>{1}".format(element.route_num,element.driver_id))])
+        mymap.setView([element.long,element.lati],20)
+        driid =  "Driver id =" + element.driver_id
+        marker = L.marker([element.long,element.lati], {icon: myIcon}).bindPopup(driid).addTo(mymap)
+        marker.openPopup();
+        //pointArray2.push([element,L.marker([element.long,element.lati], {icon: myIcon}).addTo(mymap)
+        // .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup()]);
+          //mymap.setView(new L.LatLng(element.long,element.lati), 15);
+        //locate();
+        //marker.on('mouseover', function(){
+        //    driid = "Driver id ="+ str(element.driver_id)
+        //    marker._popup.setContent(driid)
+        //});
+        //[element.long,element.lati],12);
       }
     });
-    print("yo")
+    console.log("yo")
   });
+
+//bindPopup("<b>{0}</b><br/>{1}".format(element.route_num,element.driver_id))])
+//bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup()]);
+  //bindPopup("<b>longitude:{element.long}</b>latitude:{element.lati}<br/>{1}".format(element.route_num,element.driver_id))])
 
   /*
   var myIcon = L.icon({
@@ -166,7 +195,14 @@
 });
 */
 
-var myIcon = L.icon( {
+  function locate(){
+    mymap.locate({setView: true, maxZoom: 15});
+  }
+
+
+
+
+  var myIcon = L.icon( {
   iconUrl: '{{url_for("static", filename="imgres/bus_green.png")}}',
   iconSize: [30, 30],
   popupAnchor: [0,-10]
@@ -186,12 +222,6 @@ var myIcon = L.icon( {
       .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup();
 	}
 */
-  function updatePoint(){
-    socket.emit('update');
-    console.log("X")
-  }
-
-
 
   function connectserver(){
     socket.on('connect', function() {
