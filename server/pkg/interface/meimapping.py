@@ -25,7 +25,7 @@ bp = Blueprint('maptrack2', __name__, url_prefix='/track')
 @bp.route('/basic1')
 def basic():
 	#return render_template('flask_io/basic_map.html')
-	return render_template('flask_io/meimap.html',MAPWIDTH=500,MAPHEIGHT=500)
+	return render_template('flask_io/meimap.html',MAPWIDTH=900,MAPHEIGHT=900)
 
 @bp.route('/geolocation')
 def point():
