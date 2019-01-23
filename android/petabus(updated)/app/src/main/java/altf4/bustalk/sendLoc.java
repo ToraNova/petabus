@@ -51,7 +51,7 @@ public class sendLoc extends AppCompatActivity {
     private Handler sendHandler;
     private Animation animation;
     private AlphaAnimation alphaAnim;
-    private networkManager netman = new networkManager();
+    private networkManager netman;
     private LocationManager locman;
     private Activity activity;
     private location locationFunc;
@@ -67,7 +67,6 @@ public class sendLoc extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push);
 
-        /*
         //receive values from previous activity
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -75,7 +74,11 @@ public class sendLoc extends AppCompatActivity {
         ip_address = bundle.getString("ip_address");
         response = bundle.getString("response");
         Log.d(DebugTag, "Driver id: " + driver_id + "\t IP: " + ip_address + "\t response: " + response);
-        */
+
+        // process response from server to know valid bus ids and route nums
+        processResponse();
+
+        //        netman = new networkManager(this);
 
         count = 0;
         PACKAGE_NAME = getApplicationContext().getPackageName();
@@ -93,9 +96,6 @@ public class sendLoc extends AppCompatActivity {
         sendLoc_button = findViewById(R.id.btnSend);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // process response from server to know valid bus ids and route nums
-        processResponse();
 
         // set up spinners
         //adapterBusId = ArrayAdapter.createFromResource(this, R.array.busId, android.R.layout.simple_spinner_item);
@@ -135,6 +135,8 @@ public class sendLoc extends AppCompatActivity {
             }
         });
 
+
+
         // when login button is clicked
         sendLoc_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,9 +145,9 @@ public class sendLoc extends AppCompatActivity {
                 Log.d(DebugTag, "send button pressed: " + buttonText);
 
                 // display "stop" on button while location is being sent
-                if(buttonText.equals("BEGIN")) {
+                if (buttonText.equals("BEGIN")) {
                     send = true;
-                    if(locationFunc.checkLocationPermission()) {
+                    if (locationFunc.checkLocationPermission()) {
                         sendLoc_button.setText(getResources().getIdentifier("@string/stop", "string", PACKAGE_NAME));
                         Log.d(DebugTag, "bus id: " + selectedBusId + "\t route num: " + selectedRouteNum);
 
@@ -154,46 +156,20 @@ public class sendLoc extends AppCompatActivity {
                         spinnerRouteNum.setEnabled(false);
 
                         // send location repeatedly with fixed duration until stop button is clicked
-                        sendHandler = new Handler();
-                        sendRunnableCode = new Runnable() {
-                            @Override
-                            public void run() {
-                                Log.d(DebugTag, "Repeating, count = " + count++);
-
-                                // show image to indiciate location is being sent
-                                imgSendingLoc.setVisibility(View.VISIBLE);
-                                // make image blink
-                                animation = alphaAnim;                                      // Change alpha from invisible to visible
-                                animation.setDuration(period);                              // duration
-                                animation.setInterpolator(new LinearInterpolator());        // do not alter animation rate
-                                animation.setRepeatCount(Animation.ABSOLUTE);               // Repeat animation
-                                animation.setRepeatMode(Animation.REVERSE);
-                                imgSendingLoc.startAnimation(animation);
-
-                                locationFunc.SendLocation(locman, netman, ip_address, driver_id, selectedBusId, selectedRouteNum);
-                                // Repeat this the same runnable code block every 3s
-                                Log.d(DebugTag, "wait for period");
-                                sendHandler.postDelayed(sendRunnableCode, period);
-                            }
-                        };
-                        // Start the initial runnable task by posting through the handler
-                        Log.d(DebugTag, "periodically run send location task");
-                        sendHandler.post(sendRunnableCode);
+                        setupHandler();
                     }
-                    else{
-                        Log.d(DebugTag,"problem with sending location");
-                    }
-                }
-                else{
+                    // Start the initial runnable task by posting through the handler
+                    Log.d(DebugTag, "periodically run send location task");
+                    sendHandler.post(sendRunnableCode);
+                } else {
                     // display "send" on button while location is not being sent
-                    if(buttonText.equals("STOP")) {
+                    if (buttonText.equals("STOP")) {
                         stopSendingLoc();
                     }
                 }
+                Log.d(DebugTag, "sendLoc activity created");
             }
         });
-
-        Log.d(DebugTag, "sendLoc activity created");
     }
 
     private void processResponse(){
@@ -285,13 +261,21 @@ public class sendLoc extends AppCompatActivity {
                     Log.d(DebugTag, "stop sending location");
 
                     // prepare the URL to push data to web server
-                    String startURL = "http://" + ip_address + "/bustalk/logout.php";
-                    String testURL = startURL + "?drvid=" + driver_id + "&bus_id=" + selectedBusId + "&route=" + selectedRouteNum;
+                    String startURL = "http://" + ip_address + ":8000/push/bus/location/logout.php";
+                    //String testURL = startURL + "?f0=" + driver_id + "&bus_id=" + selectedBusId + "&route=" + selectedRouteNum;
+                    String testURL = startURL + "?f0=" + driver_id;
                     Log.d(DebugTag, "Logout: " + testURL);
 
                     // push required information to the web server
-                    netman = new networkManager(testURL, "GET",driver_id, ip_address);
+                    //netman = new networkManager(testURL, "GET",driver_id, ip_address);
+                    netman = new networkManager(activity);
+                    netman.setType("GET");
+                    netman.setUrlString(testURL);
+                    netman.setUrlMini(startURL);
+                    netman.setDriverId(driver_id);
+                    netman.setIp(ip_address);
                     netman.execute();
+
                     logOut();
                 }
             }
@@ -357,5 +341,32 @@ public class sendLoc extends AppCompatActivity {
             }
             // other 'case' lines to check for other permissions this app might request
         }
+    }
+
+    private void setupHandler(){
+        sendHandler = new Handler();
+        sendRunnableCode = new Runnable() {
+            @Override
+            public void run() {
+                Log.d(DebugTag, "Repeating, count = " + count++);
+
+                // show image to indiciate location is being sent
+                imgSendingLoc.setVisibility(View.VISIBLE);
+                // make image blink
+                animation = alphaAnim;                                      // Change alpha from invisible to visible
+                animation.setDuration(period);                              // duration
+                animation.setInterpolator(new LinearInterpolator());        // do not alter animation rate
+                animation.setRepeatCount(Animation.ABSOLUTE);               // Repeat animation
+                animation.setRepeatMode(Animation.REVERSE);
+                imgSendingLoc.startAnimation(animation);
+                Log.d(DebugTag, "debugging tag 0000001");
+
+                netman = new networkManager(activity);
+                locationFunc.SendLocation(locman, netman, ip_address, driver_id, selectedBusId, selectedRouteNum);
+                // Repeat this the same runnable code block every 3s
+                Log.d(DebugTag, "wait for period");
+                sendHandler.postDelayed(sendRunnableCode, period);
+            }
+        };
     }
 }

@@ -14,6 +14,7 @@
     <string name="def_ip">....</string>
     <!--- status -->
     <string name="login_attempt">Attempt to log in</string>
+    <string name="no_driver_id_password">Please enter the correct Driver ID and Password</string>
     <string name="no_bus_id">Please enter Bus ID</string>
     <string name="no_password">Please enter password</string>
     <string name="error_in_pushing">Error in pushing data to web server</string>
