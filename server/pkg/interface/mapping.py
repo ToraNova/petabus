@@ -48,11 +48,11 @@ def point():
 	#sq.db_session.add(target_add)
     #sq.db_session.commit()
 	#nowtime = datetime.datetime.now()
-	#date = datetime(2012, 3, 3, 10, 10, 10)
-	#insert_list = { "bus_id":8,"driver_id":8,"route_num":1,"time_stamp":date,"long":2.925297, "lati" :101.642064}
-	#target_add = actbus.Active_Bus(insert_list)
-	#sq.db_session.add(target_add)
-	#sq.db_session.commit()
+	date = datetime(2012, 3, 3, 10, 10, 10)
+	insert_list = { "bus_id":8,"driver_id":8,"route_num":1,"time_stamp":date,"long":2.925297, "lati" :101.642064,"current_seqno":1}
+	target_add = actbus.Active_Bus(insert_list)
+	sq.db_session.add(target_add)
+	sq.db_session.commit()
 	pointlist = actbus.Active_Bus.query.all()
 	latlong = []
 	for point in pointlist:
