@@ -11,6 +11,7 @@ import datetime
 
 import pkg.const as const
 import pkg.resource.rdef as res
+from pkg.resource.busres import active_bus
 import json
 
 bp = Blueprint('sock', __name__, url_prefix='') #flask sock bp
@@ -64,7 +65,7 @@ class SystemUtilNamespace(Namespace):
 
 class MapDisplayNamespace(Namespace):
 	def on_connect(self):
-		self.sendPointData()
+		self.sendPointData2()
 
 	def on_disconnect(self):
 		pass
@@ -83,6 +84,23 @@ class MapDisplayNamespace(Namespace):
 			route = res.georoute.Georoute.query.filter(
 				res.georoute.Georoute.id == points.route_id ).first()
 			data_dict["route"] = route.name
+			list.append(data_dict)
+		#list = str(list)[1:-2]
+		#out = json.dumps({"points":list})
+		emit('point_data',{"points":list})
+
+	def sendPointData2(self):
+		pointlist = active_bus.Active_Bus.query.all()
+		list = []
+		for points in pointlist:
+			data_dict = {}
+			data_dict["bus_id"] = points.bus_id
+			data_dict["driver_id"] = points.driver_id
+			data_dict["long"] = points.long
+			data_dict["lati"] = points.lati
+			route = active_bus.Active_Bus.query.filter(
+				active_bus.Active_Bus.route_num == points.route_num ).first()
+			data_dict["route_num"] = route.route_num
 			list.append(data_dict)
 		#list = str(list)[1:-2]
 		#out = json.dumps({"points":list})

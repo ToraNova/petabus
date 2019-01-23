@@ -96,11 +96,11 @@ public class login extends AppCompatActivity {
                   /*String startURL = "http://" + ip_address + "/bustalk/verify.php";
                     String testURL = startURL + "?drvid=" + driver_id +
                             "&pw=" + password;*/
-                    String startURL = "http://" + ip_address + "";
-                    String testURL = startURL + "?drvid=" + driver_id +
-                            "&ps=" + password;
-                    String parameters = "drvid=" + driver_id +
-                            "&ps=" + password;
+                    String startURL = "http://" + ip_address + "/push/driver/login/valid";
+                    String testURL = startURL + "?f0=" + driver_id +
+                            "&f1=" + password;
+                    String parameters = "f0=" + driver_id +
+                            "&f1=" + password;
                     Log.d(DebugTag, "Send: " + testURL);
 
                     // push required information to the web server
