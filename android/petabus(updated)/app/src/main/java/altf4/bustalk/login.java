@@ -1,5 +1,6 @@
 package altf4.bustalk;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +28,7 @@ public class login extends AppCompatActivity {
     private EditText password_input;
     private EditText ip_address_input;
     public TextView status_text;
+    private networkManager netman;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,8 @@ public class login extends AppCompatActivity {
         password_input = findViewById(R.id.txtPassword);
         ip_address_input = findViewById(R.id.txtIp);
         final Button login_button = findViewById(R.id.btnLogin);
+
+        netman = new networkManager(this);
 
         if(savedInstanceState == null) {
             Log.d(DebugTag, "Newly created");
@@ -96,7 +100,7 @@ public class login extends AppCompatActivity {
                   /*String startURL = "http://" + ip_address + "/bustalk/verify.php";
                     String testURL = startURL + "?drvid=" + driver_id +
                             "&pw=" + password;*/
-                    String startURL = "http://" + ip_address + "/push/driver/login/valid";
+                    String startURL = "http://" + ip_address + ":8000/push/driver/login/valid";
                     String testURL = startURL + "?f0=" + driver_id +
                             "&f1=" + password;
                     String parameters = "f0=" + driver_id +
@@ -104,7 +108,12 @@ public class login extends AppCompatActivity {
                     Log.d(DebugTag, "Send: " + testURL);
 
                     // push required information to the web server
-                    networkManager netman = new networkManager(testURL,"POST",driver_id ,ip_address, parameters, startURL);
+                    netman.setDriverId(driver_id);
+                    netman.setIp(ip_address);
+                    netman.setParam(parameters);
+                    netman.setUrlMini(startURL);
+                    netman.setType("GET");
+                    netman.setUrlString(testURL);
                     netman.execute();
                 }
                 else{
@@ -152,15 +161,15 @@ public class login extends AppCompatActivity {
     }
 
 
-/*
+
     public void nextActivity(String result) {
         Log.d(DebugTag, "Push status: " + result);
 
         // pass values to next activity and go to next activity if push was successful
         if(result.equals("0")){
             status_text.setText(getResources().getIdentifier("@string/login_attempt", "string", this.getPackageName()));
-            //sendValuesToNextActivity();
-            //proceedToSendLoc();
+            sendValuesToNextActivity();
+            proceedToSendLoc();
         }
         // otherwise error
         else{
@@ -184,6 +193,6 @@ public class login extends AppCompatActivity {
         startActivity(intent);
         this.finish();      // disable "back" to go back to login page
     }
-    */
+
 }
 

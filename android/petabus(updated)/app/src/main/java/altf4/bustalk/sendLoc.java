@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class sendLoc extends AppCompatActivity {
     //declaration of variables and constants
     public static final String DebugTag = "DEBUG_sendLoc";
-    public static final int period = 3000;     //for sending location periodically
+    public static final int period = 10000;     //for sending location periodically
     public static String PACKAGE_NAME;
 
     private String driver_id = "AD82733";
@@ -51,7 +51,7 @@ public class sendLoc extends AppCompatActivity {
     private Handler sendHandler;
     private Animation animation;
     private AlphaAnimation alphaAnim;
-    private networkManager netman = new networkManager();
+    private networkManager netman;
     private LocationManager locman;
     private Activity activity;
     private location locationFunc;
@@ -67,7 +67,6 @@ public class sendLoc extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push);
 
-        /*
         //receive values from previous activity
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -75,7 +74,11 @@ public class sendLoc extends AppCompatActivity {
         ip_address = bundle.getString("ip_address");
         response = bundle.getString("response");
         Log.d(DebugTag, "Driver id: " + driver_id + "\t IP: " + ip_address + "\t response: " + response);
-        */
+
+        // process response from server to know valid bus ids and route nums
+        processResponse();
+
+        netman = new networkManager(this);
 
         count = 0;
         PACKAGE_NAME = getApplicationContext().getPackageName();
@@ -93,9 +96,6 @@ public class sendLoc extends AppCompatActivity {
         sendLoc_button = findViewById(R.id.btnSend);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // process response from server to know valid bus ids and route nums
-        processResponse();
 
         // set up spinners
         //adapterBusId = ArrayAdapter.createFromResource(this, R.array.busId, android.R.layout.simple_spinner_item);
@@ -169,11 +169,11 @@ public class sendLoc extends AppCompatActivity {
                                 animation.setRepeatCount(Animation.ABSOLUTE);               // Repeat animation
                                 animation.setRepeatMode(Animation.REVERSE);
                                 imgSendingLoc.startAnimation(animation);
-
+                                Log.d(DebugTag, "debugging tag 0000001");
                                 locationFunc.SendLocation(locman, netman, ip_address, driver_id, selectedBusId, selectedRouteNum);
                                 // Repeat this the same runnable code block every 3s
                                 Log.d(DebugTag, "wait for period");
-                                sendHandler.postDelayed(sendRunnableCode, period);
+                                //sendHandler.postDelayed(sendRunnableCode, period);
                             }
                         };
                         // Start the initial runnable task by posting through the handler
@@ -285,13 +285,20 @@ public class sendLoc extends AppCompatActivity {
                     Log.d(DebugTag, "stop sending location");
 
                     // prepare the URL to push data to web server
-                    String startURL = "http://" + ip_address + "/bustalk/logout.php";
-                    String testURL = startURL + "?drvid=" + driver_id + "&bus_id=" + selectedBusId + "&route=" + selectedRouteNum;
+                    String startURL = "http://" + ip_address + ":8000/push/bus/location/logout.php";
+                    //String testURL = startURL + "?f0=" + driver_id + "&bus_id=" + selectedBusId + "&route=" + selectedRouteNum;
+                    String testURL = startURL + "?f0=" + driver_id;
                     Log.d(DebugTag, "Logout: " + testURL);
 
                     // push required information to the web server
-                    netman = new networkManager(testURL, "GET",driver_id, ip_address);
+                    //netman = new networkManager(testURL, "GET",driver_id, ip_address);
+                    netman.setType("GET");
+                    netman.setUrlString(testURL);
+                    netman.setUrlMini(startURL);
+                    netman.setDriverId(driver_id);
+                    netman.setIp(ip_address);
                     netman.execute();
+
                     logOut();
                 }
             }

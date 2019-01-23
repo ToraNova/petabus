@@ -1,5 +1,6 @@
 package altf4.bustalk;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -25,38 +26,68 @@ public class networkManager extends AsyncTask<Void, Void, String> {
     private String inputLine = "";
     private HttpURLConnection connection = null;
     private static final String DebugTag = "DEV_HTTP_DEBUG_MSG";
-    private login loginActivity;
+    private Activity loginActivity;
 
     //constructor
-    public networkManager(){
+    public networkManager(Activity activity){
         this.urlString = "";
         this.type = "";
     //    this.param = "";
     //    this.urlmini = "";
+        this.loginActivity = activity;
     }
-    public networkManager(String u, String t, String id, String ip) {
+    public networkManager(String u, String t, String id, String ip, Activity activity) {
         this.urlString = u;
         this.type = t;
         this.driver_id = id;
         this.ip_address = ip;
     //    this.param = p;
     //    this.urlmini = a;
+        this.loginActivity = activity;
     }
-    public networkManager(String u, String t, String param, String mini, boolean haha) {
+    public networkManager(String u, String t, String param, String mini, boolean haha, Activity activity) {
         this.urlString = u;
         this.type = t;
         this.param = param;
         this.urlmini =  mini;
+        this.loginActivity = activity;
     }
 
-    public networkManager(String a, String b, String c, String d, String e, String f) {
+    public networkManager(String a, String b, String c, String d, String e, String f, Activity activity) {
         this.urlString = a;
         this.type = b;
         this.driver_id = c;
         this.ip_address = d;
         this.param = e;
         this.urlmini = f;
+        this.loginActivity = activity;
     }
+
+    public void setUrlString(String testurl){
+        urlString = testurl;
+        Log.d(DebugTag, "urlstring: " + urlString);
+    }
+    public void setType(String t){
+        type = t;
+        Log.d(DebugTag, "type: " + type);
+    }
+    public void setParam(String param){
+        this.param = param;
+        Log.d(DebugTag, "param: " + param);
+    }
+    public void setUrlMini(String urlmini){
+        this.urlmini = urlmini;
+        Log.d(DebugTag, "urlmini: " + urlmini);
+    }
+    public void setIp(String ip){
+        this.ip_address = ip;
+        Log.d(DebugTag, "ip: " + ip_address);
+    }
+    public void setDriverId(String id){
+        this.driver_id = id;
+        Log.d(DebugTag, "id: " + driver_id);
+    }
+
 
     protected String doInBackground(Void... params) {
         Log.d(DebugTag, urlString + "\t  (^o^)(^o^)(^o^)" + type);
@@ -67,11 +98,13 @@ public class networkManager extends AsyncTask<Void, Void, String> {
         if(type == "GET") {
             try {
                 // connect to the url
+                Log.d(DebugTag, "debugging tag 0000005");
                 url = new URL(urlString);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setDoInput(true);
                 connection.connect();
+                Log.d(DebugTag, "debugging tag 0000006");
 
                 InputStream in = connection.getInputStream();
                 InputStreamReader isw = new InputStreamReader(in);
@@ -95,6 +128,8 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                     connection.disconnect();
                 }
             }
+
+            return buffer;
         }
         // POST method
         else{
@@ -125,8 +160,8 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                 //wr.close();
 
 
-                System.out.println("\nSending 'POST' request to URL : " + url);
-                System.out.println("Post parameters : " + param);
+                Log.d(DebugTag, "\nSending 'POST' request to URL : " + url);
+                Log.d(DebugTag, "Post parameters : " + param);
 
                 BufferedReader in =
                         new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -155,7 +190,8 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                 }
             }
         }
-        //return buffer;
+        Log.d(DebugTag, "result: ");
+
         return inputLine;
     }
 
@@ -164,18 +200,25 @@ public class networkManager extends AsyncTask<Void, Void, String> {
         Log.d(DebugTag, "Push status: " + result);
 
         try {
-            if (urlString.contains("verify")) {
+            if (urlString.contains("login")) {
                 Log.d(DebugTag, "verifying");
-                //loginActivity.nextActivity(result);
 
                 // pass values to next activity and go to next activity if push was successful
-                if (result.equals("0")) {
+                if (result.equals("1")) {
+                    //loginActivity.status_text.setText(loginActivity.getResources().
+                    //        getIdentifier("@string/error_in_pushing", "string", loginActivity.getPackageName()));
+                    Log.d(DebugTag, "error in pushing to web server");
+                }
+                // otherwise display error message on screen
+                else {
+                    Log.d(DebugTag, "test");
                     // pass values in this activity to the next activity
                     Intent passIntent = new Intent(loginActivity, sendLoc.class);
+                    Log.d(DebugTag, "test");
                     passIntent.putExtra("driver_id", driver_id);
                     passIntent.putExtra("ip_address", ip_address);
                     // for post method response from server
-                    passIntent.putExtra("response", inputLine);
+                    passIntent.putExtra("response", result);
                     Log.d(DebugTag, "sending values to next activity");
                     loginActivity.startActivity(passIntent);
 
@@ -187,12 +230,10 @@ public class networkManager extends AsyncTask<Void, Void, String> {
 
                     Log.d(DebugTag, "pushing to web server");
                 }
-                // otherwise display error message on screen
-                else {
-                    loginActivity.status_text.setText(loginActivity.getResources().
-                            getIdentifier("@string/error_in_pushing", "string", loginActivity.getPackageName()));
-                    Log.d(DebugTag, "error in pushing to web server");
-                }
+            }
+            else{
+                if(result.contains("bus_no"))
+                Log.d(DebugTag, "not login: " + result);
             }
         }
         catch(Exception e){

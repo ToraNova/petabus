@@ -11,15 +11,15 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".login">
-        </activity>
-        <activity
-            android:name=".sendLoc"
-            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".sendLoc"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
