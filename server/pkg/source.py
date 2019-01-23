@@ -32,7 +32,7 @@ def server(config=None):
 
 	from pkg.interface import socketio #socket io import
 	from pkg.interface.API import location,login
-	from pkg.interface import home,mapping
+	from pkg.interface import home,mapping,meimapping
 	from pkg.interface import push,pull
 	from pkg.system import auth,admintools
 	from pkg.resource import r
@@ -64,6 +64,7 @@ def server(config=None):
 	out.register_blueprint(mapping.bp)
 	out.register_blueprint(push.bp)
 	out.register_blueprint(pull.bp)
+	out.register_blueprint(meimapping.bp)
 
   #Added by Mei
 	out.register_blueprint(location.bp)
@@ -80,5 +81,6 @@ def server(config=None):
 	out = SocketIO(out_nonsock)
 	out.on_namespace(socketio.SystemUtilNamespace('/sysutil'))
 	out.on_namespace(socketio.MapDisplayNamespace('/pointdisp'))
+	out.on_namespace(socketio.MapDisplayNamespace('/meiconnect'))
 
 	return out,out_nonsock
