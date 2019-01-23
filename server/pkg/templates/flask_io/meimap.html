@@ -162,8 +162,13 @@ L.marker([2.925297, 101.642064], {icon: myIcon});
         //mymap.setView(element.long,element.lati)
         console.log("Point added to map",element)
         mymap.setView([element.long,element.lati],20)
-        driid =  "Driver id =" + element.driver_id
-        marker = L.marker([element.long,element.lati], {icon: myIcon}).bindPopup(driid).addTo(mymap)
+        displayregno = "Reg_Number =" + element.reg_no
+        //driid =  "Driver id =" + element.driver_id
+        //lat = "Lat =" + element.lati
+        //longi = "Long =" + element.long
+        //driid2 = driid + "" + lat + "" +longi
+
+        marker = L.marker([element.long,element.lati], {icon: myIcon}).bindPopup(displayregno).addTo(mymap)
         marker.openPopup();
         //pointArray2.push([element,L.marker([element.long,element.lati], {icon: myIcon}).addTo(mymap)
         // .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup()]);
