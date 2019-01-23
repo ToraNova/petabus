@@ -30,8 +30,13 @@ def basic():
 	route = []
 	for basic in routelist:
 		tempo = [basic.route_num]
-		route.append(tempo)
+		if(tempo in route):
+			pass
+		else:
+			route.append(tempo)
+			print(route)
 	#return render_template('flask_io/basic_map.html')
+
 	return render_template('flask_io/meimap.html',MAPWIDTH=1500,MAPHEIGHT=900,routenum = route, length=len(route),columnHead=columnHead)
 
 @bp.route('/geolocation')

@@ -91,7 +91,7 @@ class MapDisplayNamespace(Namespace):
 		emit('point_data',{"points":list})
 
 	def sendPointData2(self):
-		pointlist = active_bus.Active_Bus.query.all()
+		pointlist = active_bus.Active_Bus.query.distinct().all()
 		list = []
 		for points in pointlist:
 			data_dict = {}
