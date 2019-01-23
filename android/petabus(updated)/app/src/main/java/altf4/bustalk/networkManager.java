@@ -3,6 +3,7 @@ package altf4.bustalk;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Debug;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -133,6 +134,8 @@ public class networkManager extends AsyncTask<Void, Void, String> {
         }
         // POST method
         else{
+            //String response = "";
+
             try {
                 String urlParameters  = param;
                 byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
@@ -166,13 +169,14 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                 BufferedReader in =
                         new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 // String inputLine;
+                Log.d(DebugTag, "test");
                 StringBuffer response = new StringBuffer();
-
                 //       InputStream in2 = connection.getInputStream();
                 //       InputStreamReader isw = new InputStreamReader(in2);
-
+                Log.d(DebugTag, "test");
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
+                    Log.d(DebugTag, "response: " + response.toString());
                 }
                 in.close();
                 //       System.out.println(response.toString() + "HAHAHAHAHAHA");
@@ -190,7 +194,7 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                 }
             }
         }
-        Log.d(DebugTag, "result: ");
+        //Log.d(DebugTag, "result: " + response);
 
         return inputLine;
     }
@@ -211,29 +215,28 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                 }
                 // otherwise display error message on screen
                 else {
-                    Log.d(DebugTag, "test");
-                    // pass values in this activity to the next activity
-                    Intent passIntent = new Intent(loginActivity, sendLoc.class);
-                    Log.d(DebugTag, "test");
-                    passIntent.putExtra("driver_id", driver_id);
-                    passIntent.putExtra("ip_address", ip_address);
-                    // for post method response from server
-                    passIntent.putExtra("response", result);
-                    Log.d(DebugTag, "sending values to next activity");
-                    loginActivity.startActivity(passIntent);
+                    if (result.contains("bus_no")) {
+                        // pass values in this activity to the next activity
+                        Intent passIntent = new Intent(loginActivity, sendLoc.class);
+                        passIntent.putExtra("driver_id", driver_id);
+                        passIntent.putExtra("ip_address", ip_address);
+                        // for post method response from server
+                        passIntent.putExtra("response", result);
+                        Log.d(DebugTag, "sending values to next activity");
+                        loginActivity.startActivity(passIntent);
 
-                    // goes to next activity
-                    Intent intent = new Intent(loginActivity, sendLoc.class);
-                    Log.d(DebugTag, "moving to next activity");
-                    loginActivity.startActivity(intent);
-                    loginActivity.finish();      // disable "back" to go back to login page
+                        // goes to next activity
+                        Intent intent = new Intent(loginActivity, sendLoc.class);
+                        Log.d(DebugTag, "moving to next activity");
+                        loginActivity.startActivity(intent);
+                        loginActivity.finish();      // disable "back" to go back to login page
 
-                    Log.d(DebugTag, "pushing to web server");
+                        Log.d(DebugTag, "pushing to web server");
+                    }
+                    else {
+                        Log.d(DebugTag, "not login: " + result);
+                    }
                 }
-            }
-            else{
-                if(result.contains("bus_no"))
-                Log.d(DebugTag, "not login: " + result);
             }
         }
         catch(Exception e){
