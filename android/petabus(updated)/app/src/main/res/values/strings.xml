@@ -4,7 +4,7 @@
 
 
 
-    <!-- login Activity -->
+    <!-- login_activity Activity -->
     <string name="id_hint">\t Driver ID</string>
     <string name="password">\t Password</string>
     <string name="login">LOG IN</string>
@@ -21,7 +21,7 @@
 
 
 
-    <!-- sendLoc Activity -->
+    <!-- sendLoc_activity Activity -->
     <string name="bus_id">Bus ID</string>
     <string name="route_num">Route</string>
     <!-- toolbar -->

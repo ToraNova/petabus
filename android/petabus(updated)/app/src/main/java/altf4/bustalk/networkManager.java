@@ -3,7 +3,6 @@ package altf4.bustalk;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Debug;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -204,7 +203,7 @@ public class networkManager extends AsyncTask<Void, Void, String> {
         Log.d(DebugTag, "Push status: " + result);
 
         try {
-            if (urlString.contains("login")) {
+            if (urlString.contains("login_activity")) {
                 Log.d(DebugTag, "verifying");
 
                 // pass values to next activity and go to next activity if push was successful
@@ -217,7 +216,7 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                 else {
                     if (result.contains("bus_no")) {
                         // pass values in this activity to the next activity
-                        Intent passIntent = new Intent(loginActivity, sendLoc.class);
+                        Intent passIntent = new Intent(loginActivity, sendLoc_activity.class);
                         passIntent.putExtra("driver_id", driver_id);
                         passIntent.putExtra("ip_address", ip_address);
                         // for post method response from server
@@ -226,15 +225,15 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                         loginActivity.startActivity(passIntent);
 
                         // goes to next activity
-                        Intent intent = new Intent(loginActivity, sendLoc.class);
+                        Intent intent = new Intent(loginActivity, sendLoc_activity.class);
                         Log.d(DebugTag, "moving to next activity");
                         loginActivity.startActivity(intent);
-                        loginActivity.finish();      // disable "back" to go back to login page
+                        loginActivity.finish();      // disable "back" to go back to login_activity page
 
                         Log.d(DebugTag, "pushing to web server");
                     }
                     else {
-                        Log.d(DebugTag, "not login: " + result);
+                        Log.d(DebugTag, "not login_activity: " + result);
                     }
                 }
             }

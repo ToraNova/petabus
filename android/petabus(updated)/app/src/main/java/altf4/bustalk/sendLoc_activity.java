@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,12 +21,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class sendLoc extends AppCompatActivity {
+public class sendLoc_activity extends AppCompatActivity {
     //declaration of variables and constants
     public static final String DebugTag = "DEBUG_sendLoc";
     public static final int period = 3000;     //for sending location periodically
@@ -137,7 +135,7 @@ public class sendLoc extends AppCompatActivity {
 
 
 
-        // when login button is clicked
+        // when login_activity button is clicked
         sendLoc_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,7 +165,7 @@ public class sendLoc extends AppCompatActivity {
                         stopSendingLoc();
                     }
                 }
-                Log.d(DebugTag, "sendLoc activity created");
+                Log.d(DebugTag, "sendLoc_activity activity created");
             }
         });
     }
@@ -198,7 +196,7 @@ public class sendLoc extends AppCompatActivity {
         from = start + 1;
 
         for(int i = start + 1; i <= end; i++){
-            if (response.charAt(i) == ','){
+            if (response.charAt(i) == ',' || response.charAt(i) == ';'){
                 temp = response.substring(from, i);
                 from = i + 1;
                 Log.d(DebugTag, "Route num: " + temp);
@@ -320,8 +318,8 @@ public class sendLoc extends AppCompatActivity {
 
     private void logOut(){
         Log.d(DebugTag, "log out pressed");
-        // go back to login activity
-        Intent intent = new Intent(this, login.class);
+        // go back to login_activity activity
+        Intent intent = new Intent(this, login_activity.class);
         startActivity(intent);
         // prevent back press to lead back to this activity once logged out
         finish();

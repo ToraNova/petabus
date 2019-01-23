@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import java.lang.String;
 
-public class login extends AppCompatActivity {
+public class login_activity extends AppCompatActivity {
     //declaration of variables
     public static final String DebugTag = "DEBUG_login";
     public static String PACKAGE_NAME;
@@ -80,7 +80,7 @@ public class login extends AppCompatActivity {
             }
         });*/
 
-        // when login button is clicked
+        // when login_activity button is clicked
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +119,7 @@ public class login extends AppCompatActivity {
                   /*String startURL = "http://" + ip_address + "/bustalk/verify.php";
                     String testURL = startURL + "?drvid=" + driver_id +
                             "&pw=" + password;*/
-                    String startURL = "http://" + ip_address + ":8000/push/driver/login/valid";
+                    String startURL = "http://" + ip_address + ":8000/push/driver/login_activity/valid";
                     String testURL = startURL + "?f0=" + driver_id +
                             "&f1=" + password;
                     String parameters = "f0=" + driver_id +
@@ -168,40 +168,6 @@ public class login extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-/*
-    public void nextActivity(String result) {
-        Log.d(DebugTag, "Push status: " + result);
-
-        // pass values to next activity and go to next activity if push was successful
-        if(result.equals("0")){
-            status_text.setText(getResources().getIdentifier("@string/login_attempt", "string", this.getPackageName()));
-            sendValuesToNextActivity();
-            proceedToSendLoc();
-        }
-        // otherwise error
-        else{
-            status_text.setText(getResources().getIdentifier("@string/error_in_pushing", "string", this.getPackageName()));
-        }
-    }
-
-    // pass values in this activity to the next activity
-    public void sendValuesToNextActivity(){
-        Intent passIntent = new Intent(login.this, sendLoc.class);
-        passIntent.putExtra("driver_id", driver_id);
-        passIntent.putExtra("ip_address", ip_address);
-        Log.d(DebugTag, "sending values to next activity");
-        startActivity(passIntent);
-    }
-
-    // goes to next activity
-    public void proceedToSendLoc() {
-        Intent intent = new Intent(login.this, sendLoc.class);
-        Log.d(DebugTag, "moving to next activity");
-        startActivity(intent);
-        this.finish();      // disable "back" to go back to login page
-    }*/
 
 }
 
