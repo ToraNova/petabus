@@ -145,9 +145,11 @@ public class location {
     }
 
     //send latest location to web server
-    public void SendLocation(LocationManager locman, networkManager netman, String ip_address, String driver_id, String bus_number, String route) {
-        currentLocation = getLastKnownLocation(locman);
+    public void SendLocation(LocationManager locman, networkManager netman, String ip_address,
+                             String driver_id, String bus_number, String route) {
 
+        currentLocation = getLastKnownLocation(locman);
+        Log.d(DebugTag, "debugging tag 0000002");
         if (currentLocation == null) {
             Log.d(DebugTag, "currentLocation is NULL on starting send");
         } else {
@@ -155,18 +157,25 @@ public class location {
             longitude = currentLocation.getLongitude();
             latitude = currentLocation.getLatitude();
             Log.d(DebugTag, "Lat: " + latitude + "\nLong: " + longitude);
-
+            Log.d(DebugTag, "debugging tag 0000003");
             //prepare the URL to push data to web server
             /*String startURL = "http://" + ip_address + "/bustalk/server.php";*/
-            String startURL = "http://" + ip_address + "";
-            String testURL = startURL + "?push=1&lat=" + Double.toString(latitude) +
-                    "&lng=" + Double.toString(longitude) + "&drv_id=" + driver_id + "&bus_id=" + bus_number + "&route=" + route;
+            String startURL = "http://" + ip_address + ":8000/push/bus/location/begin";
+            String parameters = "f0=" + bus_number + "&f1=" + driver_id + "&f2=" + route +
+                    "&f3=" + Double.toString(longitude) + "&f4=" + Double.toString(latitude);
+            String testURL = startURL + "?" + parameters;
             Log.d(DebugTag, testURL);
-            String parameters = "push=1&lat=" + Double.toString(latitude) +
-            "&lng=" + Double.toString(longitude) + "&drv_id=" + driver_id + "&bus_id=" + bus_number + "&route=" + route;
+
 
             //push required information to the web server
-            netmanExecution(netman, "POST", testURL, parameters, startURL, true);
+            //netmanExecution(netman, "POST", testURL, parameters, startURL, true, netman);
+            netman.setUrlString(testURL);
+            netman.setUrlMini(startURL);
+            netman.setParam(parameters);
+            netman.setType("GET");
+            Log.d(DebugTag, "debugging tag 0000004");
+            netman.execute();
+
         }
     }
 
@@ -178,18 +187,17 @@ public class location {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                    // permission denied, boo! Disable the functionality that depends on this permission.
                 }
                 return;
             }
-            // other 'case' lines to check for other
-            // permissions this app might request
+            // other 'case' lines to check for other permissions this app might request
         }
     }
 
-    private void netmanExecution(networkManager netman, String t, String u, String para, String mini,boolean lala){
-        netman = new networkManager(u, t, para, mini, lala);
+    /*
+    private void netmanExecution(networkManager netman, String t, String u, String para, String mini,boolean lala, Activity activity){
+        netman = new networkManager(u, t, para, mini, lala, activity);
         netman.execute();
-    }
+    }*/
 }

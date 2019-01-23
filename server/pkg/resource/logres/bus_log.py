@@ -24,6 +24,7 @@ class Bus_Log(r.Base):
     #The following is for r-listing (resource listing)
     # the values in the rlist must be the same as the column var name
     rlist = {
+    "Id":"id",
     "Start Timestamp":"start_ts",
     "End Timestamp":"end_ts",
     "Bus ID":"bus_id",
