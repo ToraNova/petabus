@@ -18,14 +18,21 @@ import pkg.const as const
 from pkg.database import models as md
 from pkg.interface import forms as fm
 from pkg.system import assertw as a
+from pkg.resource.busres import active_bus
 
 #primary blueprint
 bp = Blueprint('maptrack2', __name__, url_prefix='/track')
 
 @bp.route('/basic1')
 def basic():
+	columnHead = ["Route Number"]
+	routelist = active_bus.Active_Bus.query.all()
+	route = []
+	for basic in routelist:
+		tempo = [basic.route_num]
+		route.append(tempo)
 	#return render_template('flask_io/basic_map.html')
-	return render_template('flask_io/meimap.html',MAPWIDTH=900,MAPHEIGHT=900)
+	return render_template('flask_io/meimap.html',MAPWIDTH=1500,MAPHEIGHT=900,routenum = route, length=len(route),columnHead=columnHead)
 
 @bp.route('/geolocation')
 def point():

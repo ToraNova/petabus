@@ -104,4 +104,5 @@ class MapDisplayNamespace(Namespace):
 			list.append(data_dict)
 		#list = str(list)[1:-2]
 		#out = json.dumps({"points":list})
-		emit('point_data',{"points":list})
+		print("hey")
+		emit('point_data2',{"points":list})
