@@ -65,7 +65,7 @@
           {% endfor %}
           <td>
             <form
-              <input type="button" id="myBtn" onclick="appearMark()">Track</input>
+              <input type="button" id="myBtn" onclick="updatePoint()">Track</input>
             </form>
           </td>
           </tr>
@@ -89,9 +89,8 @@
 {% endblock %}
 
 {% block script %}
-
-
-<script>
+<script type="text/javascript" src="{{url_for('static', filename='flask_io/socket.io.min.js')}}"></script>
+<script type="text/javascript" charset="utf-8">
 	var mymap = L.map('mapid').setView([2.925297, 101.642064], 15);
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 18,
@@ -101,12 +100,15 @@
 		id: 'mapbox.streets'
 	}).addTo(mymap);
 
+  var namespace = '/meiconnect'
+  var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //persistent
+  socket.on('connect', function() {
+      console.log("meiconnect_test connected...")});
 
+//  setInterval(timercallback, 5000);
+//  var pointArray = new Array();
 
-  setInterval(timercallback, 5000);
-  var pointArray = new Array();
-
-  socket.on('point_data', function(msg) {
+/*  socket.on('point_data', function(msg) {
     msg.points.forEach(function proc(element, index){
       var test = findPoint(element,pointArray); //find the element in the array
       if( test != -1 ){
@@ -116,16 +118,27 @@
         pointArray[test][1].setLatLng([element.long,element.lati]); //marker
       }else{
         console.log("Point added to map",element)
-        pointArray.push([element,L.marker([element.long,element.lati]).addTo(mmap)
+        pointArray.push([element,L.marker([element.long,element.lati]).addTo(mymap)
           .bindPopup("<b>{0}</b><br/>{1}".format(element.route,element.id))])
       }
     });
   });
+*/
+  var myIcon = L.icon( {
+  iconUrl: '{{url_for("static", filename="imgres/bus_green.png")}}',
+  iconSize: [30, 30],
+  popupAnchor: [0,-10]
+  });
+  var shelter1 =  L.marker([2.925297, 101.642064], {icon: myIcon}).addTo(mymap);
+  var shelterMarkers = new L.FeatureGroup();
 
-  setInterval(timercallback, 5000);
+  //setInterval(timercallback2,5000);
+  //setInterval(timercallback, 5000);
+
   var pointArray2 = new Array();
   socket.on('point_data2', function(msg) {
     msg.points.forEach(function proc(element, index){
+      //shelterMarkers.addLayer(shelter1);
       var test = findPoint(element,pointArray2); //find the element in the array
       if( test != -1 ){
         //element already in
@@ -134,7 +147,7 @@
         pointArray2[test][1].setLatLng([element.long,element.lati]); //marker
       }else{
         console.log("Point added to map",element)
-        pointArray.push([element,L.marker([element.long,element.lati]).addTo(mmap)
+        pointArray2.push([element,L.marker([element.long,element.lati]).addTo(mymap)
           .bindPopup("<b>{0}</b><br/>{1}".format(element.route_num,element.driver_id))])
       }
     });
@@ -152,29 +165,33 @@
     shadowAnchor: [22, 94]
 });
 */
+
 var myIcon = L.icon( {
   iconUrl: '{{url_for("static", filename="imgres/bus_green.png")}}',
   iconSize: [30, 30],
   popupAnchor: [0,-10]
 });
 
-  L.marker([2.925297, 101.642064], {icon: myIcon}).addTo(mymap);
-  var position = 101.637735;
-  var movmarker = L.marker([2.921558, position], {icon: myIcon}).addTo(mymap)
-    .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup();
-  setInterval(timercallback, 1000);
+//  L.marker([2.925297, 101.642064], {icon: myIcon}).addTo(mymap);
+//  var position = 101.637735;
+//  var movmarker = L.marker([2.921558, position], {icon: myIcon}).addTo(mymap)
+//    .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup();
+//  setInterval(timercallback, 1000);
 
-	function timercallback() {
+/*	function timercallback() {
     movmarker.remove()
     position += 0.001
     console.log(position)
     movmarker = L.marker([2.921558, position], {icon: myIcon}).addTo(mymap)
       .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup();
 	}
+*/
+  function updatePoint(){
+    socket.emit('update');
+    console.log("X")
+  }
 
 
-  var namespace = '/meiconnect'
-  var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //persistent
 
   function connectserver(){
     socket.on('connect', function() {
@@ -203,13 +220,16 @@ var myIcon = L.icon( {
 		fillOpacity: 0.5
 	}).addTo(mymap).bindPopup("I am a circle.");
   */
-  L.polygon([
+
+  /*L.polygon([
 		[2.926856, 101.640929],
 		[2.926669, 101.641809],
 		[2.92587, 101.640801],
     [2.925779, 101.641589]
 	]).addTo(mymap).bindPopup("FOE");
+  */
 	var popup = L.popup();
+
 	function onMapClick(e) {
 		popup
 			.setLatLng(e.latlng)

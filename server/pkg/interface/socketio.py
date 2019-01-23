@@ -71,7 +71,8 @@ class MapDisplayNamespace(Namespace):
 		pass
 
 	def on_update(self):
-		self.sendPointData()
+		self.sendPointData2()
+		print("receive X")
 
 	def sendPointData(self):
 		pointlist = res.geopoint.Geopoint.query.all()
