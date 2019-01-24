@@ -16,4 +16,5 @@ MAX_NAME_SIZE = 50 		#Legal Name
 MAX_CONFIG_NAME_SIZE = 50
 MAX_CONFIG_VALU_SIZE = 50
 LOGS_MAX_BYTES = 100000
+TOKEN_LENGTH = 10
 ################################################################

@@ -21,11 +21,11 @@ bp = Blueprint('sock', __name__, url_prefix='') #flask sock bp
 
 @bp.route('/sampleflask',methods=['GET','POST'])
 def sample():
-	return render_template('flask_io/sample.html',PAGE_MAIN_TITLE=const.SERVER_NAME)
+	return render_template('flask_io/sample.html')
 
 @bp.route('/sysclock',methods=['GET','POST'])
 def sysclock():
-	return render_template('flask_io/sysclock.html',PAGE_MAIN_TITLE=const.SERVER_NAME)
+	return render_template('flask_io/sysclock.html')
 
 #----------------------------------------------------------------------------------------
 # callbacks

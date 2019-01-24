@@ -32,9 +32,9 @@ def server(config=None):
 
 	from pkg.interface import socketio #socket io import
 
-	from pkg.interface import home,mapping
-	from pkg.interface import push,pull
+	from pkg.interface import home,mapping,push,pull
 	from pkg.system import auth,admintools
+	from pkg.system.user import sysuser,type,sysnologin
 	from pkg.resource import r
 
 	#######################################################################################################
@@ -55,14 +55,11 @@ def server(config=None):
 	login_manager.login_message = "Please login first."
 	login_manager.login_message_category = "info"
 
-	out.register_blueprint(r.bp)
-	out.register_blueprint(auth.bp)
-	out.register_blueprint(home.bp)
-	out.register_blueprint(admintools.bp)
-	out.register_blueprint(socketio.bp)
-	out.register_blueprint(mapping.bp)
-	out.register_blueprint(push.bp)
-	out.register_blueprint(pull.bp)
+	bplist = [	r.bp,auth.bp,home.bp,admintools.bp,socketio.bp,
+				mapping.bp,push.bp,pull.bp,sysuser.bp,type.bp,sysnologin.bp]
+
+	for bp in bplist:
+		out.register_blueprint(bp)
 
 	#tear down context is done here.
 	@out.teardown_appcontext

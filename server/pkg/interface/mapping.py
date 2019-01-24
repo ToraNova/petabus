@@ -16,7 +16,6 @@ from flask_login import current_user
 #usual imports (copy pasta this)
 import pkg.const as const
 from pkg.database import models as md
-from pkg.interface import forms as fm
 from pkg.system import assertw as a
 
 #primary blueprint
