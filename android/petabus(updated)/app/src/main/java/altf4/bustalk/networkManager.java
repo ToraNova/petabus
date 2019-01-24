@@ -27,6 +27,7 @@ public class networkManager extends AsyncTask<Void, Void, String> {
     private HttpURLConnection connection = null;
     private static final String DebugTag = "DEV_HTTP_DEBUG_MSG";
     private Activity loginActivity;
+    private login_activity login;
 
     //constructor
     public networkManager(Activity activity){
@@ -213,6 +214,8 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                 // otherwise display error message on screen
                 else {
                     if (result.contains("bus_no")) {
+                        login = (login_activity) loginActivity;
+                        login.saveData();
                         // pass values in this activity to the next activity
                         Intent passIntent = new Intent(loginActivity, sendLoc_activity.class);
                         passIntent.putExtra("driver_id", driver_id);

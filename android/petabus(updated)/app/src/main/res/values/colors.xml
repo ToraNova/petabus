@@ -9,6 +9,8 @@
     <color name="colorBackground">#b3ecff</color>
     <color name="colorLightBlue">#1aa3ff</color>
     <color name="colorBorder">#4da6ff</color>
+    <color name="colorSkyBlue">#1a75ff</color>
+    <color name="colorDarkBlue">#001f4d</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorGrey">#a6a6a6</color>
 </resources>

@@ -219,6 +219,20 @@ public class sendLoc_activity extends AppCompatActivity {
 
         // stop sending location
         sendHandler.removeCallbacks(sendRunnableCode);
+
+        // prepare the URL to push data to web server
+        String startURL = "http://" + ip_address + ":8000/push/bus/location/logout";
+        String testURL = startURL + "?f0=" + driver_id;
+        Log.d(DebugTag, "Logout: " + testURL);
+
+        // push required information to the web server
+        netman = new networkManager(activity);
+        netman.setType("GET");
+        netman.setUrlString(testURL);
+        netman.setUrlMini(startURL);
+        netman.setDriverId(driver_id);
+        netman.setIp(ip_address);
+        netman.execute();
     }
 
     @Override
@@ -253,9 +267,12 @@ public class sendLoc_activity extends AppCompatActivity {
                 if (id == R.id.action_logout) {
                     Log.d(DebugTag, "log out pressed");
 
-                    stopSendingLoc();
+                    String buttonText = (sendLoc_button.getText()).toString();
+                    if(buttonText.equals("STOP")) {
+                        stopSendingLoc();
+                    }
                     Log.d(DebugTag, "stop sending location");
-
+    /*
                     // prepare the URL to push data to web server
                     String startURL = "http://" + ip_address + ":8000/push/bus/location/logout";
                     //String testURL = startURL + "?f0=" + driver_id + "&bus_id=" + selectedBusId + "&route=" + selectedRouteNum;
@@ -270,7 +287,7 @@ public class sendLoc_activity extends AppCompatActivity {
                     netman.setDriverId(driver_id);
                     netman.setIp(ip_address);
                     netman.execute();
-
+*/
                     logOut();
                 }
             }

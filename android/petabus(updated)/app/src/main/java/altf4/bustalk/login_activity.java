@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Debug;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +23,9 @@ public class login_activity extends AppCompatActivity {
     //declaration of variables
     public static final String DebugTag = "DEBUG_login";
     public static String PACKAGE_NAME;
+    private String fixed_ip = "192.168.1.100";
+    private String fixed_id = "id";
+    private String fixed_pw = "";
     private String driver_id;
     private String password;
     private String ip_address;
@@ -32,15 +36,17 @@ public class login_activity extends AppCompatActivity {
     private EditText ip_address_input;
     public TextView status_text;
     private networkManager netman;
+    public SharedPreferences prefs;
 
-    public static final String SHARED_PREF = "sharedPrefs";
+    //public static final String SHARED_PREF = "sharedPrefs";
     public static final String SAVED_DRIVER_ID = "id";
     public static final String SAVED_PASSWORD = "password";
     public static final String SAVED_IP = "ip";
-    public static final String SAVED_STATE = "saved";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Log.d(DebugTag, "Creating interface");
         //set view upon entering this interface
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -59,11 +65,13 @@ public class login_activity extends AppCompatActivity {
         status_text = findViewById(R.id.txtStatus);
         final Button login_button = findViewById(R.id.btnLogin);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
         if(savedInstanceState == null) {
             Log.d(DebugTag, "Newly created");
         }
 
-        //loadData();
+        loadData();
 
         // when login_activity button is clicked
         login_button.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +83,7 @@ public class login_activity extends AppCompatActivity {
                 driver_id = id_input.getText().toString();
                 password = password_input.getText().toString();
                 ip_address = ip_address_input.getText().toString();
-                Log.d(DebugTag, "values: " + driver_id + "\t" + password);
+                Log.d(DebugTag, "values: " + driver_id + "\t" + password + "\t" + ip_address);
 
                 //saveData();
 
@@ -140,36 +148,45 @@ public class login_activity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveData(){
+    public void saveData(){
         // no other app can change the shared prefs
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
 
-        //editor.putString(SAVED_DRIVER_ID, driver_id);
-        //editor.putString(SAVED_PASSWORD, password);
+        editor.putString(SAVED_DRIVER_ID, driver_id);
+        editor.putString(SAVED_PASSWORD, password);
         editor.putString(SAVED_IP, ip_address);
         editor.apply();
 
         Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show();
         Log.d(DebugTag, "id: " + driver_id + ", pw: " + password + ", ip: " + ip_address);
+        //Log.d(DebugTag, "saved ip: " + ip_address);
     }
 
     public void loadData(){
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+        String available = prefs.getString(SAVED_IP, fixed_ip);
+        //SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
 
-        /*
-        id_input.setText(sharedPreferences.getString(SAVED_DRIVER_ID, ""));
-        //password_input.setText(sharedPreferences.getString(SAVED_PASSWORD, ""));
-        */
-        ip_address_input.setText(sharedPreferences.getString(SAVED_IP, ""));
+        Log.d(DebugTag, "available string: " + available);
+        if(available != null) {
+            ip_address_input.setText(available);
+        }
 
+        available = prefs.getString(SAVED_DRIVER_ID, fixed_id);
+        Log.d(DebugTag, "available string: " + available);
+        if(available != null) {
+            id_input.setText(available);
+        }
+
+        available = prefs.getString(SAVED_PASSWORD, fixed_pw);
+        Log.d(DebugTag, "available string: " + available);
+        if(available != null) {
+            password_input.setText(available);
+        }
         /*
         StringBuilder str = new StringBuilder();
         if (sharedPreferences.contains(SAVED_DRIVER_ID)) {
             id_input.setText(sharedPreferences.getString(SAVED_DRIVER_ID, ""));
-        }
-        if (sharedPreferences.contains(SAVED_IP)) {
-            id_input.setText(sharedPreferences.getString(SAVED_IP, "192.168.1.100"));
         }*/
 
         Toast.makeText(this, "Data Loaded", Toast.LENGTH_SHORT).show();

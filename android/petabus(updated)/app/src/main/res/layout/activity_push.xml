@@ -90,8 +90,8 @@
 
     <Button
         android:id="@+id/btnSend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_below="@+id/txtRouteNum"
         android:layout_marginTop="150dp"
         android:layout_centerHorizontal="true"
@@ -101,7 +101,7 @@
         android:textStyle="bold"
         android:textSize="20sp"
         android:textColor="@color/colorWhite"
-        android:background="@color/colorLightBlue"/>
+        android:background="@drawable/round_button_state"/>
 
     <!-- blinks while location is being sent -->
     <ImageView
