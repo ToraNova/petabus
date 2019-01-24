@@ -2,6 +2,8 @@ package altf4.bustalk;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.String;
 
@@ -19,7 +22,6 @@ public class login_activity extends AppCompatActivity {
     //declaration of variables
     public static final String DebugTag = "DEBUG_login";
     public static String PACKAGE_NAME;
-    //private boolean flag1 = false, flag2 = false, flag3 = false;
     private String driver_id;
     private String password;
     private String ip_address;
@@ -30,6 +32,12 @@ public class login_activity extends AppCompatActivity {
     private EditText ip_address_input;
     public TextView status_text;
     private networkManager netman;
+
+    public static final String SHARED_PREF = "sharedPrefs";
+    public static final String SAVED_DRIVER_ID = "id";
+    public static final String SAVED_PASSWORD = "password";
+    public static final String SAVED_IP = "ip";
+    public static final String SAVED_STATE = "saved";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +59,11 @@ public class login_activity extends AppCompatActivity {
         status_text = findViewById(R.id.txtStatus);
         final Button login_button = findViewById(R.id.btnLogin);
 
-        //netman = new networkManager(activity);
-
         if(savedInstanceState == null) {
             Log.d(DebugTag, "Newly created");
         }
+
+        //loadData();
 
         // when login_activity button is clicked
         login_button.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +76,9 @@ public class login_activity extends AppCompatActivity {
                 password = password_input.getText().toString();
                 ip_address = ip_address_input.getText().toString();
                 Log.d(DebugTag, "values: " + driver_id + "\t" + password);
-                Log.d(DebugTag, "both: " + (driver_id.isEmpty() || password.isEmpty()));
+
+                //saveData();
+
                 // hide ip address edit text upon logging in if it is visible
                 if(ip_address_input.getVisibility() == View.VISIBLE){
                     ip_address_input.setVisibility(View.INVISIBLE);
@@ -79,23 +89,8 @@ public class login_activity extends AppCompatActivity {
                     // if driver id was not entered
                     status_text.setVisibility(View.VISIBLE);
                     Log.d(DebugTag, "here");
-
-                    /*
-                    if(driver_id == ""){
-                        status_text.setText(getResources().getIdentifier("@string/no_bus_id", "string", PACKAGE_NAME));
-                    }
-                    else{
-                        // if password was not entered
-                        if(password == ""){
-                            status_text.setText(getResources().getIdentifier("@string/no_bus_id", "string", PACKAGE_NAME));
-                        }
-                    }*/
                 }
                 else{
-                    // prepare the URL to push data to web server
-                  /*String startURL = "http://" + ip_address + "/bustalk/verify.php";
-                    String testURL = startURL + "?drvid=" + driver_id +
-                            "&pw=" + password;*/
                     String startURL = "http://" + ip_address + ":8000/push/driver/login/valid";
                     String testURL = startURL + "?f0=" + driver_id +
                             "&f1=" + password;
@@ -104,7 +99,6 @@ public class login_activity extends AppCompatActivity {
                     Log.d(DebugTag, "Send: " + testURL);
 
                     // push required information to the web server
-
                     netman = new networkManager(activity);
                     netman.setDriverId(driver_id);
                     netman.setIp(ip_address);
@@ -146,6 +140,39 @@ public class login_activity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void saveData(){
+        // no other app can change the shared prefs
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
+        //editor.putString(SAVED_DRIVER_ID, driver_id);
+        //editor.putString(SAVED_PASSWORD, password);
+        editor.putString(SAVED_IP, ip_address);
+        editor.apply();
+
+        Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show();
+        Log.d(DebugTag, "id: " + driver_id + ", pw: " + password + ", ip: " + ip_address);
+    }
+
+    public void loadData(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+
+        /*
+        id_input.setText(sharedPreferences.getString(SAVED_DRIVER_ID, ""));
+        //password_input.setText(sharedPreferences.getString(SAVED_PASSWORD, ""));
+        */
+        ip_address_input.setText(sharedPreferences.getString(SAVED_IP, ""));
+
+        /*
+        StringBuilder str = new StringBuilder();
+        if (sharedPreferences.contains(SAVED_DRIVER_ID)) {
+            id_input.setText(sharedPreferences.getString(SAVED_DRIVER_ID, ""));
+        }
+        if (sharedPreferences.contains(SAVED_IP)) {
+            id_input.setText(sharedPreferences.getString(SAVED_IP, "192.168.1.100"));
+        }*/
+
+        Toast.makeText(this, "Data Loaded", Toast.LENGTH_SHORT).show();
+    }
 }
 

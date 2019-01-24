@@ -159,7 +159,6 @@ public class location {
             Log.d(DebugTag, "Lat: " + latitude + "\nLong: " + longitude);
             Log.d(DebugTag, "debugging tag 0000003");
             //prepare the URL to push data to web server
-            /*String startURL = "http://" + ip_address + "/bustalk/server.php";*/
             String startURL = "http://" + ip_address + ":8000/push/bus/location/begin";
             String parameters = "f0=" + bus_number + "&f1=" + driver_id + "&f2=" + route +
                     "&f3=" + Double.toString(longitude) + "&f4=" + Double.toString(latitude);
@@ -168,7 +167,6 @@ public class location {
 
 
             //push required information to the web server
-            //netmanExecution(netman, "POST", testURL, parameters, startURL, true, netman);
             netman.setUrlString(testURL);
             netman.setUrlMini(startURL);
             netman.setParam(parameters);
@@ -194,10 +192,4 @@ public class location {
             // other 'case' lines to check for other permissions this app might request
         }
     }
-
-    /*
-    private void netmanExecution(networkManager netman, String t, String u, String para, String mini,boolean lala, Activity activity){
-        netman = new networkManager(u, t, para, mini, lala, activity);
-        netman.execute();
-    }*/
 }

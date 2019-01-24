@@ -133,7 +133,7 @@ public class networkManager extends AsyncTask<Void, Void, String> {
         }
         // POST method
         else{
-            //String response = "";
+            StringBuffer response = new StringBuffer();
 
             try {
                 String urlParameters  = param;
@@ -169,7 +169,6 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                         new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 // String inputLine;
                 Log.d(DebugTag, "test");
-                StringBuffer response = new StringBuffer();
                 //       InputStream in2 = connection.getInputStream();
                 //       InputStreamReader isw = new InputStreamReader(in2);
                 Log.d(DebugTag, "test");
@@ -192,10 +191,9 @@ public class networkManager extends AsyncTask<Void, Void, String> {
                     connection.disconnect();
                 }
             }
+            return response.toString();
         }
         //Log.d(DebugTag, "result: " + response);
-
-        return inputLine;
     }
 
     // run automatically after doInBackground

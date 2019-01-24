@@ -219,8 +219,6 @@ public class sendLoc_activity extends AppCompatActivity {
 
         // stop sending location
         sendHandler.removeCallbacks(sendRunnableCode);
-        //locman = null;
-        //locationFunc = null;
     }
 
     @Override
@@ -259,13 +257,12 @@ public class sendLoc_activity extends AppCompatActivity {
                     Log.d(DebugTag, "stop sending location");
 
                     // prepare the URL to push data to web server
-                    String startURL = "http://" + ip_address + ":8000/push/bus/location/logout.php";
+                    String startURL = "http://" + ip_address + ":8000/push/bus/location/logout";
                     //String testURL = startURL + "?f0=" + driver_id + "&bus_id=" + selectedBusId + "&route=" + selectedRouteNum;
                     String testURL = startURL + "?f0=" + driver_id;
                     Log.d(DebugTag, "Logout: " + testURL);
 
                     // push required information to the web server
-                    //netman = new networkManager(testURL, "GET",driver_id, ip_address);
                     netman = new networkManager(activity);
                     netman.setType("GET");
                     netman.setUrlString(testURL);
