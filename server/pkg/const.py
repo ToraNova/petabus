@@ -16,5 +16,3 @@ HASH_ALGORITHM_0 = 'sha256'
 DISABLE_CRIT_ROUTE = False
 DB00_NAME = 'temp.db'
 LOGS_DIR = 'logs'
-TOKN_DIR = 'tokens'
-TOKN_SYS = 'sysuser'

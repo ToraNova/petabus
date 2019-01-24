@@ -1,6 +1,6 @@
-<!--This html document holds a simple registration interface-->
+<!This html document holds a simple registration interface>
 
-<!--Import line from a pre-defined formhelpers in the include dir-->
+<!Import line from a pre-defined formhelpers in the include dir>
 {% from "includes/_formhelpers.html" import render_field %}
 
 {% block title %}
@@ -16,17 +16,17 @@
   {% include 'includes/_space1br.html' %}
 
   <div class="row">
-    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2"></div>
-    <div class="col-sm-8 col-xs-8 col-md-8 col-lg-8">
+    <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4"></div>
+    <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
       <div class="container">
-        <h2 class="text-primary">User Login</h2> <!Editable Header>
+        <h2 class="bg-primary">User Login</h2> <!Editable Header>
           {% include 'includes/_space1br.html' %}
         <form class="form-group" method="POST" action="{{url_for('auth.login')}}">
             {{ form.hidden_tag() }}
             <dl>
             {% for field in form %}
             {% if field.id == "csrf_token" %}
-            <!--Do nothing-->
+            <!Do nothing>
             {% else %}
             {{ render_field(field)}}
             {% include 'includes/_space1br.html' %}
@@ -37,7 +37,7 @@
         </form>
       </div> <!-- /container -->
     </div>
-    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2"></div>
+    <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4"></div>
   </div>
 </div>
 {% endblock %}

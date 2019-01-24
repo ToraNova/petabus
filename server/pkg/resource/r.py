@@ -54,17 +54,17 @@ def radd(tablename):
 			target_add = res_model(d_point)
 			sq.db_session.add(target_add)
 			sq.db_session.commit()
-			return render_template("standard/message.html",
+			return render_template("standard/message.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
                 display_title="Success",
                 display_message="Added resource to system.")
 		except Exception as e:
 			print(str(e))
 			sq.db_session.rollback() #immediately rollback changes
-			return render_template("errors/error.html",
+			return render_template("errors/error.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
             error_title="Failure",
             error_message=str(e))
 
-	return render_template('res/radd0.html',
+	return render_template('res/radd0.html',PAGE_MAIN_TITLE=const.SERVER_NAME,
 	form = resadd_form, tablename=tablename)
 
 @bp.route('/rlist/<tablename>',methods=['GET','POST'])
@@ -76,7 +76,7 @@ def rlist(tablename):
 	columnHead = getMatch(tablename)[0]
 	match = getMatch(tablename)[1]
 	display_tablename = rdef.dist_resources[tablename][rdef.sqlClass].rlist_dis
-	return render_template('res/datalist0.html',
+	return render_template('res/datalist0.html',PAGE_MAIN_TITLE=const.SERVER_NAME,
 	colNum=len(columnHead),matches=match,columnHead=columnHead, tablename=tablename,
 	data_table_name=display_tablename)
 
@@ -99,7 +99,7 @@ def rmod(tablename,primaryKey):
 
 			if(rdef.dist_resources[tablename][rdef.eForm] == None):
 				#edits disabled
-				return render_template("errors/error.html",
+				return render_template("errors/error.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
 	            error_title="Modify Failure",
 	            error_message="This resource cannot be modified!")
 
@@ -118,7 +118,7 @@ def rmod(tablename,primaryKey):
 			# 		rmod_form.__getattribute__(a).choices = dynamicSelectorHandler(fkeyres,rmod_form.fkeyList[model_field][1])
 
 			rmod_form.process()
-			return render_template('res/rmod0.html',
+			return render_template('res/rmod0.html',PAGE_MAIN_TITLE=const.SERVER_NAME,
 			primaryKey=primaryKey,tablename=tablename,form=rmod_form)
 
 		elif(request.form["button"]=="Submit Changes"):

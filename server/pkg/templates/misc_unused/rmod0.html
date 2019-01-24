@@ -60,7 +60,7 @@
 					<dl>
 					{% for field in form %}
 					{% if field.id == "csrf_token" %}
-					<!--Do nothing-->
+					<!Do nothing>
 					{% else %}
 					{{ render_field(field)}}
 					{% include 'includes/_space1br.html' %}

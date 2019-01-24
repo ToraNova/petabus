@@ -8,7 +8,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import pkg.const as const
-import os
 
 #configuration necessities
 #fixed prefix on database filename : 'sqlite:///<filename>'
@@ -21,11 +20,7 @@ Base.query = db_session.query_property()
 def init_db():
 	#call this during first init
 	update_meta()
-
-	from pkg.database.defaults import default_add
 	default_add()
-	tokenfile = open(os.path.join(const.TOKN_DIR,"init.token"),"w+")
-	tokenfile.close()
 	return
 
 def update_meta():
@@ -41,3 +36,20 @@ def update_meta():
 	#------------------------------------------------------------------------
 
 	Base.metadata.create_all(bind=engine)
+
+def default_add():
+	from pkg.database.models import System_User #perma
+	from pkg.database.models import System_Configuration #perma
+	#add default values of the configuration table
+	#default_config_list = [["ScannerID","AR001"],["MainServerIP","127.0.0.1"],["MainServerPort","4000"]] #used for attemoni
+	default_config_list = []
+	for configs in default_config_list:
+		config_add = System_Configuration(configs[0],configs[1])
+		db_session.add(config_add)
+
+	default_username = "admin"
+	default_password = "sha256$mDDYIdTb$9cebe876c8e8fea365c8116a49cc0376ddbb14e03d5043950eb8d8978523fea5"
+	default_user = System_User(default_username,default_password,True)
+	db_session.add(default_user)
+
+	db_session.commit()

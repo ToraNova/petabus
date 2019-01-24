@@ -11,6 +11,8 @@ import datetime
 
 import pkg.const as const
 import pkg.resource.rdef as res
+from pkg.resource.busres import active_bus
+from pkg.resource.busres import bus
 import json
 
 bp = Blueprint('sock', __name__, url_prefix='') #flask sock bp
@@ -21,11 +23,11 @@ bp = Blueprint('sock', __name__, url_prefix='') #flask sock bp
 
 @bp.route('/sampleflask',methods=['GET','POST'])
 def sample():
-	return render_template('flask_io/sample.html')
+	return render_template('flask_io/sample.html',PAGE_MAIN_TITLE=const.SERVER_NAME)
 
 @bp.route('/sysclock',methods=['GET','POST'])
 def sysclock():
-	return render_template('flask_io/sysclock.html')
+	return render_template('flask_io/sysclock.html',PAGE_MAIN_TITLE=const.SERVER_NAME)
 
 #----------------------------------------------------------------------------------------
 # callbacks
@@ -64,13 +66,15 @@ class SystemUtilNamespace(Namespace):
 
 class MapDisplayNamespace(Namespace):
 	def on_connect(self):
-		self.sendPointData()
+		#self.sendPointData2()
+		pass
 
 	def on_disconnect(self):
 		pass
 
 	def on_update(self):
-		self.sendPointData()
+		self.sendPointData2()
+		print("receive X")
 
 	def sendPointData(self):
 		pointlist = res.geopoint.Geopoint.query.all()
@@ -87,3 +91,34 @@ class MapDisplayNamespace(Namespace):
 		#list = str(list)[1:-2]
 		#out = json.dumps({"points":list})
 		emit('point_data',{"points":list})
+
+	def sendPointData2(self):
+		pointlist = active_bus.Active_Bus.query.all()
+		#pointbus = bus.Bus.query.filter(bus.Bus.id == pointlist.bus_id).first()
+		list = []
+		for points in pointlist:
+			data_dict = {}
+			data_dict["bus_id"] = points.bus_id
+			data_dict["driver_id"] = points.driver_id
+			data_dict["long"] = points.long
+			data_dict["lati"] = points.lati
+			#route = active_bus.Active_Bus.query.filter(
+			#	active_bus.Active_Bus.route_num == points.route_num ).first()
+			data_dict["route_num"] = points.route_num
+			busregno = bus.Bus.query.filter(bus.Bus.id == points.bus_id).first().reg_no #1 object
+			data_dict["reg_no"] = busregno
+			#route.route
+			list.append(data_dict)
+			#list2.append(pointbus)
+		#list2 = []
+		#pointbus = bus.Bus.query.filter(bus.Bus.id == list).first()
+		#for ptbus in pointbus:
+		#	data2_dict = {}
+		#	data2_dict["id"] = ptbus.id
+		#	data2_dict["reg_no"] = points.reg_no
+
+		#	list2.append(data2_dict)
+		#list = str(list)[1:-2]
+		#out = json.dumps({"points":list})
+		print("hey")
+		emit('point_data2',{"points":list})

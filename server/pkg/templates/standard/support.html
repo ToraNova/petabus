@@ -7,7 +7,8 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	{% include 'includes/PAGE_MAIN_TITLE.html' %}
+	<title>{{ PAGE_MAIN_TITLE }}</title> <!TODO - Editable content here>
+
 	{% include 'includes/std_css.html' %} <!--Includes the standard css files-->
 
 </head>
@@ -54,10 +55,10 @@
 		</div>
 	</div>
 
-	{% include 'includes/std_js.html' %} <!--Includes the standard javascript files-->
-
 	{% block script %}
 	{% endblock %}
+
+	{% include 'includes/std_js.html' %} <!--Includes the standard javascript files-->
 
 </body>
 </html>

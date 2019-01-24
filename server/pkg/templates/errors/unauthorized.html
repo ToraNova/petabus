@@ -1,6 +1,6 @@
-<!--This html document holds displays an unauthorized access-->
+<!This html document holds displays an unauthorized access>
 
-<!--Import line from a pre-defined formhelpers in the include dir-->
+<!Import line from a pre-defined formhelpers in the include dir>
 {% from "includes/_formhelpers.html" import render_field %}
 
 {% block title %}
@@ -12,22 +12,22 @@
 
 {% block content %}
 <div class="container">
-  {% include 'includes/_space1br.html' %}<!--use these to 'space vertically'-->
+  {% include 'includes/_space1br.html' %}<!use these to 'space vertically'>
   {% include 'includes/_space1br.html' %}
 
   <div class="row">
-    <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3"></div>
-    <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6">
+    <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4"></div>
+    <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
       <div class="container">
-        <h2 class="text-danger">Unauthorized Access</h2> <!--Editable Header-->
+        <h2 class="bg-danger">Unauthorized Access</h2> <!Editable Header>
           {% include 'includes/_space1br.html' %}
         <form class="form-group" method="POST" action="{{url_for('auth.login')}}">
 					<p>{{display_message}}</p>
-          <button class="btn btn-danger" type="submit">Go to Login</button><!--Editable Button textarea-->
+          <button class="btn btn-danger" type="submit">Go to Login</button><!Editable Button Text>
         </form>
       </div> <!-- /container -->
     </div>
-    <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3"></div>
+    <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4"></div>
   </div>
 </div>
 {% endblock %}

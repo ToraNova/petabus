@@ -1,6 +1,6 @@
 {% extends 'standard/support.html' %}
 
-<!--Import line from a pre-defined formhelpers in the include dir-->
+<!Import line from a pre-defined formhelpers in the include dir>
 {% from "includes/_formhelpers.html" import render_field %}
 
 {% block head %}
@@ -10,7 +10,7 @@
 {% block body %}
 <div class="page-title">
 	<div class="title_left">
-		<h3> <small>Editing entry for System User : {{primaryKey}}</small></h3> <!--PAGE TITLE HERE-->
+		<h3> <small>Editing entry for System User : {{primaryKey}}</small></h3> <!PAGE TITLE HERE>
 	</div>
 	<div class="title_right">
 		<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -48,12 +48,12 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="x_content">
-			<form class="form-group" method="POST" action="{{url_for('sysuser.usermod', primaryKey = primaryKey)}}">
+			<form class="form-group" method="POST" action="{{url_for('admintools.usermod', username=current_user.username, primaryKey = primaryKey)}}">
 					{{ form.hidden_tag() }}
 					<dl>
 					{% for field in form %}
 					{% if field.id == "csrf_token" %}
-					<!--Do nothing-->
+					<!Do nothing>
 					{% else %}
 					{{ render_field(field)}}
 					{% include 'includes/_space1br.html' %}

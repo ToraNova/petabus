@@ -1,5 +1,4 @@
 <div class="sidebar-footer hidden-small">
-  <!--
   <a data-toggle="tooltip" data-placement="top" title="Settings">
 	<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
   </a>
@@ -13,25 +12,4 @@
   title="Logout" href="{{url_for('auth.logout',username=current_user.username)}}">
 	<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
   </a>
-  -->
-
-  <a data-toggle="tooltip" data-placement="top" title="Settings">
-	<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-  </a>
-
-  <a data-toggle="tooltip" data-placement="top" title="Help">
-	<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-  </a>
-
-  <a data-toggle="tooltip" data-placement="top"
-  title="Home" href="{{ url_for('home.home', username=current_user.username) }}">
-	<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-  </a>
-
-  <a data-toggle="tooltip" data-placement="top"
-  title="Logout" href="{{url_for('auth.logout')}}">
-	<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-  </a>
-
-
 </div>
