@@ -1,4 +1,4 @@
-<!This html document holds leaftlet map data>
+<!--This html document holds leaftlet map data-->
 
 {% from "includes/_formhelpers.html" import render_field %}
 
@@ -12,6 +12,7 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="container">
   <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
       	<table id="datatable" class="table table-striped table-bordered">
@@ -43,13 +44,11 @@
         </table>
     </div>
 
-
   <div class="col-sm-8 col-xs-8 col-md-8 col-lg-8">
     <div class="container">
         <div id="mapid" style="width: {{400}}px; height: {{400}}px; left: {{250}}px; bottom: {{180}}px;"></div>
     </div> <!-- /container -->
   </div>
-
 </div>
 {% endblock %}
 

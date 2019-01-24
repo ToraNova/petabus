@@ -14,11 +14,11 @@ from flask_login import current_user
 import pkg.const as const
 from pkg.database import models as md
 from pkg.database import fsqlite as sq #extra for any db commits
-from pkg.interface import forms as fm
 from pkg.system import assertw as a
 from pkg.system.servlog import srvlog,logtofile
 
 from functools import wraps
+import os
 
 ##############################################################################################
 # Wrappers
@@ -27,10 +27,9 @@ def admin_required(fn):
 	@wraps(fn)
 	def decorated_view(*args, **kwargs):
 		if (not current_user.is_authenticated):
-			return render_template("errors/unauthorized.html",
-        		display_message="Login required!")
-		elif (not current_user.adminpri):
-			return render_template("errors/error.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
+			return logandDisplay("Unauthenticated access","Unauthenticated. Please login first !")
+		elif ( current_user.getPriLevel() != 0 ):
+			return render_template("errors/error.html",
 				username=current_user.username,
 				error_title="Unauthorized",
 				error_message="You are not authorized to access this content.")
@@ -38,6 +37,23 @@ def admin_required(fn):
 		else:
 			#here if user is admin and already logged in
 			return fn(*args, **kwargs)
+	return decorated_view
+
+def token_check(fn):
+	'''this wrapper checks if the token exist, deletes it if it does and allow
+	entry to the route, else, it denies entry and logs the incident'''
+	@wraps(fn)
+	def decorated_view(*args, **kwargs):
+		if ( "token" not in request.args):
+			return logandDisplay("Invalid token attempt","Unauthorized, please contact administrator.")
+		else:
+			#check if token is valid
+			if(os.path.isfile(os.path.join(const.TOKN_DIR,const.TOKN_SYS,request.args.get("token")))):
+				#token exists
+				return fn(*args, **kwargs) #allow access
+			else:
+				return logandDisplay("Invalid token attempt","Unauthorized, please contact administrator.")
+
 	return decorated_view
 
 def route_disabled(fn):
@@ -75,3 +91,9 @@ def Localhost_only(fn):
 			return "localhost access only",1
 		return fn(*args,**kwargs)
 	return decorated_view
+
+def logandDisplay(logtitle,display_msg):
+	'''using errors/unauthorized, logs and display the error msg'''
+	srvlog["sys"].warning(logtitle+" from "+request.remote_addr) #logging
+	return render_template("errors/unauthorized.html",
+		display_message=display_msg)

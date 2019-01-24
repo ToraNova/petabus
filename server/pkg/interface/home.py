@@ -13,10 +13,7 @@ from flask import Blueprint
 from flask_login import login_required
 from flask_login import current_user
 
-#usual imports (copy pasta this)
 import pkg.const as const
-from pkg.database import models as md
-from pkg.interface import forms as fm
 from pkg.system import assertw as a
 
 #primary blueprint
@@ -32,7 +29,14 @@ def index():
 @bp.route('/<username>/home',methods=['GET','POST'])
 @login_required
 def home(username):
-	return render_template("standard/welcome.html",PAGE_MAIN_TITLE=const.SERVER_NAME,
+	filebuff = []
+	with open( "changelogs.txt" ,'r' ) as f:
+		#opens the logfile of required logtype for reading
+		for line in f:
+			filebuff.append(line)
+			if(len(filebuff) == 0):
+				filebuff = ["Changelogs is empty"]
+	return render_template("standard/welcome.html",display_file=filebuff,
 	username=current_user.username)
 
 ####################################################################################

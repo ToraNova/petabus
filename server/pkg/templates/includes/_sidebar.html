@@ -3,8 +3,11 @@
 
 	<ul class="nav side-menu">
 		<br/>
-		<h3>{{ PAGE_MAIN_TITLE }}</h3>
+
+		{% include 'includes/PAGE_SIDEBAR_TITLE.html' %}
+
 		<br/>
+
 		<li><a><i class="fa fa-home"></i>Home<span class="fa fa-chevron-down"></span></a>
 		<ul class="nav child_menu">
 			<li><a href="{{ url_for('home.home', username=current_user.username) }}">Welcome</a></li>
@@ -73,6 +76,21 @@
 		</li>
 
 		<li><a href="{{ url_for('auth.logout', username=current_user.username) }}">Logout</a></li>
+
+		<!--Please do not edit the sidebars here, they are located under sidebar_childs/-->
+
+		{# {% include 'sidebar_childs/home.html' %} #}
+
+		{% include 'sidebar_childs/admin.html' %}
+
+		{% include 'sidebar_childs/dataview.html' %}
+
+		{% include 'sidebar_childs/overview.html' %}
+
+		{% include 'sidebar_childs/debugging.html' %}
+
+		<!--<li><a href="{{ url_for('auth.logout') }}"><i class="fa fa-power-off"></i>Logout</a></li>-->
+
 	</ul>
 	</div>
 </div>

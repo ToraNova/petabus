@@ -48,8 +48,10 @@
 		</div>
 		<div class="x_content">
 			<br/>
-			<h1>{{ PAGE_MAIN_TITLE }}</h1>
-
+			<!--Content-->
+			{% for lines in display_file %}
+			<p>{{lines}}</p>
+			{% endfor %}
 
 		</div>
 		</div>
