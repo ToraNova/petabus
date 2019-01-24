@@ -38,7 +38,7 @@ def tableList(tablename):
     try:
         match = getMatch(tablename)[1]
         # #------------FORMATTING
-        out = ''
+        # out = ''
         # for row in match:
         #     for field in row:
         #         out += str(field)

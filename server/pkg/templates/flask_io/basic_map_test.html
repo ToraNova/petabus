@@ -12,42 +12,53 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="container">
-  <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
-      	<table id="datatable" class="table table-striped table-bordered">
-          <table>
-          <thead>
-  					<tr>
-  					{% for count in range(colNum) %}
-  					<th>{{columnHead[count]}}</th>
-  					{% endfor %}
-  					</tr>
-  				</thead>
-  				<tbody>
-  				{% for row in routenum %}
-  					<tr>
-  					{% for count in range(colNum) %}
-  					<td>{{row[count]}}</td>
-  					{% endfor %}
-  					<td>
-  						<form
-  							<input type="button" id="myBtn" onclick="appearMark()">Track</input>
-  						</form>
-  					</td>
-  					</tr>
-  				{% endfor %}
-  				</tbody>
-          <tr>
-
-          </tr>
-        </table>
+<div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4 bg-primary">
+        <div class="row">
+          <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4"> <p>1</p></div>
+          <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4"> <p>2</p></div>
+          <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4"> <p>3</p></div>
+        </div>
+        <div class="row">
+          <p>HI 0 down</p>
+        </div>
+      </div>
+      <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4 bg-warning">
+        <p>HI 1</p>
+      </div>
+      <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4 bg-danger">
+        <p>HI 2</p>
+      </div>
     </div>
 
-  <div class="col-sm-8 col-xs-8 col-md-8 col-lg-8">
-    <div class="container">
-        <div id="mapid" style="width: {{400}}px; height: {{400}}px; left: {{250}}px; bottom: {{180}}px;"></div>
-    </div> <!-- /container -->
+    <div class="row">
+      <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 bg-primary">
+        <p>HI 0</p>
+      </div>
+      <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 bg-warning">
+        <p>HI 1</p>
+      </div>
+      <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 bg-danger">
+        <p>HI 2</p>
+      </div>
+      <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 bg-success">
+        <p>HI 3</p>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2"></div>
+      <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
+        <div class="container">
+          <div id="mapid" style="width: {{MAPWIDTH}}px; height: {{MAPHEIGHT}}px;"></div>
+        </div> <!-- /container -->
+      </div>
+
+    </div>
+
   </div>
 </div>
 {% endblock %}
@@ -82,19 +93,21 @@ var myIcon = L.icon({
   popupAnchor: [0,-10]
 });
 
+  L.marker([2.925297, 101.642064], {icon: myIcon}).addTo(mymap);
+
   var position = 101.637735;
   var movmarker = L.marker([2.921558, position], {icon: myIcon}).addTo(mymap)
     .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup();
 
   setInterval(timercallback, 1000);
 
-  function appearMark(){
-  var n = 3
-    for (n; n > 0 ;n--) {
-      L.marker([2.925297, 101.642064]).addTo(mymap);
-    }}
-
-
+	function timercallback() {
+    movmarker.remove()
+    position += 0.001
+    console.log(position)
+    movmarker = L.marker([2.921558, position], {icon: myIcon}).addTo(mymap)
+      .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup();
+	}
 
 
 

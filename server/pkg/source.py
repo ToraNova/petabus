@@ -31,13 +31,11 @@ def server(config=None):
 		out.config.from_mapping(config)
 
 	from pkg.interface import socketio #socket io import
+
 	from pkg.interface import home,mapping,push,pull
 	from pkg.system import auth,admintools
 	from pkg.system.user import sysuser,type,sysnologin
 	from pkg.resource import r
-  
-  from pkg.interface import meimapping
-  from pkg.interface.API import location,login
 
 	#######################################################################################################
 	# Login manager section
@@ -62,12 +60,6 @@ def server(config=None):
 
 	for bp in bplist:
 		out.register_blueprint(bp)
-    
-  #NON PERSISTENT BLUEPRINT REGISTRAR
-  #ADDED BY MEI
-  out.register_blueprint(meimapping.bp)
-	out.register_blueprint(location.bp)
-	out.register_blueprint(login.bp)
 
 	#tear down context is done here.
 	@out.teardown_appcontext
@@ -80,6 +72,5 @@ def server(config=None):
 	out = SocketIO(out_nonsock)
 	out.on_namespace(socketio.SystemUtilNamespace('/sysutil'))
 	out.on_namespace(socketio.MapDisplayNamespace('/pointdisp'))
-	out.on_namespace(socketio.MapDisplayNamespace('/meiconnect'))
 
 	return out,out_nonsock
