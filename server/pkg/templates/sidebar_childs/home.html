@@ -1,0 +1,8 @@
+<!-- THIS IS UNDER THE HOME SECTION ON THE SIDEBAR, this is
+included in includes/_sidebar.html under the admin section, add
+routes or links to routes here instead of the _sidebar.html file-->
+<li><a><i class="fa fa-home"></i>Home<span class="fa fa-chevron-down"></span></a>
+<ul class="nav child_menu">
+  <li><a href="{{ url_for('home.home', username=current_user.username) }}">Welcome</a></li>
+</ul>
+</li>

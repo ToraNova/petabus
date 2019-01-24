@@ -14,6 +14,7 @@ from pkg.database.fsqlite import init_db
 from pkg.database.fsqlite import db_session
 
 import os.path
+import pkg.const as const
 
 main_host = '0.0.0.0'
 main_port = 8000
@@ -22,10 +23,11 @@ app_debug = True
 
 #First run issues (create database)
 try:
-    if(not os.path.isfile("init.token")):
+    if(not os.path.isdir(os.path.join(const.TOKN_DIR,const.TOKN_SYS))):
+        #creates the directory if it does not exist
+        os.makedirs(os.path.join(const.TOKN_DIR,const.TOKN_SYS))
+    if(not os.path.isfile(os.path.join(const.TOKN_DIR,"init.token"))):
         #database not initialized yet
-        tokenfile = open("init.token","w+")
-        tokenfile.close()
         init_db()#initialization
     else:
         print("[IF]",__name__," : ","Database already initialized...skipping")

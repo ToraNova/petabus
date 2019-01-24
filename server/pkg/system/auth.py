@@ -19,9 +19,12 @@ from flask import Blueprint
 import pkg.const as const
 from pkg.database import models as md
 from pkg.database import fsqlite as sq #extra for any db commits
-from pkg.interface import forms as fm
+from pkg.database import forms as fm
 from pkg.system import assertw as a
 from pkg.system.servlog import srvlog,logtofile
+from pkg import limits
+
+import random,string,os
 
 #primary blueprint
 bp = Blueprint('auth', __name__, url_prefix='')
@@ -50,13 +53,44 @@ def login():
                 display_message="Invalid password")
     return render_template('standard/login.html',form=userlogin_form)
 
-@bp.route('/<username>/logout')
+@bp.route('/logout')
 @login_required
-def logout(username):
+def logout():
     logout_username = current_user.username
     logout_user()
     srvlog["user"].info(logout_username+" logged out the system") #logging
     return redirect(url_for("auth.login"))
+
+@bp.route("/generate/token/<issue>/<param>",methods=['GET','POST'])
+@a.admin_required
+def tokengen(issue,param):
+
+    issuemap = {
+    "register":[request.form.get("usertype"),const.TOKN_SYS],
+    "pwreset":[param,const.TOKN_SYS]
+    }
+    tokdir = issuemap[issue][1]
+    uuid = issuemap[issue][0]
+
+    while(True):
+    #generate until unique
+        tokenstr = (uuid+'%'
+            +''.join(random.choices(string.ascii_uppercase + string.digits, k=limits.TOKEN_LENGTH)))
+        if(not os.path.isfile(os.path.join(const.TOKN_DIR,tokdir,tokenstr))):
+            #non existent
+            break
+
+    tokenfile = open(os.path.join(const.TOKN_DIR,tokdir,tokenstr),"w") #creates the token file
+    tokenfile.close()
+    out = url_for('sysnologin.'+issue)+'?token='+tokenstr
+    return render_template("standard/message.html",
+    display_title="Token generation complete",
+    display_message="Please use the following url (right click, copy link location)",
+    display_url=out)
+
+def removeTokenFile(tokendir,token):
+    if(os.path.isfile(os.path.join(const.TOKN_DIR,tokendir,token))):
+        os.remove(os.path.join(const.TOKN_DIR,tokendir,token))
 
 def sysuser_getobj(id):
 	return md.System_User.query.filter(md.System_User.id == id).first()
