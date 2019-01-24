@@ -1,4 +1,4 @@
-<!This html document holds leaftlet map data>
+<!--This html document holds leaftlet map data-->
 
 {% from "includes/_formhelpers.html" import render_field %}
 
@@ -11,53 +11,19 @@
 <script src="{{url_for('static', filename='leaflet/leaflet.js')}}"></script>
 {% endblock %}
 
-
 {% block content %}
 <div class="container">
-  <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">
-      	<table id="datatable" class="table table-striped table-bordered">
-          <table>
-          <thead>
-  					<tr>
-  					{% for count in range(colNum) %}
-  					<th>{{columnHead[count]}}</th>
-  					{% endfor %}
-  					</tr>
-  				</thead>
-  				<tbody>
-  				{% for row in latlong %}
-  					<tr>
-  					{% for count in range(colNum) %}
-  					<td>{{row[count]}}</td>
-  					{% endfor %}
-  					<td>
-  						<form
-  						action="{{ url_for('maptrack.point',latlong = latlong, num = num)}}"
-  						method="POST">
-  						</form>
-  					</td>
-  					</tr>
-  				{% endfor %}
-  				</tbody>
-          <tr>
-
-          </tr>
-        </table>
-    </div>
-
-  <div class="col-sm-8 col-xs-8 col-md-8 col-lg-8">
+  <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
     <div class="container">
-        <div id="mapid" style="width: {{400}}px; height: {{400}};left: {{250}}px; bottom: {{180}}px;"></div>
+        <div id="mapid" style="width: {{MAPWIDTH}}px; height: {{MAPHEIGHT}}px;"></div>
     </div> <!-- /container -->
   </div>
-
 </div>
 {% endblock %}
 
 {% block script %}
 <script type="text/javascript" src="{{url_for('static', filename='flask_io/socket.io.min.js')}}"></script>
 <script type="text/javascript" charset="utf-8">
-
 
   var mmap = L.map('mapid').setView([2.925297, 101.642064], 15);
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -67,12 +33,6 @@
 			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 		id: 'mapbox.streets'
 	}).addTo(mmap);
-
-function appearMark(){
-var n = 3
-  for (n; n > 0 ;n--) {
-    L.marker([2.925297, 101.642064]).addTo(mmap);
-  }}
 
 	var namespace = '/pointdisp'
 	var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //persistent
@@ -141,5 +101,3 @@ var n = 3
 </script>
 
 {% endblock %}
-
-{% include 'includes/dtable_js.html' %} <!--Includes the data table javascript files-->
