@@ -18,3 +18,8 @@ MAX_CONFIG_VALU_SIZE = 50
 LOGS_MAX_BYTES = 100000
 TOKEN_LENGTH = 10
 ################################################################
+
+MAX_CONTACT_SIZE = 11 		
+MIN_CONTACT_SIZE = 10
+MAX_LOCATION_SIZE = 2 		
+MIN_LOCATION_SIZE = 5
