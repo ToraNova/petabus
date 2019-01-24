@@ -31,11 +31,14 @@ def server(config=None):
 		out.config.from_mapping(config)
 
 	from pkg.interface import socketio #socket io import
-	from pkg.interface.API import location,login
-	from pkg.interface import home,mapping,meimapping
-	from pkg.interface import push,pull
+
+	from pkg.interface import home,mapping,push,pull
 	from pkg.system import auth,admintools
+	from pkg.system.user import sysuser,type,sysnologin
 	from pkg.resource import r
+
+	from pkg.interface.API import location,login
+	from pkg.interface import meimapping
 
 	#######################################################################################################
 	# Login manager section
@@ -55,20 +58,20 @@ def server(config=None):
 	login_manager.login_message = "Please login first."
 	login_manager.login_message_category = "info"
 
-  #Added by ToraNova
-	out.register_blueprint(r.bp)
-	out.register_blueprint(auth.bp)
-	out.register_blueprint(home.bp)
-	out.register_blueprint(admintools.bp)
-	out.register_blueprint(socketio.bp)
-	out.register_blueprint(mapping.bp)
-	out.register_blueprint(push.bp)
-	out.register_blueprint(pull.bp)
-	out.register_blueprint(meimapping.bp)
+	#Persistent blueprint registration
+	#Added by ToraNova
+	bplist = [
+		r.bp,auth.bp,home.bp,admintools.bp,socketio.bp,
+		mapping.bp,push.bp,pull.bp,sysuser.bp,type.bp,sysnologin.bp]
 
-  #Added by Mei
+	for bp in bplist:
+		out.register_blueprint(bp)
+	
+	#Non persistent blueprint registration
+  	#Added by Mei
 	out.register_blueprint(location.bp)
 	out.register_blueprint(login.bp)
+	out.register_blueprint(meimapping.bp)
 
 	#tear down context is done here.
 	@out.teardown_appcontext

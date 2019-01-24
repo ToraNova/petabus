@@ -1,0 +1,38 @@
+<!-- THIS IS UNDER THE DATA VIEW SECTION ON THE SIDEBAR, this is
+included in includes/_sidebar.html under the admin section, add
+routes or links to routes here instead of the _sidebar.html file-->
+<li><a><i class="fa fa-bar-chart-o"></i>Data View<span class="fa fa-chevron-down"></span></a>
+<ul class="nav child_menu">
+  <!--Insert database urls here-->
+
+  <li><a><i class="fa fa-compass"></i>Geopoints<span class="fa fa-chevron-down"></span></a>
+  <ul class="nav child_menu">
+    <!--Insert database urls here-->
+
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Georoute') }}">List Georoutes</a></li>
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Geopoint') }}">List Geopoints</a></li>
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Geopath') }}">List Paths</a></li>
+
+  </ul>
+  </li>
+
+<li><a href="{{ url_for('resource.radd', tablename = 'Bus_Driver') }}">Register New Bus Driver</a></li>
+<li><a href="{{ url_for('resource.radd', tablename = 'Bus') }}">Register New Bus In System</a></li>
+<li><a href="{{ url_for('resource.radd', tablename = 'Truck_Driver') }}">Register New Truck Driver</a></li>
+<li><a href="{{ url_for('resource.radd', tablename = 'Truck') }}">Register New Truck In System</a></li>
+
+<li><a href="{{ url_for('resource.rlist', tablename = 'Bus') }}">List Bus</a></li>
+<li><a href="{{ url_for('resource.rlist', tablename = 'Bus_Driver') }}">List Bus Driver</a></li>
+<li><a href="{{ url_for('resource.rlist', tablename = 'Active_Bus') }}">List Active Bus</a></li>
+<li><a href="{{ url_for('resource.rlist', tablename = 'Truck') }}">List Truck</a></li>
+<li><a href="{{ url_for('resource.rlist', tablename = 'Truck_Driver') }}">List Truck Driver</a></li>
+<li><a href="{{ url_for('resource.rlist', tablename = 'Active_Truck') }}">List Active Truck</a></li>
+<li><a href="{{ url_for('resource.rlist', tablename = 'Bus_Log') }}">List Bus Log</a></li>
+<li><a href="{{ url_for('resource.rlist', tablename = 'Bus_Loc_Log') }}">List Bus Location Log</a></li>
+<li><a href="{{ url_for('resource.rlist', tablename = 'Truck_Log') }}">List Truck Log</a></li>
+<li><a href="{{ url_for('resource.rlist', tablename = 'Truck_Loc_Log') }}">List Truck Location Log</a></li>
+
+  <li><a href="{{ url_for('resource.rlist', tablename = 'Param3') }}">List Param3</a></li>
+
+</ul>
+</li>
