@@ -8,6 +8,75 @@
 
 		<br/>
 
+		<li><a><i class="fa fa-home"></i>Home<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<li><a href="{{ url_for('home.home', username=current_user.username) }}">Welcome</a></li>
+			<li><a href="{{ url_for('maptrack.basic') }}">Track Bus</a></li>
+			<li><a href="{{ url_for('maptrack.point') }}">Track Me</a></li>
+		</ul>
+		</li>
+
+		<li><a><i class="fa fa-user"></i>Admin<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<!Administrator's Column_______SEMI_PERMANENT__________>
+			<li><a href="{{ url_for('admintools.useradd', username=current_user.username) }}">Add system user</a></li>
+			<li><a href="{{ url_for('admintools.userlist', username=current_user.username) }}">List system users</a></li>
+			<li><a href="{{ url_for('sock.sysclock') }}">System Clock</a></li> <!Flask socket io use cases>
+			<!/Administrator's Column_______SEMI_PERMANENT__________>
+
+			<!___________________NON PERMANENT_____________________>
+			<li><a href="{{ url_for('resource.radd', tablename = 'Georoute') }}">Register New Georoute</a></li>
+			<li><a href="{{ url_for('resource.radd', tablename = 'Geopoint') }}">Register New Geopoint</a></li>
+			<li><a href="{{ url_for('resource.radd', tablename = 'Geopath') }}">Register New Path</a></li>
+			<li><a href="{{ url_for('resource.radd', tablename = 'Bus_Driver') }}">Register New Bus Driver</a></li>
+			<li><a href="{{ url_for('resource.radd', tablename = 'Bus') }}">Register New Bus In System</a></li>
+			<li><a href="{{ url_for('resource.radd', tablename = 'Truck_Driver') }}">Register New Truck Driver</a></li>
+			<li><a href="{{ url_for('resource.radd', tablename = 'Truck') }}">Register New Truck In System</a></li>
+			<!___________________/NON PERMANENT____________________>
+		</ul>
+		</li>
+
+		<li><a><i class="fa fa-bar-chart-o"></i>Data View<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<!Insert database urls here>
+      <!Added by ToraNova>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Georoute') }}">List Georoutes</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Geopoint') }}">List Geopoints</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Geopath') }}">List Paths</a></li>
+      <li><a href="{{ url_for('resource.rlist', tablename = 'Param3') }}">List Param3</a></li>
+
+      <!Added by ting96haha>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Bus') }}">List Bus</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Bus_Driver') }}">List Bus Driver</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Active_Bus') }}">List Active Bus</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Truck') }}">List Truck</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Truck_Driver') }}">List Truck Driver</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Active_Truck') }}">List Active Truck</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Bus_Log') }}">List Bus Log</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Bus_Loc_Log') }}">List Bus Location Log</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Truck_Log') }}">List Truck Log</a></li>
+			<li><a href="{{ url_for('resource.rlist', tablename = 'Truck_Loc_Log') }}">List Truck Location Log</a></li>
+		</ul>
+		</li>
+
+		<li><a><i class="fa fa-th-list"></i>Overview<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<!Insert resource urls here>
+
+		</ul>
+		</li>
+
+		<li><a><i class="fa fa-table"></i>Debugging<span class="fa fa-chevron-down"></span></a>
+		<ul class="nav child_menu">
+			<!Debug navbars> <!TODO LOGGING FILE DISPLAY>
+			<li><a href="{{ url_for('admintools.logview', logtype='user') }}">User Logs</a></li>
+			<li><a href="{{ url_for('admintools.logview', logtype='sys') }}">System Logs</a></li>
+			<li><a href="{{ url_for('admintools.logview', logtype='oper') }}">Operational Logs</a></li>
+		</ul>
+		</li>
+
+		<li><a href="{{ url_for('auth.logout', username=current_user.username) }}">Logout</a></li>
+
 		<!--Please do not edit the sidebars here, they are located under sidebar_childs/-->
 
 		{# {% include 'sidebar_childs/home.html' %} #}
@@ -21,6 +90,7 @@
 		{% include 'sidebar_childs/debugging.html' %}
 
 		<!--<li><a href="{{ url_for('auth.logout') }}"><i class="fa fa-power-off"></i>Logout</a></li>-->
+
 	</ul>
 	</div>
 </div>

@@ -13,6 +13,14 @@
     $geopoint
     $geopath
     $georoute
+  -busres
+    $bus
+    $active_bus
+    $bus_driver
+  -truckres
+    $truck
+    $active_truck
+    $truck_driver
   $COPY_template
 
 The COPY_template.py is available to start creating resources

@@ -19,8 +19,8 @@ from pkg.database.fsqlite import Base    #fsqlite dependency
 from pkg import limits as lim     #lim dependency
 #-----------------and the forms--this as well!--------------------------------
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField, DateTimeField
 from wtforms import SelectField, IntegerField, RadioField
 from wtforms import SubmitField, SelectMultipleField
-from wtforms.validators import InputRequired, Email, Length, NumberRange
+from wtforms.validators import InputRequired, Email, Length, NumberRange,DataRequired
 ###############################################################################

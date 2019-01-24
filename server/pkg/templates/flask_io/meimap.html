@@ -1,0 +1,277 @@
+<!This html document holds leaftlet map data>
+
+{% from "includes/_formhelpers.html" import render_field %}
+
+{% block title %}
+{% endblock %}
+
+{% block head %}
+<link href="{{url_for('static', filename='leaflet/leaflet.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{url_for('static', filename='bootstrap/css/bootstrap.css')}}" rel="stylesheet" type="text/css">
+<script src="{{url_for('static', filename='leaflet/leaflet.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+<!div class="container">
+
+  <div class="row">
+  <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 bg-warning">
+    <p>WELCOME TO PETABUS WEB INTERFACE!</p>
+    <!div class = "row">
+      <!p><!/p>
+    <!/div>
+  </div>
+  <!div class="col-sm-4 col-xs-4 col-md-4 col-lg-4 bg-warning">
+    <!p><!/p>
+  <!/div>
+  <!div class="col-sm-4 col-xs-4 col-md-4 col-lg-4 bg-danger">
+    <!p><!/p>
+  <!/div>
+  <!/div>
+</div>
+
+  <!div class="row">
+    <!div class="col-sm-6 col-xs-3 col-md-3 col-lg-3 bg-primary">
+      <!p></p>
+    <!/div>
+    <!div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 bg-warning">
+      <!p></p>
+    <!/div>
+    <!div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 bg-danger">
+      <!p></p>
+    <!/div>
+    <!div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 bg-success">
+      <!p></p>
+    <!/div>
+  <!/div>
+
+  <div class="row">
+
+    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 ">
+      <table id="datatable" class="table table-striped table-bordered">
+        <table>
+        <thead>
+          <tr>
+          {% for count in range(length) %}
+          <th>{{columnHead[count]}}</th>
+          {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+        {% for row in routenum %}
+          <tr>
+          {% for count in range(length) %}
+          <td>{{row[count]}}</td>
+          {% endfor %}
+          <td>
+            <form
+              <input type="button" id="myBtn" onclick="updatePoint()">Track</input>
+            </form>
+          </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+        <tr>
+
+        </tr>
+      </table>
+  </div>
+
+  <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
+    <div class="row">
+      <div class="container-fluid">
+        <div id="mapid" style="width: {{MAPWIDTH}}px; height: {{MAPHEIGHT}}px;"></div>
+      </div> <!-- /container -->
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{url_for('static', filename='flask_io/socket.io.min.js')}}"></script>
+<script type="text/javascript" charset="utf-8">
+	var mymap = L.map('mapid').setView([2.925297, 101.642064], 15);
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox.streets'
+	}).addTo(mymap);
+
+  var namespace = '/meiconnect'
+  var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //persistent
+  socket.on('connect', function() {
+      console.log("meiconnect_test connected...")});
+
+//  setInterval(timercallback, 5000);
+//  var pointArray = new Array();
+
+/*  socket.on('point_data', function(msg) {
+    msg.points.forEach(function proc(element, index){
+      var test = findPoint(element,pointArray); //find the element in the array
+      if( test != -1 ){
+        //element already in
+        console.log("Point edited on map",element)
+        pointArray[test][0] = element; // thedata in the element
+        pointArray[test][1].setLatLng([element.long,element.lati]); //marker
+      }else{
+        console.log("Point added to map",element)
+        pointArray.push([element,L.marker([element.long,element.lati]).addTo(mymap)
+          .bindPopup("<b>{0}</b><br/>{1}".format(element.route,element.id))])
+      }
+    });
+  });
+*/
+
+  function updatePoint(){
+    socket.emit('update');
+    console.log("X")
+  }
+
+  var myIcon = L.icon( {
+  iconUrl: '{{url_for("static", filename="imgres/bus_green.png")}}',
+  iconSize: [30, 30],
+  popupAnchor: [0,-10]
+  });
+
+  //var shelter1 =  L.marker([2.925297, 101.642064], {icon: myIcon}).addTo(mymap);
+  //var shelterMarkers = new L.FeatureGroup();
+
+  //setInterval(timercallback2,5000);
+  //setInterval(timercallback, 5000);
+
+L.marker([2.925297, 101.642064], {icon: myIcon});
+
+  var pointArray2 = new Array();
+  socket.on('point_data2', function(msg) {
+    msg.points.forEach(function proc(element, index){
+      //shelterMarkers.addLayer(shelter1);
+      console.log("yo1")
+
+      var test = findPoint(element,pointArray2);
+      console.log(test) //find the element in the array
+      if( test != -1 ){
+        //element already in
+        console.log("Point edited on map",element)
+        pointArray2[test][0] = element; // thedata in the element
+        //L.marker([element.long,element.lati],{icon: myIcon}).addTo(mymap);
+        pointArray2[test][1].setLatLng([element.long,element.lati]); //marker
+      }else{
+        //mymap.setView(element.long,element.lati)
+        console.log("Point added to map",element)
+        mymap.setView([element.long,element.lati],20)
+        displayregno = "Reg_Number =" + element.reg_no
+        //driid =  "Driver id =" + element.driver_id
+        //lat = "Lat =" + element.lati
+        //longi = "Long =" + element.long
+        //driid2 = driid + "" + lat + "" +longi
+
+        marker = L.marker([element.long,element.lati], {icon: myIcon}).bindPopup(displayregno).addTo(mymap)
+        marker.openPopup();
+        //pointArray2.push([element,L.marker([element.long,element.lati], {icon: myIcon}).addTo(mymap)
+        // .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup()]);
+          //mymap.setView(new L.LatLng(element.long,element.lati), 15);
+        //locate();
+        //marker.on('mouseover', function(){
+        //    driid = "Driver id ="+ str(element.driver_id)
+        //    marker._popup.setContent(driid)
+        //});
+        //[element.long,element.lati],12);
+      }
+    });
+    console.log("yo")
+  });
+
+//bindPopup("<b>{0}</b><br/>{1}".format(element.route_num,element.driver_id))])
+//bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup()]);
+  //bindPopup("<b>longitude:{element.long}</b>latitude:{element.lati}<br/>{1}".format(element.route_num,element.driver_id))])
+
+  /*
+  var myIcon = L.icon({
+    iconUrl: '{{url_for("static", filename="imgres/bus_green.png")}}',
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    shadowUrl: '{{url_for("static", filename="imgres/bus_green.png")}}',
+    shadowSize: [68, 95],
+    shadowAnchor: [22, 94]
+});
+*/
+
+  function locate(){
+    mymap.locate({setView: true, maxZoom: 15});
+  }
+
+
+
+
+  var myIcon = L.icon( {
+  iconUrl: '{{url_for("static", filename="imgres/bus_green.png")}}',
+  iconSize: [30, 30],
+  popupAnchor: [0,-10]
+});
+
+//  L.marker([2.925297, 101.642064], {icon: myIcon}).addTo(mymap);
+//  var position = 101.637735;
+//  var movmarker = L.marker([2.921558, position], {icon: myIcon}).addTo(mymap)
+//    .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup();
+//  setInterval(timercallback, 1000);
+
+/*	function timercallback() {
+    movmarker.remove()
+    position += 0.001
+    console.log(position)
+    movmarker = L.marker([2.921558, position], {icon: myIcon}).addTo(mymap)
+      .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup();
+	}
+*/
+
+  function connectserver(){
+    socket.on('connect', function() {
+        console.log("meiconnect_test connected...")});
+  }
+
+  function findPoint(point,array){
+      //checks if a point element is in the point array by comparing
+      //the ID
+      var out = -1;
+      array.forEach(function proc(element, index){
+        if(element[0].driver_id == point.driver_id){
+          out = index;
+          return;
+        }
+      });
+      return out;
+    }
+  /*
+	L.marker([2.925297, 101.642064]).addTo(mymap)
+  */
+  /*
+	L.circle([2.925297, 101.642064], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(mymap).bindPopup("I am a circle.");
+  */
+
+  /*L.polygon([
+		[2.926856, 101.640929],
+		[2.926669, 101.641809],
+		[2.92587, 101.640801],
+    [2.925779, 101.641589]
+	]).addTo(mymap).bindPopup("FOE");
+  */
+	var popup = L.popup();
+
+	function onMapClick(e) {
+		popup
+			.setLatLng(e.latlng)
+			.setContent("You clicked the map at " + e.latlng.toString())
+			.openOn(mymap);
+	}
+	mymap.on('click', onMapClick);
+</script>
+
+{% endblock %}
