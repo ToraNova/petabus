@@ -14,18 +14,25 @@ from flask_login import login_required
 from flask_login import current_user
 
 #usual imports (copy pasta this)
+from pkg.database.fsqlite import db_session
 import pkg.const as const
 from pkg.database import models as md
 from pkg.interface import forms as fm
 from pkg.system import assertw as a
 from pkg.resource.busres import active_bus
-
+from datetime import datetime
 #primary blueprint
 bp = Blueprint('maptrack2', __name__, url_prefix='/track')
 
 @bp.route('/basic1')
 def basic():
 	columnHead = ["Route Number"]
+	#date = datetime(2012,3,3,10,10,10)
+	#insert_list = {"bus_id":8,"driver_id":8,"route_num":1,"time_stamp":date,"long":2.925297,"lati":101.642064,"current_seqno":1}
+	#target_add = active_bus.Active_Bus(insert_list)
+	#sq.db_session.add(target_add)
+	#sq.db_session.commit()
+
 	routelist = active_bus.Active_Bus.query.all()
 	route = []
 	for basic in routelist:
