@@ -1,6 +1,7 @@
-/logs
-/__pycache__
+__pycache__/
 *.pyc
 *.db
 *.log
+tokens/
+tokens/sysuser/
 init.token

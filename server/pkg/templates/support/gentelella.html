@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	{% include 'includes/standard/_meta.html' %}
+
+	{% include 'includes/standard/_css.html' %} <!--Includes the standard css files-->
+	<!-- Custom Theme Style FOR GENTELELLA-->
+	<link href="{{url_for('static',filename='gentelella/css/custom.min.css')}}" rel="stylesheet">
+
+</head>
+
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+		<div class="col-md-3 left_col">
+			<div class="left_col scroll-view">
+
+			<div class="clearfix"></div>
+			<!-- sidebar menu -->
+			{% include 'includes/gentelella/_sidebar.html' %}
+			<!-- /sidebar menu -->
+
+			<!-- /menu footer buttons -->
+			{% include 'includes/gentelella/_menufooter.html' %}
+			<!-- /menu footer buttons -->
+			</div>
+		</div>
+
+		<!-- top navigation -->
+		{% include 'includes/gentelella/_topnavi.html' %}
+		<!-- /top navigation -->
+
+		<!-- page content -->
+		<div class="right_col" role="main">
+			<div class="">
+			{% include 'includes/gentelella/_messages.html' %}
+			{% block body %}
+			{% endblock %}
+			</div>
+		</div>
+		<!-- /page content -->
+
+		<!-- footer content -->
+		<footer>
+			<div class="pull-right">
+			Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+			</div>
+			<div class="clearfix"></div>
+		</footer>
+		<!-- /footer content -->
+		</div>
+	</div>
+
+	{% include 'includes/standard/_js.html' %} <!--Includes the standard javascript files-->
+
+	<!-- Custom js -->
+	<script src="{{url_for('static',filename='gentelella/js/custom.min.js')}}"></script>
+
+	{% block script %}
+	{% endblock %}
+
+</body>
+</html>

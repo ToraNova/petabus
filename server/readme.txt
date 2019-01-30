@@ -77,3 +77,9 @@ update4   23/01/19---22:53pm
 [+  token generation mechanism now added to allow user to register without admin access
 [   The administrator generates the URL to allow users to register/change password
 [-  Fixed the datatables error, now we can sort and list the datatables
+
+update5   31/01/19---01:00am
+[+  restructured the template directory
+[   now the template consist of bootstrap gentelella and bootstrap leaflet
+[   both serve different purposes, leaflet being the mapping while gentelella std
+[   dashboard. fixed some UI and html errors, as well as better formatting for some.

@@ -66,7 +66,7 @@ def server(config=None):
 
 	for bp in bplist:
 		out.register_blueprint(bp)
-	
+
 	#Non persistent blueprint registration
   	#Added by Mei
 	out.register_blueprint(location.bp)
@@ -84,6 +84,5 @@ def server(config=None):
 	out = SocketIO(out_nonsock)
 	out.on_namespace(socketio.SystemUtilNamespace('/sysutil'))
 	out.on_namespace(socketio.MapDisplayNamespace('/pointdisp'))
-	out.on_namespace(socketio.MapDisplayNamespace('/meiconnect'))
 
 	return out,out_nonsock

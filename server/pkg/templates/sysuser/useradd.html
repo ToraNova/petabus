@@ -1,10 +1,10 @@
-{% extends 'standard/support.html' %}
+{% extends 'support/gentelella.html' %}
 
 <!--Import line from a pre-defined formhelpers in the include dir-->
-{% from "includes/_formhelpers.html" import render_field %}
+{% from "includes/helpers/_formhelpers.html" import render_field %}
 
 {% block head %}
-{% include 'includes/dtable_css.html' %} <!--Includes the data table css files-->
+{% include 'includes/dtable/_css.html' %} <!--Includes the data table css files-->
 {% endblock %}
 
 {% block body %}
@@ -58,11 +58,11 @@
 					<!--Do nothing-->
 					{% else %}
 					{{ render_field(field)}}
-					{% include 'includes/_space1br.html' %}
+					{% include 'includes/helpers/_space1br.html' %}
 					{% endif %}
 					{% endfor %}
 					</dl>
-				<button class="btn btn-warning" type="submit">Add User</button>
+				<button class="btn btn-default" type="submit">Add User</button>
 			</form>
 
 
@@ -99,6 +99,9 @@
 					<!--The typeid is passed in the form, the param is just a placeholder-->
 					{{ render_field(form.usertype)}}
 
+					{% include 'includes/helpers/_space1br.html' %}
+					{% include 'includes/helpers/_space1br.html' %}
+
 				<button class="btn btn-default" type="submit">Generate Registration URL</button>
 			</form>
 
@@ -113,6 +116,6 @@
 
 {% block script %}
 
-{% include 'includes/dtable_js.html' %} <!--Includes the data table javascript files-->
+{% include 'includes/dtable/_js.html' %} <!--Includes the data table javascript files-->
 
 {% endblock %}

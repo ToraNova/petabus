@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    {% include 'includes/standard/_meta.html' %}
+    {% include 'includes/standard/_css.html' %}
+    {% include 'includes/leaflet/_css.html' %}
+
+    {% block head %}
+    {% endblock %}
+  </head>
+
+  <body>
+
+    {% include 'includes/bootleaf/_topnavi.html' %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% include 'includes/bootleaf/_modal.html' %}
+
+    {% include 'includes/standard/_js.html' %} <!--Includes the standard javascript files-->
+    {% include 'includes/leaflet/_js.html' %}
+    <script type="text/javascript" src="{{url_for('static', filename='flask_io/socket.io.min.js')}}"></script>
+
+    {% block script %}
+  	{% endblock %}
+
+  </body>

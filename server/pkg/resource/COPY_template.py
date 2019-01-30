@@ -11,6 +11,7 @@ from pkg.resource import res_import as r
 
 class Geopoint(r.Base):
     # PERMA : DO NOT CHANGE ANYTHING HERE UNLESS NECESSARY
+    __tablename__ = __name__
     id = r.Column(r.Integer, primary_key=True)
     def __repr__(self):
     	return '<%r %r>' % (self.__tablename__,self.id)
@@ -19,8 +20,6 @@ class Geopoint(r.Base):
     ######################################################################################################
     # EDITABLE ZONE
     ######################################################################################################
-    # TODO: CHANGE TABLENAME
-    __tablename__ = "TABLENAME"
     # TODO: DEFINE LIST OF COLUMNS
     long = r.Column(r.Float, nullable=False)
     lati = r.Column(r.Float, nullable=False) #latitude
