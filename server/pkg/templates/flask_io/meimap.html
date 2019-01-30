@@ -13,12 +13,12 @@
 
 {% block content %}
 <!div class="container">
-
   <div class="row">
   <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 bg-warning">
-    <p style = "font-family:georgia,garamond,serif;font-size:25px;font-style:bold;text-align:center;">
+    <p style = "font-family:Impact, Charcoal, sans-serif;font-size:50px;font-style:bold;text-align:center;">
       TRACK YOUR BUS
-    <img src="https://pics.mein-artikel-design.de/images/thumb/160/mousepads/196726182-moving-bus-filled-vector-icon.jpg" style="width:128px;height:128px;"></img>
+    <img src="https://pics.mein-artikel-design.de/images/thumb/160/mousepads/196726182-moving-bus-filled-vector-icon.jpg" style="width:128px;height:128px;" class="bus"></img>
+    <img src="https://cdn0.iconfinder.com/data/icons/material-design-flat/24/location-512.png" style="width:64px;height:64px;"></img>
     </p>
     <!div class = "row">
       <!p><!/p>
@@ -68,7 +68,7 @@
           {% endfor %}
           <td>
             <form
-              <input type="button" id="myBtn" onclick="updatePoint()">Track</input>
+            <input type="button" id="myBtn" onclick="updatePoint()">Track</input>    
             </form>
           </td>
           </tr>
