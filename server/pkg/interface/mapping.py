@@ -39,23 +39,28 @@ def basic():
 
 @bp.route('/geopoint')
 def point():
-	n=0
-	columnHead = ["Latitude","Longitude"]
+
+	#PLEASE DO NOT WORK ON EXAMPLE SECTIONS !!!
+	#PLEASE !
+	return render_template('leaflet/geopoint_dashboard.html')
+
+	# n=0
+	# columnHead = ["Latitude","Longitude"]
 	#point = Route 1
 	#insert_list = { "bus_id":1134,"driver_id":43657,"route_num":1,"time_stamp":timenow,"long"=upload_bufferArr[3], "lati" = upload_bufferArr[4]}
     #target_add = active_bus.Active_Bus(insert_list)
 	#sq.db_session.add(target_add)
     #sq.db_session.commit()
 	#nowtime = datetime.datetime.now()
-	date = datetime(2012, 3, 3, 10, 10, 10)
-	insert_list = { "bus_id":8,"driver_id":8,"route_num":1,"time_stamp":date,"long":2.925297, "lati" :101.642064,"current_seqno":1}
-	target_add = actbus.Active_Bus(insert_list)
-	sq.db_session.add(target_add)
-	sq.db_session.commit()
-	pointlist = actbus.Active_Bus.query.all()
-	latlong = []
-	for point in pointlist:
-		temp = [point[n].lati,point[n].long]
-		latlong.append(temp)
-		n=n+1
-	return render_template('flask_io/pointdisp.html',MAPWIDTH=800,MAPHEIGHT=800,latlong= latlong,num = n,colNum=len(columnHead),columnHead=columnHead)
+	# date = datetime(2012, 3, 3, 10, 10, 10)
+	# insert_list = { "bus_id":8,"driver_id":8,"route_num":1,"time_stamp":date,"long":2.925297, "lati" :101.642064,"current_seqno":1}
+	# target_add = actbus.Active_Bus(insert_list)
+	# sq.db_session.add(target_add)
+	# sq.db_session.commit()
+	# pointlist = actbus.Active_Bus.query.all()
+	# latlong = []
+	# for point in pointlist:
+	# 	temp = [point[n].lati,point[n].long]
+	# 	latlong.append(temp)
+	# 	n=n+1
+	# return render_template('flask_io/pointdisp.html',MAPWIDTH=800,MAPHEIGHT=800,latlong= latlong,num = n,colNum=len(columnHead),columnHead=columnHead)
