@@ -1,0 +1,26 @@
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+	<div class="menu_section">
+
+	<ul class="nav side-menu">
+		<br/>
+
+		{% include 'includes/PAGE_CONST/_SIDEBAR_TITLE.html' %}
+
+		<br/>
+
+		<!--Please do not edit the sidebars here, they are located under nav_child/gentelella/-->
+
+		{# {% include 'nav_child/gentelella/home.html' %} #}
+
+		{% include 'nav_child/gentelella/admin.html' %}
+
+		{% include 'nav_child/gentelella/dataview.html' %}
+
+		{% include 'nav_child/gentelella/overview.html' %}
+
+		{% include 'nav_child/gentelella/debugging.html' %}
+
+		<!--<li><a href="{{ url_for('auth.logout') }}"><i class="fa fa-power-off"></i>Logout</a></li>-->
+	</ul>
+	</div>
+</div>

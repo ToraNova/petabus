@@ -2,13 +2,11 @@
 <html lang="en">
 
 <head>
-	<!-- Meta, title, CSS, favicons, etc. -->
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	{% include 'includes/PAGE_MAIN_TITLE.html' %}
-	{% include 'includes/std_css.html' %} <!--Includes the standard css files-->
+	{% include 'includes/standard/_meta.html' %}
+	
+	{% include 'includes/standard/_css.html' %} <!--Includes the standard css files-->
+	<!-- Custom Theme Style FOR GENTELELLA-->
+	<link href="{{url_for('static',filename='gentelella/css/custom.min.css')}}" rel="stylesheet">
 
 </head>
 
@@ -20,23 +18,23 @@
 
 			<div class="clearfix"></div>
 			<!-- sidebar menu -->
-			{% include 'includes/_sidebar.html' %}
+			{% include 'includes/gentelella/_sidebar.html' %}
 			<!-- /sidebar menu -->
 
 			<!-- /menu footer buttons -->
-			{% include 'includes/_menufooter.html' %}
+			{% include 'includes/gentelella/_menufooter.html' %}
 			<!-- /menu footer buttons -->
 			</div>
 		</div>
 
 		<!-- top navigation -->
-		{% include 'includes/_topnavi.html' %}
+		{% include 'includes/gentelella/_topnavi.html' %}
 		<!-- /top navigation -->
 
 		<!-- page content -->
 		<div class="right_col" role="main">
 			<div class="">
-			{% include 'includes/_messages.html' %}
+			{% include 'includes/gentelella/_messages.html' %}
 			{% block body %}
 			{% endblock %}
 			</div>
@@ -54,7 +52,10 @@
 		</div>
 	</div>
 
-	{% include 'includes/std_js.html' %} <!--Includes the standard javascript files-->
+	{% include 'includes/standard/_js.html' %} <!--Includes the standard javascript files-->
+
+	<!-- Custom js -->
+	<script src="{{url_for('static',filename='gentelella/js/custom.min.js')}}"></script>
 
 	{% block script %}
 	{% endblock %}

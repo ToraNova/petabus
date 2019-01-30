@@ -1,8 +1,6 @@
 #--------------------------------------------------
-# COPY_template.py
-# COPY_template is a resource template. Please
-# use this as a base file when introducing new tables
-# use ctrl-f on TODO to findout which parts to change
+# geopath.py
+# Sample resource
 # introduced in u3
 # ToraNova
 #--------------------------------------------------
@@ -25,7 +23,6 @@ class Geopath(r.Base):
     name = r.Column(r.String(r.lim.MAX_USERNAME_SIZE), nullable=False)
     point1_id = r.Column(r.Integer,nullable=False)
     point2_id = r.Column(r.Integer,nullable=False)
-
 
     # TODO: DEFINE THE RLIST
     #The following is for r-listing (resource listing)

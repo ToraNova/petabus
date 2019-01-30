@@ -29,4 +29,4 @@ def basic():
 @bp.route('/geopoint')
 def point():
 	#return render_template('flask_io/basic_map.html')
-	return render_template('flask_io/pointdisp.html',MAPWIDTH=800,MAPHEIGHT=800)
+	return render_template('leaflet/geopoint_dashboard.html')
