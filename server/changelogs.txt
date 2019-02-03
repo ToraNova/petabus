@@ -11,3 +11,6 @@ update5   31/01/19---01:00am
 [   now the template consist of bootstrap gentelella and bootstrap leaflet
 [   both serve different purposes, leaflet being the mapping while gentelella std
 [   dashboard. fixed some UI and html errors, as well as better formatting for some.
+
+update6   03/02/19---16:20am
+[*  moved images from the root dir to the static/imgres dir under pkg
