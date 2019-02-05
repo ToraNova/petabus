@@ -16,6 +16,32 @@ routes or links to routes here instead of the _sidebar.html file-->
   </ul>
   </li>
 
+  <li><a><i class="fa fa-bus"></i>Bus<span class="fa fa-chevron-down"></span></a>
+  <ul class="nav child_menu">
+    <!--Insert database urls here-->
+
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Bus') }}">List Bus</a></li>
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Bus_Driver') }}">List Bus Driver</a></li>
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Active_Bus') }}">List Active Bus</a></li>
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Bus_Log') }}">List Bus Log</a></li>
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Bus_Loc_Log') }}">List Bus Location Log</a></li>
+
+  </ul>
+  </li>
+
+  <li><a><i class="fa fa-truck"></i>Trucks<span class="fa fa-chevron-down"></span></a>
+  <ul class="nav child_menu">
+    <!--Insert database urls here-->
+
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Truck') }}">List Truck</a></li>
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Truck_Driver') }}">List Truck Driver</a></li>
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Active_Truck') }}">List Active Truck</a></li>
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Truck_Log') }}">List Truck Log</a></li>
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Truck_Loc_Log') }}">List Truck Location Log</a></li>
+
+  </ul>
+  </li>
+
   <li><a href="{{ url_for('resource.rlist', tablename = 'Param3') }}">List Param3</a></li>
 
 </ul>
