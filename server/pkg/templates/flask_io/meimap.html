@@ -216,6 +216,7 @@ L.marker([2.925297, 101.642064], {icon: myIcon});
   popupAnchor: [0,-10]
 });
 
+//Original Version//
 //  L.marker([2.925297, 101.642064], {icon: myIcon}).addTo(mymap);
 //  var position = 101.637735;
 //  var movmarker = L.marker([2.921558, position], {icon: myIcon}).addTo(mymap)
@@ -223,17 +224,11 @@ L.marker([2.925297, 101.642064], {icon: myIcon});
 //  setInterval(timercallback, 1000);
 
 /*	function timercallback() {
-    currmarker = marker;
-    if(currmarker!=marker){
     movmarker.remove()
-    movmarker = L.marker([element.long, element.lati], {icon: myIcon}).addTo(mymap)
+    position += 0.001
+    console.log(position)
+    movmarker = L.marker([2.921558, position], {icon: myIcon}).addTo(mymap)
       .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup();
-    }
-    else {
-    movmarker.remove()
-    movmarker = L.currmarker([element.long,element.lati], {icon: myIcon}).addTo(mymap)
-      .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup();
-  }
 	}
 */
 
