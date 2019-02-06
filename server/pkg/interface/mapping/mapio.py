@@ -29,7 +29,7 @@ class MapPointSocket(Namespace):
 		self.sendPointData()
 
 	def on_pointAdd(self,json):
-		print(json) #debugging
+		self.addPointData(json["lati"],json["long"])
 
 	def addPointData(self,lati,long):
 		insert_list = {
@@ -51,9 +51,13 @@ class MapPointSocket(Namespace):
 			data_dict["id"] = points.id
 			data_dict["long"] = points.long
 			data_dict["lati"] = points.lati
+			data_dict["time"] = points.time.strftime('%m/%d/%Y %H:%M:%S')
 			route = res.georoute.Georoute.query.filter(
 			res.georoute.Georoute.id == points.route_id ).first()
-			data_dict["route"] = route.name
+			if route == None:
+				data_dict["route"] = "Unassigned"
+			else:
+				data_dict["route"] = route.name
 			list.append(data_dict)
 		#list = str(list)[1:-2]
 		#out = json.dumps({"points":list})

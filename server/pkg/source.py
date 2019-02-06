@@ -92,6 +92,6 @@ def server(config=None):
 	out_nonsock = out
 	out = SocketIO(out_nonsock)
 	out.on_namespace(socketio.SystemUtilNamespace('/sysutil'))
-	out.on_namespace(mapio.MapPointSocket('/mapping'))
+	out.on_namespace(mapio.MapPointSocket('/geopoint'))
 
 	return out,out_nonsock

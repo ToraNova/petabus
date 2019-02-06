@@ -17,6 +17,7 @@ eForm = 2       #edit form
 
 rgen_keyword = "rgen_" #used to seek out form attributes
 rgen_selkey = "rgensel_" #used to seek out SelectField form attr
+rgen_timkey = "rgentim_"
 rlin_nullk = "-1"
 ##########################################################
 

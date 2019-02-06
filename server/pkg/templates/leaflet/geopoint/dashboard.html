@@ -58,74 +58,19 @@
 
     <script type="text/javascript" charset="utf-8">
 
-      var mmap = L.map('map').setView([2.927547, 101.642096], 16);
-
+      var mmap = L.map('map').setView([2.927547, 101.642096], 15);
       L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 18,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-          subdomains: ['a','b','c']
+        minZoom: 12,
+        maxZoom: 17,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        subdomains: ['a','b','c']
       }).addTo( mmap );
 
-    	var namespace = '/mapping'
-    	var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //persistent
-    	socket.on('connect', function() {
-    			console.log("pointdisp_test connected...")
-    	});
+      //allow points to update and pinned on the map
+    	{% include 'includes/js_snippet/point.js' %}
 
-      //L.marker([2.925297, 101.642064]).addTo(mmap);
-
-      setInterval(timercallback, 5000);
-      var pointArray = new Array();
-      socket.on('point_data', function(msg) {
-        msg.points.forEach(function proc(element, index){
-          var test = findPoint(element,pointArray); //find the element in the array
-          if( test != -1 ){
-            //element already in
-            console.log("Point edited on map",element)
-            pointArray[test][0] = element;
-            pointArray[test][1].setLatLng([element.long,element.lati]);
-          }else{
-            console.log("Point added to map",element)
-            pointArray.push([element,L.marker([element.long,element.lati]).addTo(mmap)
-              .bindPopup("<b>{0}</b><br/>{1}".format(element.route,element.id))])
-          }
-        });
-      });
-
-      String.prototype.format = function() {
-        a = this;
-        for (k in arguments) {
-          a = a.replace("{" + k + "}", arguments[k])
-        }
-        return a
-      }
-
-      function findPoint(point,array){
-        //checks if a point element is in the point array by comparing
-        //the ID
-        var out = -1;
-        array.forEach(function proc(element, index){
-          if(element[0].id == point.id){
-            out = index;
-            return;
-          }
-        });
-        return out;
-      }
-
-    	function timercallback() {
-        socket.emit('update');
-    	}
-
-      //FOR POP UP (DEBUGGING)
-      var popup = L.popup();
-    	function onMapClick(e) {
-    		popup
-    			.setLatLng(e.latlng)
-    			.setContent("You clicked the map at " + e.latlng.toString())
-    			.openOn(mmap);
-    	}
-    	mmap.on('click', onMapClick);
+      //include the marker to allow clicking and showing of latlng
+      {% include 'includes/js_snippet/marker.js' %}
     </script>
 
     {% endblock %}

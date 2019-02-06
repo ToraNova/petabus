@@ -27,6 +27,6 @@ bp = Blueprint('mapdebug', __name__, url_prefix='/tools')
 
 @bp.route('/pin_geopoint')
 @login_required
-def point():
+def pinpoint():
 	#return render_template('flask_io/basic_map.html')
 	return render_template('leaflet/geopoint/tooladd.html')

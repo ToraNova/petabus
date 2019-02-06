@@ -11,7 +11,7 @@ from pkg.resource import res_import as r
 
 class TODO_SAMPLE(r.Base):
     # PERMA : DO NOT CHANGE ANYTHING HERE UNLESS NECESSARY
-    __tablename__ = __name__
+    __tablename__ = "PLS CHANGE THIS"
     id = r.Column(r.Integer, primary_key=True)
     def __repr__(self):
     	return '<%r %r>' % (self.__tablename__,self.id)
@@ -35,10 +35,10 @@ class TODO_SAMPLE(r.Base):
     "Geopoint ID":"id",
     "Longitude":"long",
     "Latitude":"lati",
-    "Linked Entity":("__link__","route_id"), # __link__ is a reserved keyword
+    "Linked Entity":"__link__/route_id", # __link__ is a reserved keyword
     "Timestamp":"time"
     } #header:row data
-    # use the __link__ and __ route_id to 'link' route_id onto something
+    # use the __link__/ and __ route_id to 'link' route_id onto something
     # the linkage is defined under the rlink dictionary down there
     # see 'RLINK'
 
@@ -65,7 +65,7 @@ class TODO_SAMPLE(r.Base):
         self.time = insert_list["time"]
 
         #FOR nullable=True, use a the checkNull method
-        self.route_id = checkNull(insert_list,"route_id")
+        self.route_id = r.checkNull(insert_list,"route_id")
     ######################################################################################################
 
 #TODO : DEFINE ADD RES FORM
@@ -76,8 +76,8 @@ class AddForm(r.FlaskForm):
     rgen_long = r.StringField('New Longitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
     rgen_lati = r.StringField('New Latitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
 
-    #sample datepicker widget (allows date selection)
-    rgen_time = r.DateField('T stamp', widget=r.DatePickerWidget(),default=r.datetime.datetime.now())
+    #sample datepicker widget (allows date selection), use the rgentim_ prefix
+    rgentim_time = r.DateField('T stamp', widget=r.DatePickerWidget(),default=r.datetime.datetime.now())
 
     #TODO: List select fields here, FIELDS MUST BE PREFIXED WITH rgensel_
     # The names here after the rgen_ prefix must correspond to a var name in the respective model
@@ -92,8 +92,8 @@ class EditForm(r.FlaskForm):
     rgen_long = r.StringField('New Longitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
     rgen_lati = r.StringField('New Latitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
 
-    #sample datepicker widget (allows date selection)
-    rgen_time = r.DateField('T stamp', widget=r.DatePickerWidget(),default=r.datetime.datetime.now())
+    #sample datepicker widget (allows date selection), use the rgentim_ prefix
+    rgentim_time = r.DateField('T stamp', widget=r.DatePickerWidget(),default=r.datetime.datetime.now())
 
     #TODO: List select fields here, FIELDS MUST BE PREFIXED WITH rgensel_
     # The names here after the rgen_ prefix must correspond to a var name in the respective model
