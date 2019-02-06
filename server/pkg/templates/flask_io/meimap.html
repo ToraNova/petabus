@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-<!div class="container">
+
   <div class="row">
   <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 bg-warning">
     <p style = "font-family:Impact, Charcoal, sans-serif;font-size:50px;font-style:bold;text-align:center;">
@@ -29,7 +29,6 @@
   <!/div>
   <!div class="col-sm-4 col-xs-4 col-md-4 col-lg-4 bg-danger">
     <!p><!/p>
-  <!/div>
   <!/div>
 </div>
 
@@ -130,7 +129,7 @@
 
   function updatePoint(){
     socket.emit('update');
-    console.log("X")
+    console.log("X");
   }
 
   var myIcon = L.icon( {

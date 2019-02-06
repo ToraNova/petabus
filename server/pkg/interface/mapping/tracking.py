@@ -77,3 +77,9 @@ def point():
 
 	#return render_template('flask_io/basic_map.html')
 	return render_template('leaflet/geopoint/dashboard.html')
+
+#Route for active_bus tracking on end-user UI side
+#ToraNova 2019/02/07
+@bp.route('/active_bus')
+def active_bus():
+	return render_template('leaflet/active_bus/dashboard.html')

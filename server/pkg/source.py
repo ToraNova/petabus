@@ -87,5 +87,6 @@ def server(config=None):
 	out = SocketIO(out_nonsock)
 	out.on_namespace(socketio.SystemUtilNamespace('/sysutil'))
 	out.on_namespace(mapio.MapPointSocket('/geopoint'))
+	out.on_namespace(mapio.MapBusSocket('/active_bus'))
 
 	return out,out_nonsock

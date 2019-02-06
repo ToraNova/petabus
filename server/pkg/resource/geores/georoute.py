@@ -12,12 +12,12 @@ from pkg.resource import res_import as r
 class Georoute(r.Base):
     __tablename__ = "Georoute"
     id = r.Column(r.Integer, primary_key=True)
-    name = r.Column(r.String(r.lim.MAX_USERNAME_SIZE), nullable=False, unique=True) #longitude
+    name = r.Column(r.String(r.lim.MAX_USERNAME_SIZE), nullable=False, unique=True)
 
     #The following is for r-listing (resource listing)
     rlist = {
     "Georoute ID":"id",
-    "Georoute Name":"name",
+    "Georoute Name":"name"
     } #header:row data
 
     #this primary key is used for rlisting/adding and mod.

@@ -12,10 +12,69 @@ from pkg.database.fsqlite import db_session
 
 import datetime
 
+#namespace class MapBusSocket
+#introduced for bustracking on petabus/bustalk 19/02/07
+#handles active bus tracking
+class MapBusSocket(Namespace):
+	target_model = res.active_bus.Active_Bus
+	def on_connect(self):
+		#sends all active route
+		#TODO: sends active routes
+		self.sendRouteData()
+
+	def on_disconnect(self):
+		#do nothing for now upon disconnection
+		pass
+
+	def on_routeUpdate(self,json):
+		#request info on a particular route
+		#TODO responds based on json request
+		sendUpdates(self,json["route_num"])
+		pass
+
+	def on_routeData(self):
+		#sends new active routes info
+		#TODO sends active routes info
+		self.sendRouteData()
+		pass
+
+	def sendRouteData(self):
+		#sends all route data onto client
+		#obtains a distinct route list
+		distinctRoutelist = self.target_model.query.distinct().group_by(self.target_model.route_num).all()
+		rep_json = []
+		for d in distinctRoutelist:
+			tmp = {}
+			tmp["route_num"] = d.route_num
+			name = res.georoute.Georoute.filter(res.georoute.Georoute.id == d.route_num).first().name
+			if(name == None):
+				tmp["route_name"] = "Not registered"
+			else:
+				tmp["route_name"] = name
+			rep_json.append(tmp)
+		emit('route_data',{"distinct_routes":rep_json})
+
+	def sendUpdates(self,route_num):
+		route_data = self.target_model.query.filter(self.target_model.route_num == route_num).all()
+		rep_json
+		for d in route_data:
+			tmp = {}
+			tmp["lati"] = d.long
+			tmp["long"] = d.lati
+			tmp["busid"] = d.bus_id
+			busreg = res.bus.Bus.filter(res.bus.Bus.id == d.bus_id).first().reg_no
+			if(busreg == None):
+				tmp["busreg"] = "Not registered"
+			else:
+				tmp["busreg"] = busreg
+			rep_json.append(tmp)
+		emit('route_update',{"bus_data":rep_json})
+
 #namespace class MapPointSocket
 #migrated from socketio.py since u6
 #handles display of geopoints on a map.
 class MapPointSocket(Namespace):
+	target_model = res.geopoint.Geopoint
 	def on_connect(self):
 		#upon connection
 		self.sendPointData()
@@ -37,13 +96,13 @@ class MapPointSocket(Namespace):
 		"lati":lati,
 		"time":datetime.datetime.now()
 		}
-		newmark = res.geopoint.Geopoint(insert_list)
+		newmark = self.target_model(insert_list)
 		db_session.add(newmark)
 		db_session.commit()
 
 	def sendPointData(self):
 		#code to send out all geopoints from the db
-		pointlist = res.geopoint.Geopoint.query.all()
+		pointlist = self.target_model.query.all()
 		list = []
 
 		for points in pointlist:
@@ -52,8 +111,8 @@ class MapPointSocket(Namespace):
 			data_dict["long"] = points.long
 			data_dict["lati"] = points.lati
 			data_dict["time"] = points.time.strftime('%m/%d/%Y %H:%M:%S')
-			route = res.georoute.Georoute.query.filter(
-			res.georoute.Georoute.id == points.route_id ).first()
+			route = self.target_model.query.filter(
+			self.target_model.id == points.route_id ).first()
 			if route == None:
 				data_dict["route"] = "Unassigned"
 			else:
