@@ -61,17 +61,11 @@ def server(config=None):
 	login_manager.login_message = "Please login first."
 	login_manager.login_message_category = "info"
 
-<<<<<<< HEAD
 	#Persistent blueprint registration
 	#Added by ToraNova
-	bplist = [
-		r.bp,auth.bp,home.bp,admintools.bp,socketio.bp,
-		mapping.bp,push.bp,pull.bp,sysuser.bp,type.bp,sysnologin.bp]
-=======
 	bplist = [	r.bp,auth.bp,home.bp,admintools.bp,socketio.bp,
 				push.bp,pull.bp,sysuser.bp,type.bp,sysnologin.bp,
 				debugging.bp,tracking.bp]
->>>>>>> minimal_server
 
 	for bp in bplist:
 		out.register_blueprint(bp)
