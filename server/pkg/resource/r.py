@@ -141,8 +141,9 @@ def rmod(tablename,primaryKey):
 def getMatch(tablename):
 	'''obtains matching columns and data of a specific table
 	updated on u3 compared to r9. now supports a cleaner model side requirement'''
-	reslist = rdef.dist_resources[tablename][rdef.sqlClass].rlist
-	rawlist = rdef.dist_resources[tablename][rdef.sqlClass].query.all()
+	entityClass = rdef.dist_resources[tablename][rdef.sqlClass]
+	reslist = entityClass.rlist # the rlist element
+	rawlist = entityClass.query.all() # all the records
 	columnHead = []
 	match = []
 	for key,val in reslist.items():
@@ -151,7 +152,23 @@ def getMatch(tablename):
 	for entry in rawlist:
 		temp = []
 		for key in reslist:
-			temp.append(entry.__getattribute__(reslist[key]))
+			if(len(reslist[key])>1): #if __link__ indicated
+				if(reslist[key][0] == "__link__"):
+					#further lookups
+					refTable = entityClass.rlink[reslist[key][1]][0]
+					refFKey =  entityClass.rlink[reslist[key][1]][1]
+					refLook =  entityClass.rlink[reslist[key][1]][2]
+					refEntClass = rdef.dist_resources[refTable]
+					aptTar = refEntClass.query.filter(
+						refEntClass.__getattribute__(refFKey) ==
+						entry.__getattribute__(reslist[key][1])
+					).__getattribute__(refLook)
+				else:
+					aptTar = "Linkage Fail"
+					#error
+				temp.append(aptTar)
+			else:
+				temp.append(entry.__getattribute__(reslist[key]))
 		match.append(temp)
 	return [columnHead,match]
 
@@ -199,5 +216,7 @@ def dynamicSelectorHandler(sqlresult,ref_elem):
 	outList = []
 	for elements in sqlresult:
 		outList.append((str(elements.__getattribute__(elements.rlist_priKey)),elements.__getattribute__(ref_elem)))
+
+	outList.append((rdef.rlin_nullk,'No Link'))
 
 	return outList

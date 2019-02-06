@@ -61,29 +61,3 @@ class SystemUtilNamespace(Namespace):
 		#print("callback:",json['data'])
 		dTString = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 		emit('recv_sync', {"datetime":dTString})
-
-class MapDisplayNamespace(Namespace):
-	def on_connect(self):
-		self.sendPointData()
-
-	def on_disconnect(self):
-		pass
-
-	def on_update(self):
-		self.sendPointData()
-
-	def sendPointData(self):
-		pointlist = res.geopoint.Geopoint.query.all()
-		list = []
-		for points in pointlist:
-			data_dict = {}
-			data_dict["id"] = points.id
-			data_dict["long"] = points.long
-			data_dict["lati"] = points.lati
-			route = res.georoute.Georoute.query.filter(
-				res.georoute.Georoute.id == points.route_id ).first()
-			data_dict["route"] = route.name
-			list.append(data_dict)
-		#list = str(list)[1:-2]
-		#out = json.dumps({"points":list})
-		emit('point_data',{"points":list})

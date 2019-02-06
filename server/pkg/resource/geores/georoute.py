@@ -24,10 +24,6 @@ class Georoute(r.Base):
     rlist_priKey = "id"
     rlist_dis = "Georoutes" #display for r routes
 
-    #The following is for r-listing on foreign tables
-    rlist_flist = {
-    }
-
     def __init__(self,insert_list):
         self.name = insert_list["name"]
 
@@ -35,10 +31,10 @@ class Georoute(r.Base):
     	return '<%r %r>' % (self.__tablename__,self.id)
 
 # Anything after rgen_ must be an actual attribute from Georoute
-class Georoute_AddForm(r.FlaskForm):
+class AddForm(r.FlaskForm):
     rgen_name = r.StringField('New Georoute Name',validators=[r.InputRequired(),r.Length(min=1,max=r.lim.MAX_USERNAME_SIZE)])
     fKeylist = {}
 
-class Georoute_EditForm(r.FlaskForm):
+class EditForm(r.FlaskForm):
     rgen_name = r.StringField('Renew Georoute Name',validators=[r.InputRequired(),r.Length(min=1,max=r.lim.MAX_USERNAME_SIZE)])
     fKeylist = {}

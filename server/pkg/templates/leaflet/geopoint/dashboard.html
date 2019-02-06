@@ -47,7 +47,7 @@
           </div>
         </div>
       </div>
-      
+
       <div id="map"></div>
 
     </div>
@@ -66,7 +66,7 @@
           subdomains: ['a','b','c']
       }).addTo( mmap );
 
-    	var namespace = '/pointdisp'
+    	var namespace = '/mapping'
     	var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //persistent
     	socket.on('connect', function() {
     			console.log("pointdisp_test connected...")
