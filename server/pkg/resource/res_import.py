@@ -23,13 +23,10 @@ from flask_admin.form.widgets import DatePickerWidget
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, DateTimeField
 from wtforms import SelectField, IntegerField, RadioField
-<<<<<<< HEAD
-from wtforms import SubmitField, SelectMultipleField
-from wtforms.validators import InputRequired, Email, Length, NumberRange,DataRequired
-=======
+
 from wtforms import SubmitField, SelectMultipleField, DateField
 from wtforms.validators import InputRequired, Email, Length, NumberRange
->>>>>>> minimal_server
+
 ###############################################################################
 
 from pkg.resource.rdef import rlin_nullk

@@ -24,8 +24,7 @@ rlin_nullk = "-1"
 #IMPORT RESOURCE CLASS HERE (MODEL AND FORMS)
 from pkg.resource.geores import geopoint
 from pkg.resource.geores import georoute
-<<<<<<< HEAD
-from pkg.resource.geores import geopath
+
 from pkg.resource.busres import bus_driver
 from pkg.resource.busres import bus
 from pkg.resource.busres import active_bus
@@ -36,8 +35,6 @@ from pkg.resource.logres import truck_log
 from pkg.resource.truckres import truck_driver
 from pkg.resource.truckres import truck
 from pkg.resource.truckres import active_truck
-=======
->>>>>>> minimal_server
 
 from pkg.resource.generic import param3model
 

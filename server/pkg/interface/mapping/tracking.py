@@ -18,23 +18,23 @@ from flask_login import current_user
 import pkg.const as const
 from pkg.database import models as md
 from pkg.system import assertw as a
-<<<<<<< HEAD:server/pkg/interface/mapping.py
+
 from pkg.resource.busres import active_bus as actbus
 from pkg.resource.geores import geopoint as geo
 from time import gmtime, strftime
 from pkg.database import fsqlite as sq
 from datetime import datetime
-=======
+
 from pkg.resource import rdef as res
 
->>>>>>> minimal_server:server/pkg/interface/mapping/tracking.py
+
 #primary blueprint
 bp = Blueprint('maptrack', __name__, url_prefix='/track')
 
 @bp.route('/basic')
 def basic():
 	#return render_template('flask_io/basic_map.html')
-<<<<<<< HEAD:server/pkg/interface/mapping.py
+
 	columnHead = ["Route Number"]
 	routelist = actbus.Active_Bus.query.all()
 	Route = []
@@ -43,18 +43,16 @@ def basic():
 		Route.append(tempo)
 
 	return render_template('flask_io/basic_map_test.html',MAPWIDTH=500,MAPHEIGHT=500,routenum = Route,colNum=len(columnHead),columnHead=columnHead)
-=======
-	return render_template('leaflet/geopoint/basic.html')
->>>>>>> minimal_server:server/pkg/interface/mapping/tracking.py
+
+	#return render_template('leaflet/geopoint/basic.html')
+
 
 @bp.route('/geopoint')
 @login_required
 def point():
-<<<<<<< HEAD:server/pkg/interface/mapping.py
 
 	#PLEASE DO NOT WORK ON EXAMPLE SECTIONS !!!
 	#PLEASE !
-	return render_template('leaflet/geopoint_dashboard.html')
 
 	# n=0
 	# columnHead = ["Latitude","Longitude"]
@@ -76,7 +74,6 @@ def point():
 	# 	latlong.append(temp)
 	# 	n=n+1
 	# return render_template('flask_io/pointdisp.html',MAPWIDTH=800,MAPHEIGHT=800,latlong= latlong,num = n,colNum=len(columnHead),columnHead=columnHead)
-=======
+
 	#return render_template('flask_io/basic_map.html')
 	return render_template('leaflet/geopoint/dashboard.html')
->>>>>>> minimal_server:server/pkg/interface/mapping/tracking.py
