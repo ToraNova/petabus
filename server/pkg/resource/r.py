@@ -129,7 +129,6 @@ def rmod(tablename,primaryKey):
 				if f.startswith(rdef.rgen_keyword): #only the ones defined under rgen
 					model_field = f[len(rdef.rgen_keyword):]
 					target_mod.__setattr__(model_field,request.form.get(f))
-					print("SETT:",model_field,request.form.get(f))
 				elif f.startswith(rdef.rgen_timkey):
 					#time processing
 					model_field = f[len(rdef.rgen_timkey):]
