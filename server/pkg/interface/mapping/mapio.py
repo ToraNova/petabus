@@ -51,6 +51,7 @@ class MapPointSocket(Namespace):
 			data_dict["id"] = points.id
 			data_dict["long"] = points.long
 			data_dict["lati"] = points.lati
+			data_dict["time"] = points.time.strftime('%m/%d/%Y %H:%M:%S')
 			route = res.georoute.Georoute.query.filter(
 			res.georoute.Georoute.id == points.route_id ).first()
 			if route == None:
