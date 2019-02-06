@@ -30,6 +30,9 @@ class Georoute(r.Base):
     def __repr__(self):
     	return '<%r %r>' % (self.__tablename__,self.id)
 
+    def getselfname(self):
+        return self.__class__.__name__
+
 # Anything after rgen_ must be an actual attribute from Georoute
 class AddForm(r.FlaskForm):
     rgen_name = r.StringField('New Georoute Name',validators=[r.InputRequired(),r.Length(min=1,max=r.lim.MAX_USERNAME_SIZE)])

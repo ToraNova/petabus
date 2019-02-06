@@ -11,7 +11,7 @@
 from pkg.resource import res_import as r
 
 class Geopoint(r.Base):
-    __tablename__ = __name__
+    __tablename__ = "Geopoint"
     id = r.Column(r.Integer, primary_key=True)
     long = r.Column(r.Float, nullable=False) #longitude
     lati = r.Column(r.Float, nullable=False) #latitude
@@ -25,7 +25,7 @@ class Geopoint(r.Base):
     "Geopoint ID":"id",
     "Longitude":"long",
     "Latitude":"lati",
-    "Linked Route":("__link__","route_id"), # __link__ is a reserved keyword
+    "Linked Route":"__link__/route_id", # __link__/ is a reserved keyword
     "Timestamp":"time"
     } #header:row data
     #
@@ -44,7 +44,7 @@ class Geopoint(r.Base):
         self.time = insert_list["time"]
 
         #FOR nullable=True, use a the checkNull method
-        self.route_id = checkNull(insert_list,"route_id")
+        self.route_id = r.checkNull(insert_list,"route_id")
 
     def __repr__(self):
     	return '<%r %r>' % (self.__tablename__,self.id)
@@ -53,12 +53,12 @@ class AddForm(r.FlaskForm):
     rgen_long = r.StringField('New Longitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
     rgen_lati = r.StringField('New Latitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
     rgensel_route_id = r.SelectField('Assigned Route',choices=[('0','No link')])
-    rgen_time = r.DateField('T stamp', widget=r.DatePickerWidget(),default=r.datetime.datetime.now())
+    rgentim_time = r.DateField('T stamp', widget=r.DatePickerWidget(),default=r.datetime.datetime.now())
     fKeylist = {"route_id":("Georoute","name")}
 
 class EditForm(r.FlaskForm):
     rgen_long = r.StringField('Renew Longitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
     rgen_lati = r.StringField('Renew Latitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
     rgensel_route_id = r.SelectField('Reassigned Route',choices=[('0','No link')])
-    rgen_time = r.DateField('New T-stamp', widget=r.DatePickerWidget(),default=r.datetime.datetime.now())
+    #rgentim_time = r.DateField('New T-stamp', widget=r.DatePickerWidget(),default=r.datetime.datetime.now())
     fKeylist = {"route_id":("Georoute","name")}

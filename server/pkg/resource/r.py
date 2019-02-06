@@ -23,9 +23,11 @@ from pkg.system.servlog import srvlog,logtofile
 
 #r.py (u3) uses the dist dictionary from rdef
 from pkg.resource import rdef
+from pkg.resource.res_import import checkNull
 
 #additional overheads
 import os
+import datetime
 
 bp = Blueprint('resource', __name__, url_prefix='/resource')
 
@@ -127,6 +129,16 @@ def rmod(tablename,primaryKey):
 				if f.startswith(rdef.rgen_keyword): #only the ones defined under rgen
 					model_field = f[len(rdef.rgen_keyword):]
 					target_mod.__setattr__(model_field,request.form.get(f))
+					print("SETT:",model_field,request.form.get(f))
+				elif f.startswith(rdef.rgen_timkey):
+					#time processing
+					model_field = f[len(rdef.rgen_timkey):]
+					target_mod.__setattr__(model_field,
+						datetime.datetime.strptime(request.form.get(f), "%Y-%m-%d"))
+				elif f.startswith(rdef.rgen_selkey):
+					model_field = f[len(rdef.rgen_selkey):]
+					target_mod.__setattr__(model_field,checkNull(request.form,f))
+
 			sq.db_session.add(target_mod)
 			sq.db_session.commit()
 			return redirect(url_for('resource.rlist',tablename=tablename))
@@ -152,23 +164,31 @@ def getMatch(tablename):
 	for entry in rawlist:
 		temp = []
 		for key in reslist:
-			if(len(reslist[key])>1): #if __link__ indicated
-				if(reslist[key][0] == "__link__"):
-					#further lookups
-					refTable = entityClass.rlink[reslist[key][1]][0]
-					refFKey =  entityClass.rlink[reslist[key][1]][1]
-					refLook =  entityClass.rlink[reslist[key][1]][2]
-					refEntClass = rdef.dist_resources[refTable]
-					aptTar = refEntClass.query.filter(
-						refEntClass.__getattribute__(refFKey) ==
-						entry.__getattribute__(reslist[key][1])
-					).__getattribute__(refLook)
-				else:
-					aptTar = "Linkage Fail"
-					#error
-				temp.append(aptTar)
+			if(reslist[key].startswith("__link__")):
+				try:
+					rkey = reslist[key].split('/')[1]
+					refTable = entityClass.rlink[rkey][0]
+					refFKey = entityClass.rlink[rkey][1]
+					refLook = entityClass.rlink[rkey][2]
+					refEntClass = rdef.dist_resources[refTable][rdef.sqlClass]
+					if(entry.__getattribute__(rkey) == None):
+						aptTar = "Unlinked"
+					else:
+						aptTar = refEntClass.query.filter(
+							getattr(refEntClass,refFKey) ==
+							entry.__getattribute__(rkey)
+						).first().__getattribute__(refLook)
+				except Exception as e:
+					#revert to simple display of id
+					#error must have occured here
+					# TODO: Logging
+					print(str(e))
+					aptTar = entry.__getattribute__(rkey)
+				finally:
+					temp.append(aptTar)
 			else:
 				temp.append(entry.__getattribute__(reslist[key]))
+			print(temp[-1])
 		match.append(temp)
 	return [columnHead,match]
 
