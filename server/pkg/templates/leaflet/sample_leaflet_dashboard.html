@@ -1,0 +1,134 @@
+{% extends 'support/leaflet.html' %}
+
+<!--Please for the love of god DO NOT EDIT ON THE SAMPLES-->
+
+{% block head %}
+    <link rel="apple-touch-icon" sizes="76x76" href="{{url_for('static', filename='imgres/bootleaf/favicon-76.png')}}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{url_for('static', filename='imgres/bootleaf/favicon-120.png')}}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{url_for('static', filename='imgres/bootleaf/favicon-152.png')}}">
+    <link rel="icon" sizes="196x196" href="{{url_for('static', filename='imgres/bootleaf/favicon-196.png')}}">
+    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='imgres/bootleaf/favicon.ico')}}">
+{% endblock %}
+
+{% block content %}
+
+    <div id="container">
+      <div id="sidebar">
+        <div class="sidebar-wrapper">
+          <div class="panel panel-default" id="features">
+            <div class="panel-heading">
+              <h3 class="panel-title">Points of Interest
+              <button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn"><i class="fa fa-chevron-left"></i></button></h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-xs-8 col-md-8">
+                  <input type="text" class="form-control search" placeholder="Filter" />
+                </div>
+                <div class="col-xs-4 col-md-4">
+                  <button type="button" class="btn btn-primary pull-right sort" data-sort="feature-name" id="sort-btn"><i class="fa fa-sort"></i>&nbsp;&nbsp;Sort</button>
+                </div>
+              </div>
+            </div>
+            <div class="sidebar-table">
+              <table class="table table-hover" id="feature-list">
+                <thead class="hidden">
+                  <tr>
+                    <th>Icon</th>
+                  <tr>
+                  <tr>
+                    <th>Name</th>
+                  <tr>
+                  <tr>
+                    <th>Chevron</th>
+                  <tr>
+                </thead>
+                <tbody class="list"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="map"></div>
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+    <script type="text/javascript" charset="utf-8">
+
+      var mmap = L.map('map').setView([2.927547, 101.642096], 16);
+
+      L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 18,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          subdomains: ['a','b','c']
+      }).addTo( mmap );
+
+    	var namespace = '/pointdisp'
+    	var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //persistent
+    	socket.on('connect', function() {
+    			console.log("pointdisp_test connected...")
+    	});
+
+      //L.marker([2.925297, 101.642064]).addTo(mmap);
+
+      setInterval(timercallback, 5000);
+      var pointArray = new Array();
+      socket.on('point_data', function(msg) {
+        msg.points.forEach(function proc(element, index){
+          var test = findPoint(element,pointArray); //find the element in the array
+          if( test != -1 ){
+            //element already in
+            console.log("Point edited on map",element)
+            pointArray[test][0] = element;
+            pointArray[test][1].setLatLng([element.long,element.lati]);
+          }else{
+            console.log("Point added to map",element)
+            pointArray.push([element,L.marker([element.long,element.lati]).addTo(mmap)
+              .bindPopup("<b>{0}</b><br/>{1}".format(element.route,element.id))])
+          }
+        });
+      });
+
+      String.prototype.format = function() {
+        a = this;
+        for (k in arguments) {
+          a = a.replace("{" + k + "}", arguments[k])
+        }
+        return a
+      }
+
+      function findPoint(point,array){
+        //checks if a point element is in the point array by comparing
+        //the ID
+        var out = -1;
+        array.forEach(function proc(element, index){
+          if(element[0].id == point.id){
+            out = index;
+            return;
+          }
+        });
+        return out;
+      }
+
+    	function timercallback() {
+        socket.emit('update');
+    	}
+
+      //FOR POP UP (DEBUGGING)
+      var popup = L.popup();
+    	function onMapClick(e) {
+    		popup
+    			.setLatLng(e.latlng)
+    			.setContent("You clicked the map at " + e.latlng.toString())
+    			.openOn(mmap);
+    	}
+    	mmap.on('click', onMapClick);
+    </script>
+
+    {% endblock %}
+</html>

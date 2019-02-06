@@ -63,6 +63,7 @@ class SystemUtilNamespace(Namespace):
 		#print("callback:",json['data'])
 		dTString = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 		emit('recv_sync', {"datetime":dTString})
+<<<<<<< HEAD
 
 class MapDisplayNamespace(Namespace):
 	def on_connect(self):
@@ -122,3 +123,5 @@ class MapDisplayNamespace(Namespace):
 		#out = json.dumps({"points":list})
 		print("hey")
 		emit('point_data2',{"points":list})
+=======
+>>>>>>> minimal_server

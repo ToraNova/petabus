@@ -11,45 +11,54 @@
 from pkg.resource import res_import as r
 
 class Geopoint(r.Base):
-    __tablename__ = "Geopoint"
+    __tablename__ = __name__
     id = r.Column(r.Integer, primary_key=True)
     long = r.Column(r.Float, nullable=False) #longitude
     lati = r.Column(r.Float, nullable=False) #latitude
-    route_id = r.Column(r.Integer, nullable=True) #indicate this geopoint belongs to which route
+    time = r.Column(r.DateTime, nullable=False)
+
+    # rlinking - do not have to change the variable name
+    route_id = r.Column(r.Integer, nullable=True)
 
     #The following is for r-listing (resource listing)
     rlist = {
     "Geopoint ID":"id",
     "Longitude":"long",
     "Latitude":"lati",
-    "Assigned Route ID":"route_id"
+    "Linked Route":("__link__","route_id"), # __link__ is a reserved keyword
+    "Timestamp":"time"
     } #header:row data
     #
     #this primary key is used for rlisting/adding and mod.
     rlist_priKey = "id"
     rlist_dis = "Geopoints" #display for r routes
 
-    #The following is for r-listing on foreign tables
-    rlist_flist = {
-        "Assigned Route ID":"Georoute"
+    #rlink - ref tablename, fkey, lookup
+    rlink = {
+        "route_id":("Georoute","id","name")
     }
 
     def __init__(self,insert_list):
         self.long = insert_list["long"]
         self.lati = insert_list["lati"]
-        self.route_id = insert_list["route_id"]
+        self.time = insert_list["time"]
+
+        #FOR nullable=True, use a the checkNull method
+        self.route_id = checkNull(insert_list,"route_id")
 
     def __repr__(self):
     	return '<%r %r>' % (self.__tablename__,self.id)
 
-class Geopoint_AddForm(r.FlaskForm):
+class AddForm(r.FlaskForm):
     rgen_long = r.StringField('New Longitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
     rgen_lati = r.StringField('New Latitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
-    rgensel_route_id = r.SelectField('Assigned Route',choices=[('0','No route')])
+    rgensel_route_id = r.SelectField('Assigned Route',choices=[('0','No link')])
+    rgen_time = r.DateField('T stamp', widget=r.DatePickerWidget(),default=r.datetime.datetime.now())
     fKeylist = {"route_id":("Georoute","name")}
 
-class Geopoint_EditForm(r.FlaskForm):
+class EditForm(r.FlaskForm):
     rgen_long = r.StringField('Renew Longitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
     rgen_lati = r.StringField('Renew Latitude',validators=[r.InputRequired(),r.Length(min=1,max=10)])
-    rgensel_route_id = r.SelectField('Reassigned Route',choices=[('0','No route')])
+    rgensel_route_id = r.SelectField('Reassigned Route',choices=[('0','No link')])
+    rgen_time = r.DateField('New T-stamp', widget=r.DatePickerWidget(),default=r.datetime.datetime.now())
     fKeylist = {"route_id":("Georoute","name")}

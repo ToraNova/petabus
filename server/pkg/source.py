@@ -31,8 +31,11 @@ def server(config=None):
 		out.config.from_mapping(config)
 
 	from pkg.interface import socketio #socket io import
+	from pkg.interface.mapping import mapio
 
-	from pkg.interface import home,mapping,push,pull
+	from pkg.interface import home
+	from pkg.interface.mapping import debugging,tracking
+	from pkg.interface.API import push,pull
 	from pkg.system import auth,admintools
 	from pkg.system.user import sysuser,type,sysnologin
 	from pkg.resource import r
@@ -58,11 +61,17 @@ def server(config=None):
 	login_manager.login_message = "Please login first."
 	login_manager.login_message_category = "info"
 
+<<<<<<< HEAD
 	#Persistent blueprint registration
 	#Added by ToraNova
 	bplist = [
 		r.bp,auth.bp,home.bp,admintools.bp,socketio.bp,
 		mapping.bp,push.bp,pull.bp,sysuser.bp,type.bp,sysnologin.bp]
+=======
+	bplist = [	r.bp,auth.bp,home.bp,admintools.bp,socketio.bp,
+				push.bp,pull.bp,sysuser.bp,type.bp,sysnologin.bp,
+				debugging.bp,tracking.bp]
+>>>>>>> minimal_server
 
 	for bp in bplist:
 		out.register_blueprint(bp)
@@ -83,6 +92,6 @@ def server(config=None):
 	out_nonsock = out
 	out = SocketIO(out_nonsock)
 	out.on_namespace(socketio.SystemUtilNamespace('/sysutil'))
-	out.on_namespace(socketio.MapDisplayNamespace('/pointdisp'))
+	out.on_namespace(mapio.MapPointSocket('/mapping'))
 
 	return out,out_nonsock

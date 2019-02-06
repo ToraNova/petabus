@@ -17,11 +17,13 @@ eForm = 2       #edit form
 
 rgen_keyword = "rgen_" #used to seek out form attributes
 rgen_selkey = "rgensel_" #used to seek out SelectField form attr
+rlin_nullk = "-1"
 ##########################################################
 
 #IMPORT RESOURCE CLASS HERE (MODEL AND FORMS)
 from pkg.resource.geores import geopoint
 from pkg.resource.geores import georoute
+<<<<<<< HEAD
 from pkg.resource.geores import geopath
 from pkg.resource.busres import bus_driver
 from pkg.resource.busres import bus
@@ -33,6 +35,8 @@ from pkg.resource.logres import truck_log
 from pkg.resource.truckres import truck_driver
 from pkg.resource.truckres import truck
 from pkg.resource.truckres import active_truck
+=======
+>>>>>>> minimal_server
 
 from pkg.resource.generic import param3model
 
@@ -44,22 +48,16 @@ from pkg.resource.generic import param3model
 dist_resources = {
     "Georoute":[
     georoute.Georoute,
-    georoute.Georoute_AddForm,
-    georoute.Georoute_EditForm
+    georoute.AddForm,
+    georoute.EditForm
     ]
     ,
     "Geopoint":[
     geopoint.Geopoint,
-    geopoint.Geopoint_AddForm,
-    geopoint.Geopoint_EditForm
+    geopoint.AddForm,
+    geopoint.EditForm
     ]
     ,
-    "Geopath":[
-    geopath.Geopath,
-    geopath.Geopath_AddForm,
-    None
-    ],
-
     "Param3":[
     param3model.Param3,
     None,
