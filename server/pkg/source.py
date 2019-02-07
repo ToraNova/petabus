@@ -41,7 +41,7 @@ def server(config=None):
 	from pkg.resource import r
 
 	from pkg.interface.API import location,login
-	from pkg.interface import meimapping
+	from pkg.interface import meimapping,socketio
 
 	#######################################################################################################
 	# Login manager section
@@ -76,6 +76,7 @@ def server(config=None):
 	out.register_blueprint(login.bp)
 	out.register_blueprint(meimapping.bp)
 
+
 	#tear down context is done here.
 	@out.teardown_appcontext
 	def shutdown_session(exception=None):
@@ -86,6 +87,7 @@ def server(config=None):
 	out_nonsock = out
 	out = SocketIO(out_nonsock)
 	out.on_namespace(socketio.SystemUtilNamespace('/sysutil'))
+	out.on_namespace(socketio.MapDisplayNamespace('/meiconnect'))
 	out.on_namespace(mapio.MapPointSocket('/geopoint'))
 	out.on_namespace(mapio.MapBusSocket('/active_bus'))
 

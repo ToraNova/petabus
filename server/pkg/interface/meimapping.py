@@ -28,12 +28,6 @@ bp = Blueprint('maptrack2', __name__, url_prefix='/track')
 @bp.route('/basic1')
 def basic():
 	columnHead = ["Route Number"]
-	#date = datetime(2012,3,3,10,10,10)
-	#insert_list = {"bus_id":8,"driver_id":8,"route_num":1,"time_stamp":date,"long":2.925297,"lati":101.642064,"current_seqno":1}
-	#target_add = active_bus.Active_Bus(insert_list)
-	#sq.db_session.add(target_add)
-	#sq.db_session.commit()
-
 	routelist = active_bus.Active_Bus.query.all()
 	route = []
 	for basic in routelist:
@@ -43,7 +37,6 @@ def basic():
 		else:
 			route.append(tempo)
 			print(route)
-	#return render_template('flask_io/basic_map.html')
 
 	return render_template('flask_io/meimap.html',MAPWIDTH=1500,MAPHEIGHT=900,routenum = route, length=len(route),columnHead=columnHead)
 

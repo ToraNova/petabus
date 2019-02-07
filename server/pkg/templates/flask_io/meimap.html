@@ -107,42 +107,16 @@
   socket.on('connect', function() {
       console.log("meiconnect_test connected...")});
 
-//  setInterval(timercallback, 5000);
-//  var pointArray = new Array();
-
-/*  socket.on('point_data', function(msg) {
-    msg.points.forEach(function proc(element, index){
-      var test = findPoint(element,pointArray); //find the element in the array
-      if( test != -1 ){
-        //element already in
-        console.log("Point edited on map",element)
-        pointArray[test][0] = element; // thedata in the element
-        pointArray[test][1].setLatLng([element.long,element.lati]); //marker
-      }else{
-        console.log("Point added to map",element)
-        pointArray.push([element,L.marker([element.long,element.lati]).addTo(mymap)
-          .bindPopup("<b>{0}</b><br/>{1}".format(element.route,element.id))])
-      }
-    });
-  });
-*/
-
   function updatePoint(){
     socket.emit('update');
     console.log("X");
   }
 
   var myIcon = L.icon( {
-  iconUrl: '{{url_for("static", filename="imgres/bus_green.png")}}',
+  iconUrl: '{{url_for("static", filename="imgres/bootleaf/gps.png")}}',
   iconSize: [30, 30],
   popupAnchor: [0,-10]
   });
-
-  //var shelter1 =  L.marker([2.925297, 101.642064], {icon: myIcon}).addTo(mymap);
-  //var shelterMarkers = new L.FeatureGroup();
-
-  //setInterval(timercallback2,5000);
-  //setInterval(timercallback, 5000);
 
 L.marker([2.925297, 101.642064], {icon: myIcon});
 
@@ -150,62 +124,57 @@ L.marker([2.925297, 101.642064], {icon: myIcon});
   socket.on('point_data2', function(msg) {
     msg.points.forEach(function proc(element, index){
       //shelterMarkers.addLayer(shelter1);
+      var currlat;
+      var currlong;
+      var currregno;
       console.log("yo1")
 
       var test = findPoint(element,pointArray2);
+      var prev = element;
       console.log(test) //find the element in the array
-      if( test != -1 ){
+
+      if((currlat!=0) && (currlong !=0)){
+        if(currlat != element.lati && currlong !=element.long && currregno == element.reg_no){
+          marker.remove();
+          marker= L.marker([element.lati, element.long], {icon: myIcon}).bindPopup(displayregno).addTo(mymap);
+          marker.openPopup();
+          console.log("?")
+        }
+      }
+
+      if( test != -1){
         //element already in
         console.log("Point edited on map",element)
-        pointArray2[test][0] = element; // thedata in the element
-        //L.marker([element.long,element.lati],{icon: myIcon}).addTo(mymap);
-        pointArray2[test][1].setLatLng([element.long,element.lati]); //marker
+        pointArray2[test][0] = element;
+        pointArray2[test][1].setLatLng([element.lati,element.long]); //marker
       }else{
-        //mymap.setView(element.long,element.lati)
+        currlat = 0.0;                                              // WANTED TO UPDATE MARKER by comparing previous latitude and logitude but fail.
+        currlong = 0.0;
+        currregno = 0;
         console.log("Point added to map",element)
-        mymap.setView([element.long,element.lati],20)
+        mymap.setView([element.lati,element.long],20)
+        currregno = element.reg_no;
         displayregno = "Reg_Number =" + element.reg_no
-        //driid =  "Driver id =" + element.driver_id
-        //lat = "Lat =" + element.lati
-        //longi = "Long =" + element.long
-        //driid2 = driid + "" + lat + "" +longi
-
-        marker = L.marker([element.long,element.lati], {icon: myIcon}).bindPopup(displayregno).addTo(mymap)
+        marker = L.marker([element.lati,element.long], {icon: myIcon}).bindPopup(displayregno).addTo(mymap)
         marker.openPopup();
-        //pointArray2.push([element,L.marker([element.long,element.lati], {icon: myIcon}).addTo(mymap)
-        // .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup()]);
-          //mymap.setView(new L.LatLng(element.long,element.lati), 15);
-        //locate();
-        //marker.on('mouseover', function(){
-        //    driid = "Driver id ="+ str(element.driver_id)
-        //    marker._popup.setContent(driid)
-        //});
-        //[element.long,element.lati],12);
-      }
+        currlat =  element.lati;
+        currlong = element.long;
+
+        console.log("update?")
+        setInterval(timercallback, 500);
+        function timercallback() {
+          marker.remove()
+          marker = L.marker([element.lati,element.long], {icon: myIcon}).bindPopup(displayregno).addTo(mymap)
+        }
+    }
+
     });
     console.log("yo")
   });
 
-//bindPopup("<b>{0}</b><br/>{1}".format(element.route_num,element.driver_id))])
-//bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup()]);
-  //bindPopup("<b>longitude:{element.long}</b>latitude:{element.lati}<br/>{1}".format(element.route_num,element.driver_id))])
-
-  /*
-  var myIcon = L.icon({
-    iconUrl: '{{url_for("static", filename="imgres/bus_green.png")}}',
-    iconSize: [38, 95],
-    iconAnchor: [22, 94],
-    popupAnchor: [-3, -76],
-    shadowUrl: '{{url_for("static", filename="imgres/bus_green.png")}}',
-    shadowSize: [68, 95],
-    shadowAnchor: [22, 94]
-});
-*/
-
   function locate(){
     mymap.locate({setView: true, maxZoom: 15});
   }
-
 
 
 
@@ -215,26 +184,34 @@ L.marker([2.925297, 101.642064], {icon: myIcon});
   popupAnchor: [0,-10]
 });
 
-//  L.marker([2.925297, 101.642064], {icon: myIcon}).addTo(mymap);
-//  var position = 101.637735;
-//  var movmarker = L.marker([2.921558, position], {icon: myIcon}).addTo(mymap)
-//    .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup();
-//  setInterval(timercallback, 1000);
+  function connectserver(){
+  socket.on('connect', function() {
+      console.log("meiconnect_test connected...")});
+}
 
-/*	function timercallback() {
-    currmarker = marker;
-    if(currmarker!=marker){
-    movmarker.remove()
-    movmarker = L.marker([element.long, element.lati], {icon: myIcon}).addTo(mymap)
-      .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup();
-    }
-    else {
-    movmarker.remove()
-    movmarker = L.currmarker([element.long,element.lati], {icon: myIcon}).addTo(mymap)
-      .bindPopup("<b>STUPID INTERSECTION</b><br />VERY SLOW!").openPopup();
+  function findPoint(point,array){
+    //checks if a point element is in the point array by comparing the ID
+    var out = -1;
+    array.forEach(function proc(element, index){
+      if(element[0].driver_id == point.driver_id){
+        out = index;
+        return;
+      }
+    });
+    return out;
   }
-	}
-*/
+
+  var popup = L.popup();
+
+/*  function timercallback(update) {  //update marker if is the same regno and same route
+    if((currlat!=0) && (currlong !=0)){
+      if(currlat != element.lati && currlong !=element.long && currregno == element.reg_no){
+        marker.remove();
+        marker= L.marker([element.lati, element.long], {icon: myIcon}).bindPopup(displayregno).addTo(mymap);
+        marker.openPopup();
+        console.log("update?")
+
+   }*/
 
 //JACK VERSION //
 //  currmarker = L.marker([0.000,0.000])
@@ -258,45 +235,6 @@ L.marker([2.925297, 101.642064], {icon: myIcon});
     }
 	}
 */
-
-
-
-  function connectserver(){
-    socket.on('connect', function() {
-        console.log("meiconnect_test connected...")});
-  }
-
-  function findPoint(point,array){
-      //checks if a point element is in the point array by comparing
-      //the ID
-      var out = -1;
-      array.forEach(function proc(element, index){
-        if(element[0].driver_id == point.driver_id){
-          out = index;
-          return;
-        }
-      });
-      return out;
-    }
-  /*
-	L.marker([2.925297, 101.642064]).addTo(mymap)
-  */
-  /*
-	L.circle([2.925297, 101.642064], 500, {
-		color: 'red',
-		fillColor: '#f03',
-		fillOpacity: 0.5
-	}).addTo(mymap).bindPopup("I am a circle.");
-  */
-
-  /*L.polygon([
-		[2.926856, 101.640929],
-		[2.926669, 101.641809],
-		[2.92587, 101.640801],
-    [2.925779, 101.641589]
-	]).addTo(mymap).bindPopup("FOE");
-  */
-	var popup = L.popup();
 
 	function onMapClick(e) {
 		popup
