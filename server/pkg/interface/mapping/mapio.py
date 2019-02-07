@@ -29,7 +29,8 @@ class MapBusSocket(Namespace):
 	def on_routeUpdate(self,json):
 		#request info on a particular route
 		#TODO responds based on json request
-		sendUpdates(self,json["route_num"])
+		print("Route Update request on :",json["route_num"])
+		self.sendUpdates(json["route_num"])
 		pass
 
 	def on_routeData(self):
@@ -46,27 +47,28 @@ class MapBusSocket(Namespace):
 		for d in distinctRoutelist:
 			tmp = {}
 			tmp["route_num"] = d.route_num
-			name = res.georoute.Georoute.filter(res.georoute.Georoute.id == d.route_num).first().name
-			if(name == None):
+			route_mod = res.georoute.Georoute.query.filter(res.georoute.Georoute.id == d.route_num).first()
+			if(route_mod == None):
 				tmp["route_name"] = "Not registered"
 			else:
-				tmp["route_name"] = name
+				tmp["route_name"] = route_mod.name
 			rep_json.append(tmp)
 		emit('route_data',{"distinct_routes":rep_json})
 
 	def sendUpdates(self,route_num):
 		route_data = self.target_model.query.filter(self.target_model.route_num == route_num).all()
-		rep_json
+		rep_json = []
 		for d in route_data:
 			tmp = {}
+			tmp["id"] = d.id #the active bus id
 			tmp["lati"] = d.long
 			tmp["long"] = d.lati
 			tmp["busid"] = d.bus_id
-			busreg = res.bus.Bus.filter(res.bus.Bus.id == d.bus_id).first().reg_no
-			if(busreg == None):
+			bus_mod = res.bus.Bus.query.filter(res.bus.Bus.id == d.bus_id).first()
+			if(bus_mod == None):
 				tmp["busreg"] = "Not registered"
 			else:
-				tmp["busreg"] = busreg
+				tmp["busreg"] = bus_mod.reg_no
 			rep_json.append(tmp)
 		emit('route_update',{"bus_data":rep_json})
 
