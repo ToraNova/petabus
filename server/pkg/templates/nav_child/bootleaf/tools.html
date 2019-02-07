@@ -1,0 +1,27 @@
+<!-- THIS IS UNDER THE TOOL SECTION ON THE TOP NAVIGATION PANEL, this is
+included in includes/bootleaf/_topnavi.html under the admin section, add
+routes or links to routes here instead of the _topnavi.html file-->
+
+<li class="dropdown">
+  <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe white"></i>&nbsp;&nbsp;Tools <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+
+    <li><a href="{{url_for('mapdebug.pinpoint')}}" data-toggle="collapse" data-target=".navbar-collapse.in"
+      id="add-geopoint"><i class="fa fa-plus-square-o"></i>&nbsp;&nbsp;Add Geopoint</a></li>
+
+    <!--
+    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
+      id="full-extent-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom To Full Extent</a></li>
+
+    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
+      id="legend-btn"><i class="fa fa-picture-o"></i>&nbsp;&nbsp;Show Legend</a></li>
+    -->
+    <li class="divider hidden-xs"></li>
+
+    <!--
+    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
+      id="login-btn"><i class="fa fa-user"></i>&nbsp;&nbsp;Login</a></li>
+    -->
+
+  </ul>
+</li>

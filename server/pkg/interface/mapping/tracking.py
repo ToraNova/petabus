@@ -1,7 +1,9 @@
 #--------------------------------------------------
 # mapping.py
 # an initial test for mapping on flask servers
+# this now contains some example for geopoints u6
 # introduced 8/1/2019
+# last update 3/2/2019
 #--------------------------------------------------
 
 #flask routing imports
@@ -13,21 +15,26 @@ from flask import Blueprint
 from flask_login import login_required
 from flask_login import current_user
 
-#usual imports (copy pasta this)
 import pkg.const as const
 from pkg.database import models as md
 from pkg.system import assertw as a
+
 from pkg.resource.busres import active_bus as actbus
 from pkg.resource.geores import geopoint as geo
 from time import gmtime, strftime
 from pkg.database import fsqlite as sq
 from datetime import datetime
+
+from pkg.resource import rdef as res
+
+
 #primary blueprint
 bp = Blueprint('maptrack', __name__, url_prefix='/track')
 
 @bp.route('/basic')
 def basic():
 	#return render_template('flask_io/basic_map.html')
+
 	columnHead = ["Route Number"]
 	routelist = actbus.Active_Bus.query.all()
 	Route = []
@@ -37,12 +44,15 @@ def basic():
 
 	return render_template('flask_io/basic_map_test.html',MAPWIDTH=500,MAPHEIGHT=500,routenum = Route,colNum=len(columnHead),columnHead=columnHead)
 
+	#return render_template('leaflet/geopoint/basic.html')
+
+
 @bp.route('/geopoint')
+@login_required
 def point():
 
 	#PLEASE DO NOT WORK ON EXAMPLE SECTIONS !!!
 	#PLEASE !
-	return render_template('leaflet/geopoint_dashboard.html')
 
 	# n=0
 	# columnHead = ["Latitude","Longitude"]
@@ -64,3 +74,12 @@ def point():
 	# 	latlong.append(temp)
 	# 	n=n+1
 	# return render_template('flask_io/pointdisp.html',MAPWIDTH=800,MAPHEIGHT=800,latlong= latlong,num = n,colNum=len(columnHead),columnHead=columnHead)
+
+	#return render_template('flask_io/basic_map.html')
+	return render_template('leaflet/geopoint/dashboard.html')
+
+#Route for active_bus tracking on end-user UI side
+#ToraNova 2019/02/07
+@bp.route('/active_bus')
+def active_bus():
+	return render_template('leaflet/active_bus/dashboard.html')

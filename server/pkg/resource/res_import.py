@@ -17,10 +17,23 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float
 from pkg.database.fsqlite import Base    #fsqlite dependency
 from pkg import limits as lim     #lim dependency
+import datetime
 #-----------------and the forms--this as well!--------------------------------
+from flask_admin.form.widgets import DatePickerWidget
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, DateTimeField
 from wtforms import SelectField, IntegerField, RadioField
-from wtforms import SubmitField, SelectMultipleField
-from wtforms.validators import InputRequired, Email, Length, NumberRange,DataRequired
+
+from wtforms import SubmitField, SelectMultipleField, DateField
+from wtforms.validators import InputRequired, Email, Length, NumberRange
+
 ###############################################################################
+
+from pkg.resource.rdef import rlin_nullk
+
+#useful function for checking on null selections
+def checkNull(list,colName):
+    if(list.get(colName) == rlin_nullk):
+        return None
+    else:
+        return list.get(colName)

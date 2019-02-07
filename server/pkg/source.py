@@ -31,14 +31,17 @@ def server(config=None):
 		out.config.from_mapping(config)
 
 	from pkg.interface import socketio #socket io import
+	from pkg.interface.mapping import mapio
 
-	from pkg.interface import home,mapping,push,pull
+	from pkg.interface import home
+	from pkg.interface.mapping import debugging,tracking
+	from pkg.interface.API import push,pull
 	from pkg.system import auth,admintools
 	from pkg.system.user import sysuser,type,sysnologin
 	from pkg.resource import r
 
 	from pkg.interface.API import location,login
-	from pkg.interface import meimapping
+	from pkg.interface import meimapping,socketio
 
 	#######################################################################################################
 	# Login manager section
@@ -60,9 +63,9 @@ def server(config=None):
 
 	#Persistent blueprint registration
 	#Added by ToraNova
-	bplist = [
-		r.bp,auth.bp,home.bp,admintools.bp,socketio.bp,
-		mapping.bp,push.bp,pull.bp,sysuser.bp,type.bp,sysnologin.bp]
+	bplist = [	r.bp,auth.bp,home.bp,admintools.bp,socketio.bp,
+				push.bp,pull.bp,sysuser.bp,type.bp,sysnologin.bp,
+				debugging.bp,tracking.bp]
 
 	for bp in bplist:
 		out.register_blueprint(bp)
@@ -72,6 +75,7 @@ def server(config=None):
 	out.register_blueprint(location.bp)
 	out.register_blueprint(login.bp)
 	out.register_blueprint(meimapping.bp)
+
 
 	#tear down context is done here.
 	@out.teardown_appcontext
@@ -83,6 +87,8 @@ def server(config=None):
 	out_nonsock = out
 	out = SocketIO(out_nonsock)
 	out.on_namespace(socketio.SystemUtilNamespace('/sysutil'))
-	out.on_namespace(socketio.MapDisplayNamespace('/pointdisp'))
+	out.on_namespace(socketio.MapDisplayNamespace('/meiconnect'))
+	out.on_namespace(mapio.MapPointSocket('/geopoint'))
+	out.on_namespace(mapio.MapBusSocket('/active_bus'))
 
 	return out,out_nonsock

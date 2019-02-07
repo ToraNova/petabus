@@ -74,7 +74,6 @@ class MapDisplayNamespace(Namespace):
 
 	def on_update(self):
 		self.sendPointData2()
-		print("receive X")
 
 	def sendPointData(self):
 		pointlist = res.geopoint.Geopoint.query.all()
@@ -120,5 +119,4 @@ class MapDisplayNamespace(Namespace):
 		#	list2.append(data2_dict)
 		#list = str(list)[1:-2]
 		#out = json.dumps({"points":list})
-		print("hey")
 		emit('point_data2',{"points":list})

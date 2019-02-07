@@ -7,27 +7,37 @@
         <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i class="fa fa-bars fa-lg white"></i></a>
         <a href="#" class="navbar-icon pull-right visible-xs" id="sidebar-toggle-btn"><i class="fa fa-search fa-lg white"></i></a>
       </div>
-      <a class="navbar-brand" href="#">BootLeaf</a>
+      <a class="navbar-brand" href="#">PETABUS Tracking<i class="fa fa-bus pull-right"></i></a>
     </div>
     <div class="navbar-collapse collapse">
-      <form class="navbar-form navbar-right" role="search">
+      <!-- <form class="navbar-form navbar-right" role="search">
         <div class="form-group has-feedback">
             <input id="searchbox" type="text" placeholder="Search" class="form-control">
             <span id="searchicon" class="fa fa-search form-control-feedback"></span>
         </div>
-      </form>
+      </form> -->
+
       <ul class="nav navbar-nav">
+
         <!--allow user to go back to the main console-->
-        <li><a href="{{url_for('home.home', username=current_user.username)}}"
+        <!-- <li><a href="{{url_for('home.home', username=current_user.username)}}"
           data-toggle="collapse" data-target=".navbar-collapse.in"
           id="about-btn"><i class="fa fa-home white"></i>&nbsp;&nbsp;Home</a></li>
 
-          {% include 'nav_child/bootleaf/tools.html' %}
+          {# include 'nav_child/bootleaf/tools.html' #}
           {# include 'nav_child/bootleaf/downloads.html' #}
 
         <li class="hidden-xs"><a href="#"
-          data-toggle="collapse" data-target=".navbar-collapse.in" id="list-btn"><i class="fa fa-list white"></i>&nbsp;&nbsp;POI List</a></li>
+          data-toggle="collapse" data-target=".navbar-collapse.in"
+          id="list-btn"><i class="fa fa-list white"></i>&nbsp;&nbsp;POI List</a></li> -->
       </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"
+         data-toggle="collapse" data-target=".navbar-collapse.in"
+         id="clear-track-btn"><i class="fa fa-square-o white"></i>&nbsp;&nbsp;Clear all tracks</a></li>
+      </ul>
+
     </div>
     <!--/.navbar-collapse -->
   </div>

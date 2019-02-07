@@ -1,0 +1,185 @@
+{% extends 'support/petabus.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+
+    <div id="container">
+      <div id="sidebar">
+        <div class="sidebar-wrapper">
+          <div class="panel panel-default" id="features">
+            <div class="panel-heading">
+              <h3 class="panel-title">Active Route List
+              <button type="button" class="btn btn-xs btn-default pull-right"
+              id="sidebar-refresh"><i class="fa fa-refresh"></i></button></h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-xs-8 col-md-8">
+                  <input type="text" class="form-control search" placeholder="Filter" />
+                </div>
+                <div class="col-xs-4 col-md-4">
+                  <button type="button" class="btn btn-primary pull-right sort" data-sort="feature-name" id="sort-btn"><i class="fa fa-sort"></i>&nbsp;&nbsp;Sort</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="sidebar-table">
+              <table class="table table-hover" id="feature-list">
+                <thead>
+                  <tr>
+                    <th>Route</th>
+                    <th>Name</th>
+                    <th>Track</th>
+                  <tr>
+                </thead>
+                <tbody class="list"></tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div id="map"></div>
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+    <script type="text/javascript" charset="utf-8">
+      //map functions
+      var mmap = L.map('map').setView([2.927547, 101.642096], 15);
+      L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        minZoom: 12,
+        maxZoom: 17,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        subdomains: ['a','b','c']
+      }).addTo( mmap );
+
+      //globals
+      var currentRoute = -1;
+      var activeBusArray = new Array();
+      setInterval(timercallback, 5000); //for tracking refreshing
+      setInterval(sidebarRefresh, 20000); //for sidebar refreshing
+
+      //animation / ui functions
+      function syncSidebar(route_data) {
+        /* Empty sidebar features */
+        $("#feature-list tbody").empty();
+        /* Loop through theaters layer and add only features which are in the map bounds */
+        route_data.forEach(function proc(element, index){
+          $("#feature-list tbody").append('<tr class="feature-row" id="'+ element.route_num +'">'
+            +'<td style="vertical-align: middle;">'+ element.route_num +'</td>'
+            +'<td class="feature-name">'+element.route_name + '</td>'
+            +'<td style="vertical-align: middle;"><i class="fa fa-map pull-left"></i></td></tr>');
+        });
+
+        /* Update list.js featureList */
+        featureList = new List("features", {
+          valueNames: ["feature-name"]
+        });
+        featureList.sort("feature-name", {
+          order: "asc"
+        });
+      }
+
+      String.prototype.format = function() {
+        a = this;
+        for (k in arguments) {
+          a = a.replace("{" + k + "}", arguments[k])
+        }
+        return a
+      }
+
+      function findPoint(point,array){
+        //checks if a point element is in the point array by comparing
+        //the ID
+        var out = -1;
+        array.forEach(function proc(element, index){
+          if(element[0].id == point.id){
+            out = index;
+            return;
+          }
+        });
+        return out;
+      }
+
+      function clearTrack(){
+        console.log('clearing all tracks');
+        activeBusArray.forEach(function proc(element, index){
+          //deleting all markers
+          mmap.removeLayer(element[1]);
+        });
+        activeBusArray = new Array(); //renew the array
+        currentRoute = -1;
+      }
+
+      function sidebarRefresh(){
+        console.log('attempting refresh of routes');
+        socket.emit('routeData');
+      }
+
+      //button callbacks
+      $("#sidebar-refresh").click( sidebarRefresh );
+
+      $("#clear-track-btn").click( clearTrack );
+
+      //defines the clicking mechanism on the sidebar
+      $(document).on("click", ".feature-row", function(e) {
+        //$(document).off("mouseout", ".feature-row", clearHighlight);
+        sidebarClick(parseInt($(this).attr("id"), 10));
+      });
+
+      function sidebarClick(id) {
+        currentRoute = id;
+        clearTrack();
+        console.log('Clicked on id ',currentRoute);
+        socket.emit('routeUpdate',{"route_num":id});
+      }
+
+      function timercallback() {
+        if(currentRoute == -1){
+          //do nothing
+        }else{
+          sidebarClick(currentRoute);
+        }
+
+      }
+
+      //socket io callbacks and defines
+      var namespace = '/active_bus'
+      var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //persistent
+      socket.on('connect', function() {
+          console.log("active_bus socket connected...");
+      });
+
+      socket.on('route_data' ,function(msg){
+        console.log('received route_data',msg.distinct_routes);
+        syncSidebar(msg.distinct_routes);
+      });
+
+      socket.on('route_update',function(msg){
+        console.log('received tracking_data',msg.bus_data);
+        msg.bus_data.forEach(function proc(element, index){
+          var test = findPoint(element,activeBusArray); //find the element in the array
+          if( test != -1 ){
+            //element already in
+            //console.log("Point edited on map",element) //DEBUGGING USE ONLY
+            activeBusArray[test][0] = element;
+            activeBusArray[test][1].setLatLng([element.lati,element.long]);
+          }else{
+            //console.log("Point added to map",element) //DEBUGGING USE ONLY
+            activeBusArray.push([element,L.marker([element.lati,element.long]).addTo(mmap)
+              .bindPopup("<b>{0}</b><br/>{1}".format(element.id,element.busreg))])
+          }
+        });
+      });
+
+    </script>
+
+    {% endblock %}
+</html>

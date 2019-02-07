@@ -3,8 +3,6 @@
 # this file is for API routings, particularly pushing data
 # introduced 8/12/2018
 #--------------------------------------------------
-#error in output
-
 
 #flask routing imports
 from flask import render_template, redirect, url_for
@@ -15,12 +13,10 @@ from flask import Blueprint
 from flask_login import login_required
 from flask_login import current_user
 
-#usual imports (copy pasta this)
 import pkg.const as const
 from pkg.database import models as md
 from pkg.system import assertw as a
-#from pkg.system.servlog import srvlog,logtofile
-#import log file
+
 from pkg.resource.logres import bus_loc_log as loclog
 from pkg.resource.logres import bus_log as buslog
 
@@ -35,13 +31,6 @@ bp = Blueprint('busLocAPI', __name__, url_prefix='/push')
 ##############################################################################################
 # API push routings
 ##############################################################################################
-
-#def timenow(startt):
-#  global starttime
-#   starttime = startt
-
-#def use_timenow():
-#     return starttime
 
 @bp.route('/bus/location/begin')
 def busLocAPI():
@@ -65,27 +54,16 @@ def busLocAPI():
 
 
     start_time = datetime.datetime.now()
-    #timenow(startt)
-    #start_time = use_timenow()
-
     target_list = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.bus_id == upload_bufferArr[0], active_bus.Active_Bus.driver_id == upload_bufferArr[1], active_bus.Active_Bus.route_num == upload_bufferArr[2]).first()
 
-    #,active_bus.Active_Bus.long == upload_bufferArr[3], active_bus.Active_Bus.lati == upload_bufferArr[4]).first()
-    #target_list[0] = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.bus_id == upload_bufferArr[0]).first()
     if (target_list == None):
-        #add
-        #insert_bus_log = { "start_ts": start_time, "end_ts": start_time, "bus_id": upload_bufferArr[0], "driver_id": upload_bufferArr[1], "activebus_id": 99, "route_num":upload_bufferArr[2]}
-        #target_bus_log = .Bus_Log(insert_bus_log)
 
         insert_list = { "bus_id":upload_bufferArr[0],"driver_id":upload_bufferArr[1],"route_num":upload_bufferArr[2],"time_stamp":start_time,"long":upload_bufferArr[3], "lati":upload_bufferArr[4], "current_seqno": 1}
         target_add = active_bus.Active_Bus(insert_list)
-
         try:
             sq.db_session.add(target_add)
             sq.db_session.commit()
 
-            #sq.db_session.add(target_bus_log) #problem always create buslog table once goes here !!!
-            #sq.db_session.commit()
             ab_busid = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.driver_id == upload_bufferArr[1]).first()
             curtime =datetime.datetime.now()
             insert_list= { "activebus_id":ab_busid.id,"time_stamp":curtime,"long":upload_bufferArr[3], "lati":upload_bufferArr[4]}
@@ -110,8 +88,7 @@ def busLocAPI():
             curtime =datetime.datetime.now()
             insert_list = {"activebus_id":999,"time_stamp":curtime,"long": 999, "lati": 999}
             buslocationlog =  loclog.Bus_Loc_Log(insert_list)
-            #sq.db_session.add(buslocationlog)
-            #sq.db.session.commit()
+
             try:
                 sq.db_session.add(buslocationlog)
                 sq.db_session.commit()
@@ -121,10 +98,7 @@ def busLocAPI():
                 sq.db_session.rollback()
                 return 'failtoadd - couldnt add log'
 
-            #return '1'
-
     else:
-        # update the database
         target_mod = active_bus.Active_Bus.query.filter(active_bus.Active_Bus.driver_id == upload_bufferArr[1]).first()
 
         if target_mod == None:
@@ -153,7 +127,6 @@ def busLocAPI():
                 except Exception as e:
                     sq.db_session.rollback()
                     return 'update - couldnt add log'
-            #return '0'
             else:
                 return 'updated database'
 
@@ -163,8 +136,6 @@ def busLocAPI():
             curtime = datetime.datetime.now()
             insert_list = { "activebus_id":999,"time_stamp":curtime,"long": 999, "lati": 999}
             buslocationlog =  loclog.Bus_Loc_Log(insert_list)
-            #sq.db_session.add(buslocationlog)
-            #sq.db.session.commit()
             try:
                 sq.db_session.add(buslocationlog)
                 sq.db_session.commit()
@@ -172,8 +143,6 @@ def busLocAPI():
             except Exception as e:
                 sq.db_session.rollback()
                 return 'failtoupdate - couldnt add log'
-            #return '1'
-
 
 @bp.route('/bus/location/logout')
 def buslogoutAPI():
@@ -194,9 +163,8 @@ def buslogoutAPI():
 
         #print() #DEBUGGING ONLY
         target_del = active_bus.Active_Bus.query.filter(upload_targetArr[0] == active_bus.Active_Bus.driver_id).first()
-        #busdetails = buslog.Bus_Log.query.filter(upload_targetArr[0] == buslog.Bus_Log.driver_id).first()
         timestop = datetime.datetime.now()
-        #if target_del.current_seqno == 1:
+
         insert_list = {"start_ts":target_del.time_stamp,"end_ts":timestop, "bus_id":target_del.bus_id,"driver_id":target_del.driver_id,"activebus_id":target_del.id,"route_num":target_del.route_num}
         target_add = buslog.Bus_Log(insert_list)
         try:
@@ -204,12 +172,18 @@ def buslogoutAPI():
             sq.db_session.commit()
             sq.db_session.delete(target_del)
             sq.db_session.commit()
-                #srvlog["oper"].info("push/generic/param3 ADD :"+str(upload_bufferArr))
             return '0'
         except Exception as e:
             sq.db_session.rollback()
-                #srvlog["oper"].error("push/generic/param3 FAIL :"+str(upload_bufferArr))
             return '1'
+
+
+
+
+
+#################################################################################################################################################################################################################################3
+#end
+########################################################################################################################################################################################################################################            
         #if busdetails == None:
          #  return '1'
 

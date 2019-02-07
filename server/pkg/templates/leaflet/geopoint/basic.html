@@ -1,0 +1,44 @@
+<!--This html document holds leaftlet map data-->
+
+{% from "includes/helpers/_formhelpers.html" import render_field %}
+
+{% block title %}
+{% endblock %}
+
+{% block head %}
+
+{% include 'includes/leaflet/_css.html' %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<div id="map"></div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script src="{{url_for('static', filename='leaflet/leaflet.js')}}"></script>
+
+<script type="text/javascript" src="{{url_for('static', filename='flask_io/socket.io.min.js')}}"></script>
+<script type="text/javascript" charset="utf-8">
+
+  var mmap = L.map('map').setView([2.927547, 101.642096], 15);
+  L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    minZoom: 12,
+    maxZoom: 17,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    subdomains: ['a','b','c']
+  }).addTo( mmap );
+
+  //allow points to update and pinned on the map
+	{% include 'includes/js_snippet/point.js' %}
+
+  //include the marker to allow clicking and showing of latlng
+  {% include 'includes/js_snippet/marker.js' %}
+
+</script>
+
+{% endblock %}
