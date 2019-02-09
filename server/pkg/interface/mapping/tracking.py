@@ -82,4 +82,4 @@ def point():
 #ToraNova 2019/02/07
 @bp.route('/active_bus')
 def active_bus():
-	return render_template('leaflet/active_bus/dashboard.html')
+	return render_template('leaflet/active_bus/jackboard.html')

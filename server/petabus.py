@@ -27,7 +27,9 @@ try:
         #creates the directory if it does not exist
         os.makedirs(os.path.join(const.TOKN_DIR,const.TOKN_SYS))
     if(not os.path.isfile(os.path.join(const.TOKN_DIR,"init.token"))):
-        #database not initialized yet
+        #database not initialized yet, we delete the db and reinit
+        if(os.path.isfile(const.DB00_NAME)):
+            os.remove(const.DB00_NAME)
         init_db()#initialization
     else:
         print("[IF]",__name__," : ","Database already initialized...skipping")
