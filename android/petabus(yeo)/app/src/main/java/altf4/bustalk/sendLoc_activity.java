@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class sendLoc_activity extends AppCompatActivity {
     //declaration of variables and constants
     public static final String DebugTag = "DEBUG_sendLoc";
-    public static final int period = 3000;     //for sending location periodically
+    public static final int period = 1000;     //for sending location periodically
     public static String PACKAGE_NAME;
 
     private String driver_id = "AD82733";

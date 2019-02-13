@@ -18,7 +18,7 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class location {
     public final static String DebugTag = "DEBUG_location";
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 1 meters
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
 
     boolean isNetwork_Location = false;
@@ -54,7 +54,6 @@ public class location {
                 MIN_TIME_BW_UPDATES,
                 MIN_DISTANCE_CHANGE_FOR_UPDATES, new AltF4_LocationListener());
 
-        // debug
         String gpsind = isGPS_Location ? "GPS" : "NO GPS";
         String netind = isNetwork_Location ? "Network" : "NO Network";
         Log.d(DebugTag, gpsind);
