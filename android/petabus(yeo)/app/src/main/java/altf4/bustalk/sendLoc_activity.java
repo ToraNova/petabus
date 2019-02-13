@@ -170,6 +170,21 @@ public class sendLoc_activity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy(){
+        Log.d(DebugTag, "app destroyed");
+
+        // if location is being sent when app is destroyed, stop sending location and log out
+        String buttonText = (sendLoc_button.getText()).toString();
+        if(buttonText.equals("STOP")) {
+            stopSendingLoc();
+        }
+        Log.d(DebugTag, "stop sending location");
+        logOut();
+
+        super.onDestroy();
+    }
+
     private void processResponse(){
         // extract bus ids
         String temp = "";
