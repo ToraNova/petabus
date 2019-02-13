@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">petaBUS</string>
+    <string name="space">   </string>
+
+
+
+    <!-- login_activity Activity -->
+    <string name="id_hint">\t Driver ID</string>
+    <string name="password">\t Password</string>
+    <string name="login">LOG IN</string>
+    <!-- toolbar -->
+    <string name="ip">IP Address</string>
+    <!-- default IP Address -->
+    <string name="def_ip">....</string>
+    <!--- status -->
+    <string name="login_attempt">Attempt to log in</string>
+    <string name="no_driver_id_password">Please enter the correct Driver ID and Password</string>
+    <string name="no_bus_id">Please enter Bus ID</string>
+    <string name="no_password">Please enter password</string>
+    <string name="error_in_pushing">Error in pushing data to web server</string>
+
+
+
+    <!-- sendLoc_activity Activity -->
+    <string name="bus_id">Bus ID</string>
+    <string name="route_num">Route</string>
+    <!-- toolbar -->
+    <string name="logout">Log Out</string>
+    <string name="save">Save Settings</string>
+    <string name="load">Load Settings</string>
+    <!-- button -->
+    <string name="send">BEGIN</string>
+    <string name="stop">STOP</string>
+
+    <!-- Bus ID selections -->
+    <!--
+    <string-array name="busId">
+        <item>520</item>
+        <item>T520</item>
+    </string-array> -->
+    <!-- Route selections -->
+    <!--<string-array name="route">
+        <item>Route_1</item>
+        <item>Route_2</item>
+        <item>Route_3</item>
+    </string-array> -->
+
+    <string name="logoutStatus">Logging Out......</string>
+</resources>
