@@ -83,3 +83,4 @@ def point():
 @bp.route('/active_bus')
 def active_bus():
 	return render_template('leaflet/active_bus/jackboard.html')
+	#return render_template('leaflet/active_bus/dashboard.html')

@@ -75,11 +75,12 @@
 });
       //globals
       var marker;
-      var currentRoute = -1;
+      var currentRoute;
       var latlng //user location
       var activeBusArray = new Array();
-      setInterval(timercallback, 5000); //for tracking refreshing
-      setInterval(sidebarRefresh, 20000); //for sidebar refreshing
+      setInterval(timercallback, 500); //for tracking refreshing
+      //setTimeout(timercallback,3000)
+      setInterval(sidebarRefresh, 3000); //for sidebar refreshing
 
       //animation / ui functions
       function syncSidebar(route_data) {
@@ -124,7 +125,7 @@
       }
 
       function clearTrack(){
-        console.log('clearing all tracks');
+        //console.log('clearing all tracks');
         activeBusArray.forEach(function proc(element, index){
           //deleting all markers
           mmap.removeLayer(element[1]);
@@ -134,7 +135,7 @@
       }
 
       function sidebarRefresh(){
-        console.log('attempting refresh of routes');
+        //console.log('attempting refresh of routes');
         socket.emit('routeData');
         //centerLeafletMapOnMarker(mmap, activeBusArray);
       }
@@ -151,18 +152,19 @@
       });
 
       function sidebarClick(id) {
-        currentRoute = id;
         clearTrack();
-        console.log('Clicked on id ',currentRoute);
+        currentRoute = id;
+        //console.log('Clicked on id ',currentRoute);
         socket.emit('routeUpdate',{"route_num":id});
       }
 
       function timercallback() {
         if(currentRoute == -1){
           //do nothing
+          //console.log("TimerCallback -1")
         }else{
-          sidebarClick(currentRoute);
-
+          //console.log("TimerCallback with non -1")
+          socket.emit('routeUpdate',{"route_num":currentRoute});
         }
 
       }
@@ -183,31 +185,29 @@
       var socket = io.connect('http://' + document.domain + ':' + location.port + namespace); //persistent
       socket.on('connect', function() {
           console.log("active_bus socket connected...");
+          currentRoute = -1;
+      });
+
+      socket.on('driver_logout', function(msg){
+        console.log('Driver Logout Event')
+        driver_exit();
       });
 
       socket.on('route_data' ,function(msg){
-        console.log('received route_data',msg.distinct_routes);
+        //console.log('received route_data',msg.distinct_routes);
         syncSidebar(msg.distinct_routes);
       });
 
       socket.on('route_update',function(msg){
-        console.log('received tracking_data',msg.bus_data);
+        //console.log('received tracking_data',msg.bus_data);
+        activeBusArray.forEach(function proc(element, index){
+          //deleting all markers
+          mmap.removeLayer(element[1]);
+        });
+        activeBusArray = new Array(); //renew the array
         msg.bus_data.forEach(function proc(element, index){
-          test = findPoint(element,activeBusArray); //find the element in the array
-          //var a = activeBusArray[test][1].setLatLng()
-          //mmap.fitBounds([[2.928413, 101.644541],[2.932484, 101.657683]]);
-          //mmap.setView([element.lati,element.long],20);
-          if( test != -1 ){
-            //element already in
-            console.log("Point edited on map",element) //DEBUGGING USE ONLY
-            activeBusArray[test][0] = element;
-            activeBusArray[test][1].setLatLng([element.lati,element.long]);
-          }else{
-            //console.log("Point added to map",element) //DEBUGGING USE ONLY
-
-            activeBusArray.push([element,L.marker([element.lati,element.long]).addTo(mmap)
-              .bindPopup("<b>{0}</b><br/>{1}".format(element.id,element.busreg))])
-        }
+          activeBusArray.push([element,L.marker([element.long,element.lati]).addTo(mmap)
+            .bindPopup("<b>{0}</b><br/>{1}".format(element.id,element.busreg))])
         });
           //  var bounds = new L.LatLngBounds(n);
           //  mmap.fitBounds(bounds);

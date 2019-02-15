@@ -25,6 +25,8 @@ from pkg.resource.busres import bus #SAMPLE ONLY, DO NOT USE FOR ACTUAL DEPLOYME
 from pkg.resource.busres import active_bus
 from sqlalchemy import func
 
+from pkg.interface.mapping.mapio import MapBusSocket
+
 import datetime
 #primary blueprint
 bp = Blueprint('busLocAPI', __name__, url_prefix='/push')
@@ -169,7 +171,6 @@ def buslogoutAPI():
         target_add = buslog.Bus_Log(insert_list)
         try:
             sq.db_session.add(target_add)
-            sq.db_session.commit()
             sq.db_session.delete(target_del)
             sq.db_session.commit()
             return '0'
@@ -183,7 +184,7 @@ def buslogoutAPI():
 
 #################################################################################################################################################################################################################################3
 #end
-########################################################################################################################################################################################################################################            
+########################################################################################################################################################################################################################################
         #if busdetails == None:
          #  return '1'
 

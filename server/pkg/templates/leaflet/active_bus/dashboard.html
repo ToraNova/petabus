@@ -170,10 +170,10 @@
             //element already in
             //console.log("Point edited on map",element) //DEBUGGING USE ONLY
             activeBusArray[test][0] = element;
-            activeBusArray[test][1].setLatLng([element.lati,element.long]);
+            activeBusArray[test][1].setLatLng([element.long,element.lati]);
           }else{
             //console.log("Point added to map",element) //DEBUGGING USE ONLY
-            activeBusArray.push([element,L.marker([element.lati,element.long]).addTo(mmap)
+            activeBusArray.push([element,L.marker([element.long,element.lati]).addTo(mmap)
               .bindPopup("<b>{0}</b><br/>{1}".format(element.id,element.busreg))])
           }
         });

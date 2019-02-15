@@ -22,6 +22,9 @@ class MapBusSocket(Namespace):
 		#TODO: sends active routes
 		self.sendRouteData()
 
+	def logout_event(self):
+		emit('driver_logout',{})
+
 	def on_disconnect(self):
 		#do nothing for now upon disconnection
 		pass
@@ -64,7 +67,7 @@ class MapBusSocket(Namespace):
 			tmp["lati"] = d.long
 			tmp["long"] = d.lati
 			tmp["busid"] = d.bus_id
-			bus_mod = res.bus.Bus.query.filter(res.bus.Bus.id == d.bus_id).first()
+			bus_mod = res.bus.Bus.query.filter(res.bus.Bus.reg_no == d.bus_id).first()
 			if(bus_mod == None):
 				tmp["busreg"] = "Not registered"
 			else:
