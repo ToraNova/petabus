@@ -17,5 +17,16 @@ routes or links to routes here instead of the _sidebar.html file-->
 
   <li><a href="{{ url_for('resource.rlist', tablename = 'Param3') }}">List Param3</a></li>
 
+  <li><a><i class="fa fa-bell"></i>Alert System<span class="fa fa-chevron-down"></span></a>
+  <ul class="nav child_menu">
+    <!--Insert database urls here-->
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Sensors') }}">List Sensors</a></li>
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Camera') }}">List Camera</a></li>
+    <li><a href="{{ url_for('resource.rlist', tablename = 'RPi') }}">List Raspberry Pi</a></li>
+    <li><a href="{{ url_for('resource.rlist', tablename = 'Alert_Log') }}">List Alert Log</a></li>
+  </ul>
+  </li>
+
+
 </ul>
 </li>

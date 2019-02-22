@@ -24,7 +24,10 @@ rlin_nullk = "-1"
 #IMPORT RESOURCE CLASS HERE (MODEL AND FORMS)
 from pkg.resource.geores import geopoint
 from pkg.resource.geores import georoute
-
+from pkg.resource.alertres import sensors
+from pkg.resource.alertres import camera
+from pkg.resource.alertres import rpi
+from pkg.resource.logres import alert_log
 from pkg.resource.generic import param3model
 
 ##########################################################
@@ -47,6 +50,30 @@ dist_resources = {
     ,
     "Param3":[
     param3model.Param3,
+    None,
+    None
+    ]
+    ,
+    "Sensors":[
+    sensors.Sensors,
+    None,
+    None
+    ]
+    ,
+    "Camera":[
+    camera.Camera,
+    None,
+    None
+    ]
+    ,
+    "RPi":[
+    rpi.RPi,
+    None,
+    None
+    ]
+    ,
+    "Alert_Log":[
+    alert_log.Alert_Log,
     None,
     None
     ]
